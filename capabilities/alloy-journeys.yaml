@@ -1,0 +1,55 @@
+specification: Naftiko Capability
+specificationVersion: '0.1'
+id: alloy-journeys
+name: Alloy Journeys
+description: Create, retrieve, update, rerun, and review Alloy Journey Applications.
+  Journeys are multi-step decisioning workflows used for onboarding, step-up
+  verification, and document review across persons and businesses.
+provider: Alloy
+providerId: alloy
+created: '2026-05-25'
+modified: '2026-05-25'
+tags:
+  - Identity
+  - Onboarding
+  - KYC
+  - KYB
+  - Journeys
+  - Decisioning
+operations:
+  - id: post-journey-application
+    summary: Create a Journey Application
+    method: POST
+    path: /journeys/{journey_token}/applications
+  - id: get-journey-application
+    summary: Get a Journey Application
+    method: GET
+    path: /journeys/{journey_token}/applications/{journey_application_token}
+  - id: put-journey-application
+    summary: Update a Journey Application
+    method: PUT
+    path: /journeys/{journey_token}/applications/{journey_application_token}
+  - id: post-journey-application-rerun
+    summary: Rerun a Journey Application
+    method: POST
+    path: /journeys/{journey_token}/applications/{journey_application_token}/rerun
+  - id: post-journey-application-review
+    summary: Submit a Journey Application Review
+    method: POST
+    path: /journeys/{journey_token}/applications/{journey_application_token}/review
+  - id: get-journey-application-by-external-id
+    summary: Get the Latest Application by External ID
+    method: GET
+    path: /journeys/applications/ext/{external_application_id}/latest
+  - id: get-journey-parameters
+    summary: Get Journey Parameters
+    method: GET
+    path: /journeys/{journey_token}/parameters
+  - id: get-journey-schema
+    summary: Get Journey Schema
+    method: GET
+    path: /journeys/{journey_token}/schema
+  - id: post-journey-batch
+    summary: Create a Journey Batch
+    method: POST
+    path: /journeys/{journey_token}/batches

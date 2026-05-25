@@ -1,0 +1,44 @@
+specification: Naftiko Capability
+specificationVersion: '0.1'
+id: alloy-evaluations
+name: Alloy Evaluations
+description: Run, retrieve, update, and audit Alloy identity decisioning evaluations
+  through the dynamic API. Use to evaluate person and business entities against
+  configured KYC, KYB, AML, fraud, and credit workflows.
+provider: Alloy
+providerId: alloy
+created: '2026-05-25'
+modified: '2026-05-25'
+tags:
+  - Identity
+  - KYC
+  - KYB
+  - AML
+  - Fraud
+  - Decisioning
+operations:
+  - id: post-evaluation
+    summary: Run an Evaluation
+    method: POST
+    path: /evaluations
+    openapiRef: openapi/alloy-openapi.yml#/paths/~1evaluations/post
+  - id: get-evaluation
+    summary: Get an Evaluation
+    method: GET
+    path: /evaluations/{evaluation_token}
+    openapiRef: openapi/alloy-openapi.yml#/paths/~1evaluations~1{evaluation_token}/get
+  - id: patch-evaluation
+    summary: Update an Evaluation
+    method: PATCH
+    path: /evaluations/{evaluation_token}
+    openapiRef: openapi/alloy-openapi.yml#/paths/~1evaluations~1{evaluation_token}/patch
+  - id: patch-evaluation-auditaccess
+    summary: Audit Access to an Evaluation
+    method: PATCH
+    path: /evaluations/{evaluation_token}/auditaccess
+    openapiRef: openapi/alloy-openapi.yml#/paths/~1evaluations~1{evaluation_token}~1auditaccess/patch
+  - id: get-parameters
+    summary: Get Workflow Parameters
+    method: GET
+    path: /parameters
+    openapiRef: openapi/alloy-openapi.yml#/paths/~1parameters/get

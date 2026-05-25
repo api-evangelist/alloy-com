@@ -1,0 +1,64 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Alloy
+providerId: alloy
+created: '2026-05-25'
+modified: '2026-05-25'
+tags:
+  - Identity Decisioning
+  - KYC
+  - AML
+  - Fraud
+  - Rate Limiting
+  - Quotas
+description: Machine-readable rate limit definitions for the Alloy API. Alloy
+  does not publish a single fixed per-customer rate limit; production limits are
+  agreed per institution as part of the commercial contract and scaled to
+  expected onboarding, ongoing monitoring, and event volumes. The values below
+  capture the operational shape of the platform - signaling headers, retry
+  behavior, and tiering - rather than fixed published numbers.
+headers:
+  retryAfter: Retry-After
+responseCodes:
+  throttled: 429
+  quotaExceeded: 429
+  serviceUnavailable: 503
+recovery:
+  retryStrategy: exponential-backoff
+  recommendedInitialBackoffSeconds: 1
+  recommendedMaxBackoffSeconds: 60
+  idempotency:
+    supported: true
+    notes: Alloy supports retrying evaluations and journey application creation;
+      use the external_entity_id or external_application_id to safely deduplicate
+      retried requests.
+limits:
+  - tier: sandbox
+    name: Sandbox Default
+    scope: api-key
+    metric: requests_per_minute
+    timeFrame: minute
+    applies:
+      - Alloy API
+    notes: Sandbox is shared infrastructure; treat as best-effort for load
+      testing. Coordinate with Alloy support before sustained high-volume runs.
+  - tier: production
+    name: Production Default
+    scope: workflow-token
+    metric: requests_per_second
+    timeFrame: second
+    applies:
+      - Alloy API
+    notes: Production throughput is sized per institution and per workflow;
+      contact Alloy to raise documented limits.
+  - tier: production
+    name: Events Ingest
+    scope: account
+    metric: events_per_second
+    timeFrame: second
+    applies:
+      - Events API
+    notes: Ongoing monitoring events are sized to the institution's expected
+      transaction and login volume; bursts above sized capacity may be
+      throttled and surfaced via 429.

@@ -1,0 +1,104 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Alloy
+providerId: alloy
+created: '2026-05-25'
+modified: '2026-05-25'
+tags:
+  - Identity Decisioning
+  - KYC
+  - KYB
+  - AML
+  - Fraud Prevention
+  - Credit Underwriting
+description: Machine-readable plans and pricing scaffold for the Alloy API surface.
+  Alloy does not publish self-serve list pricing; commercial plans are negotiated
+  per institution based on volume, products selected (Identity, Onboarding, Ongoing,
+  Fraud, Credit, Pay), and data sources consumed. Tiers below model the typical
+  shape of an Alloy commercial agreement.
+plans:
+  - id: alloy-sandbox
+    name: Sandbox
+    type: free
+    description: Free sandbox access for prospective customers and integration
+      partners. Provides access to the sandbox API surface, the developer portal,
+      and demo journeys for evaluation and integration work.
+    entries:
+      - label: Sandbox API Requests
+        description: Sandbox API requests against sandbox.alloy.co
+        name: sandbox_requests
+        type: quota
+        metric: requests
+        timeFrame: month
+        geo: global
+        domains:
+          - https://sandbox.alloy.co
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Developer Portal
+      - name: Sandbox API
+      - name: Web SDK
+      - name: iOS / Android Webview SDK
+      - name: Demo Journeys
+  - id: alloy-platform
+    name: Alloy Platform
+    type: contract
+    description: Commercial Alloy Platform subscription covering Identity,
+      Onboarding, Ongoing Monitoring, Fraud, Credit, and Pay products as selected.
+      Pricing is custom and typically combines a platform fee, per-decision /
+      per-evaluation usage charges, and pass-through data source costs.
+    entries:
+      - label: Evaluations
+        description: Per-evaluation usage charge across configured workflows.
+          Actual unit price varies by data sources selected and committed volume.
+        name: evaluations
+        type: usage
+        metric: evaluations
+        timeFrame: month
+        geo: global
+        domains:
+          - https://api.alloy.co
+        unit: 1
+        userMultiplied: false
+      - label: Ongoing Monitoring Events
+        description: Per-event usage charge for events submitted to the Events API
+          for perpetual KYC, transaction, login, and account monitoring.
+        name: events
+        type: usage
+        metric: events
+        timeFrame: month
+        geo: global
+        domains:
+          - https://api.alloy.co
+        unit: 1
+        userMultiplied: false
+      - label: Third-Party Data Pass-Through
+        description: Pass-through cost for third-party data sources (Socure,
+          Experian, LexisNexis, ID.me, document verification vendors, etc.)
+          invoked inside Alloy workflows.
+        name: data_pass_through
+        type: usage
+        metric: data_calls
+        timeFrame: month
+        geo: global
+        unit: 1
+        userMultiplied: false
+    elements:
+      - name: Identity
+      - name: Onboarding
+      - name: Ongoing Monitoring
+      - name: Fraud
+      - name: Credit
+      - name: Pay
+      - name: Case Management
+      - name: Investigations
+      - name: Custom Models
+      - name: Published Attributes
+      - name: SAML SSO
+      - name: SCIM Provisioning
+      - name: Production API
+      - name: Webhooks
+      - name: Support

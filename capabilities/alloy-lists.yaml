@@ -1,0 +1,43 @@
+specification: Naftiko Capability
+specificationVersion: '0.1'
+id: alloy-lists
+name: Alloy Lists and Custom Lists
+description: Manage built-in Alloy lists and tenant-defined custom lists with
+  versioning and activation, used as reference data inside decisioning policies.
+provider: Alloy
+providerId: alloy
+created: '2026-05-25'
+modified: '2026-05-25'
+tags:
+  - Lists
+  - Reference Data
+  - Policy
+operations:
+  - id: get-lists
+    summary: List Lists
+    method: GET
+    path: /lists
+  - id: post-list
+    summary: Create a List
+    method: POST
+    path: /lists
+  - id: get-list
+    summary: Get a List
+    method: GET
+    path: /lists/{list_token}
+  - id: get-custom-lists
+    summary: List Custom Lists
+    method: GET
+    path: /custom-lists
+  - id: post-custom-list
+    summary: Create a Custom List
+    method: POST
+    path: /custom-lists
+  - id: post-custom-list-version
+    summary: Create a New Version of a Custom List
+    method: POST
+    path: /custom-lists/{custom_list_token}/versions
+  - id: post-custom-list-activate-major-version
+    summary: Activate a Major Version of a Custom List
+    method: POST
+    path: /custom-lists/{custom_list_token}/activate-major-version

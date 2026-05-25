@@ -1,0 +1,80 @@
+aid: alloy
+provider: Alloy
+providerId: alloy-com
+reviewer: API Evangelist
+reviewerOrg: API Evangelist
+reviewDate: '2026-05-25'
+tier: 1
+url: https://www.alloy.com/
+developerPortal: https://www.alloy.com/developer
+documentation: https://developer.alloy.com/public/docs
+apiReference: https://developer.alloy.com/public/reference
+statusPage: https://status.alloy.com/
+githubOrg: https://github.com/UseAlloy
+summary: >-
+  Alloy is a mature, NYC-headquartered identity decisioning platform serving
+  800+ banks, credit unions, and fintechs. The Alloy API is a well-organized
+  REST surface covering identity evaluations, configurable Journeys,
+  person/business entities, bank accounts, documents, ongoing-monitoring events,
+  case management, investigations, custom lists, and OAuth 2.0 - all backed by
+  a dedicated developer portal, machine-readable docs index (llms.txt), Web /
+  iOS / Android SDKs, webhooks with HMAC and OAuth, and a public status page.
+strengths:
+  - Single API surface fronts an opinionated decisioning workflow (Journeys)
+    plus a low-level evaluations API, giving teams a clear primary integration
+    path.
+  - Comprehensive ongoing-monitoring Events API covers Person, Business, Bank
+    Account, External Account, Transaction, Login, Credentials Updated, and
+    Embedded Authentication event types - a strong perpetual-KYC primitive.
+  - Multiple authentication options (Basic, HMAC, OAuth 2.0 Client Credentials
+    and Password) plus account-level API keys.
+  - Public llms.txt index of docs and API reference makes the platform
+    AI-agent friendly and easy to navigate programmatically.
+  - 195 markets / 270+ data solutions with managed integrations to Socure,
+    Experian FraudNet, TruValidate, NeuroID, BioCatch, and ThreatMetrix.
+  - SAML SSO and SCIM provisioning across Okta, Azure AD, ADFS, JumpCloud.
+  - SOC 2 Type 2 attested, AES-256 at rest, TLS 1.2 in transit, AWS KMS.
+  - Public status.alloy.com Atlassian Statuspage with email, SMS, Slack,
+    Atom/RSS subscriptions.
+gaps:
+  - No public OpenAPI / Swagger artifact published; API reference is
+    documentation-only, which forces consumers to assemble their own contract.
+  - No public, self-serve pricing - all commercial plans are sales-led.
+  - No published per-customer rate limits.
+  - No first-party server-side SDKs (Node, Python, Go, Java, .NET); the
+    GitHub org carries Web and Webview SDKs plus internal forks rather than
+    polished server SDKs.
+  - No public sandbox sign-up; sandbox access requires sales engagement.
+tier1Justification: >-
+  Production fintech identity infrastructure with a mature REST API, a
+  dedicated developer portal, machine-readable docs (llms.txt), official Web
+  and mobile webview SDKs, webhooks with multiple auth modes, a public status
+  page, SOC 2 Type 2 attestation, and named integrations with major
+  third-party identity, fraud, and device-risk providers.
+artifactsGenerated:
+  - openapi/alloy-openapi.yml
+  - capabilities/alloy-evaluations.yaml
+  - capabilities/alloy-journeys.yaml
+  - capabilities/alloy-entities.yaml
+  - capabilities/alloy-events.yaml
+  - capabilities/alloy-cases.yaml
+  - capabilities/alloy-investigations.yaml
+  - capabilities/alloy-documents.yaml
+  - capabilities/alloy-lists.yaml
+  - capabilities/alloy-oauth.yaml
+  - plans/alloy-plans-pricing.yml
+  - rate-limits/alloy-rate-limits.yml
+  - finops/alloy-finops.yml
+references:
+  - https://www.alloy.com/
+  - https://www.alloy.com/developer
+  - https://developer.alloy.com/
+  - https://developer.alloy.com/public/docs
+  - https://developer.alloy.com/public/reference
+  - https://developer.alloy.com/llms.txt
+  - https://help.alloy.com
+  - https://status.alloy.com/
+  - https://www.alloy.com/security
+  - https://www.alloy.com/tos
+  - https://www.alloy.com/privacy-policy
+  - https://github.com/UseAlloy

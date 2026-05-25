@@ -1,0 +1,46 @@
+specification: Naftiko Capability
+specificationVersion: '0.1'
+id: alloy-investigations
+name: Alloy Investigations
+description: Create, assign, review, promote, archive, and configure investigation
+  types in Alloy's case and investigation workflow. Supports alerts tied to
+  journey applications and manual review flows.
+provider: Alloy
+providerId: alloy
+created: '2026-05-25'
+modified: '2026-05-25'
+tags:
+  - Investigations
+  - Case Management
+  - Fraud
+  - AML
+  - Review
+operations:
+  - id: get-investigations
+    summary: List Investigations
+    method: GET
+    path: /investigations
+  - id: post-investigation
+    summary: Create an Investigation
+    method: POST
+    path: /investigations
+  - id: get-investigation
+    summary: Get an Investigation
+    method: GET
+    path: /investigations/{investigation_token}
+  - id: put-investigation-review
+    summary: Review an Investigation
+    method: PUT
+    path: /investigations/{investigation_token}/review
+  - id: put-investigation-promote
+    summary: Promote an Investigation
+    method: PUT
+    path: /investigations/{investigation_token}/promote
+  - id: put-investigations-assign
+    summary: Assign Investigations
+    method: PUT
+    path: /investigations/assign
+  - id: put-investigations-archive
+    summary: Archive Investigations
+    method: PUT
+    path: /investigations/archive
