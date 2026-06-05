@@ -1,12 +1,10 @@
 aid: alloy
 name: Alloy
 description: >-
-  Alloy is a New York-based identity decisioning platform that helps banks,
-  credit unions, and fintechs onboard, monitor, and protect customers across
-  KYC, KYB, AML, fraud, credit, and ongoing-monitoring use cases. The Alloy API
-  exposes the platform's evaluations, journey applications, entities, events,
-  documents, cases, investigations, lists, and webhooks for programmatic
-  identity decisioning and ongoing risk monitoring.
+  Alloy is a New York-based identity decisioning platform that helps banks, credit unions, and fintechs onboard,
+  monitor, and protect customers across KYC, KYB, AML, fraud, credit, and ongoing-monitoring use cases. The Alloy API
+  exposes the platform's evaluations, journey applications, entities, events, documents, cases, investigations, lists,
+  and webhooks for programmatic identity decisioning and ongoing risk monitoring.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
@@ -29,10 +27,9 @@ apis:
   - aid: alloy:alloy
     name: Alloy API
     description: >-
-      Identity decisioning API for KYC, KYB, AML, fraud, credit underwriting,
-      and ongoing monitoring. Organized around evaluations, journeys and journey
-      applications, person and business entities, bank accounts, documents,
-      events, cases, investigations, custom lists, and webhooks.
+      Identity decisioning API for KYC, KYB, AML, fraud, credit underwriting, and ongoing monitoring. Organized around
+      evaluations, journeys and journey applications, person and business entities, bank accounts, documents, events,
+      cases, investigations, custom lists, and webhooks.
     humanURL: https://developer.alloy.com/public/reference
     baseURL: https://api.alloy.co/v1
     tags:
@@ -57,24 +54,6 @@ apis:
         url: https://developer.alloy.com/public/docs/authentication-guide
       - type: OpenAPI
         url: openapi/alloy-openapi.yml
-      - type: NaftikoCapability
-        url: capabilities/alloy-evaluations.yaml
-      - type: NaftikoCapability
-        url: capabilities/alloy-journeys.yaml
-      - type: NaftikoCapability
-        url: capabilities/alloy-entities.yaml
-      - type: NaftikoCapability
-        url: capabilities/alloy-events.yaml
-      - type: NaftikoCapability
-        url: capabilities/alloy-cases.yaml
-      - type: NaftikoCapability
-        url: capabilities/alloy-investigations.yaml
-      - type: NaftikoCapability
-        url: capabilities/alloy-documents.yaml
-      - type: NaftikoCapability
-        url: capabilities/alloy-lists.yaml
-      - type: NaftikoCapability
-        url: capabilities/alloy-oauth.yaml
       - type: Webhooks
         url: https://developer.alloy.com/public/docs/webhooks
       - type: Webhooks
@@ -135,58 +114,47 @@ common:
   - type: Features
     data:
       - name: Identity
-        description: Verify person and business identities against 270+ data
-          sources across 195 markets.
+        description: Verify person and business identities against 270+ data sources across 195 markets.
       - name: Onboarding
-        description: Configurable Journeys orchestrate KYC, KYB, document
-          verification, and step-up review for new customer acquisition.
+        description: >-
+          Configurable Journeys orchestrate KYC, KYB, document verification, and step-up review for new customer
+          acquisition.
       - name: Ongoing Monitoring
-        description: Perpetual KYC and event-driven monitoring across logins,
-          credential updates, transactions, and account changes.
+        description: >-
+          Perpetual KYC and event-driven monitoring across logins, credential updates, transactions, and account
+          changes.
       - name: Fraud
-        description: Machine-learning Fraud Signal and integrated device-risk
-          providers detect fraud across onboarding and post-onboarding events.
+        description: >-
+          Machine-learning Fraud Signal and integrated device-risk providers detect fraud across onboarding and
+          post-onboarding events.
       - name: Credit
-        description: Credit underwriting and policy management with Journey-
-          based decisioning.
+        description: Credit underwriting and policy management with Journey- based decisioning.
       - name: Case Management
-        description: Cases, evidences, and works support compliance review and
-          dispute workflows.
+        description: Cases, evidences, and works support compliance review and dispute workflows.
       - name: Investigations
-        description: Investigation lifecycle with alerts tied to journey
-          applications and assignable agents.
+        description: Investigation lifecycle with alerts tied to journey applications and assignable agents.
       - name: Custom Models and Attributes
-        description: Bring custom ML models and published attributes into
-          Alloy workflows for tenant-specific decisioning logic.
+        description: Bring custom ML models and published attributes into Alloy workflows for tenant-specific decisioning logic.
       - name: Webhooks
-        description: Real-time notifications for journey, case, and
-          investigation events with Basic, HMAC, and OAuth 2.0 auth.
+        description: Real-time notifications for journey, case, and investigation events with Basic, HMAC, and OAuth 2.0 auth.
       - name: SDKs
-        description: Web, iOS Webview, and Android Webview SDKs for embedding
-          Alloy's document verification and step-up flows.
+        description: Web, iOS Webview, and Android Webview SDKs for embedding Alloy's document verification and step-up flows.
   - type: UseCases
     data:
       - name: Consumer Onboarding (KYC)
-        description: Verify individual consumers during account opening for
-          banks, neobanks, and consumer fintechs.
+        description: Verify individual consumers during account opening for banks, neobanks, and consumer fintechs.
       - name: Business Onboarding (KYB)
-        description: Verify businesses and beneficial owners for SMB banking,
-          payments, and lending products.
+        description: Verify businesses and beneficial owners for SMB banking, payments, and lending products.
       - name: AML Compliance
-        description: Screen against sanctions, PEP, and adverse-media lists and
-          monitor ongoing activity for AML risk.
+        description: Screen against sanctions, PEP, and adverse-media lists and monitor ongoing activity for AML risk.
       - name: Fraud Prevention
-        description: Detect synthetic identity, account takeover, and
-          transaction fraud across onboarding and post-onboarding.
+        description: Detect synthetic identity, account takeover, and transaction fraud across onboarding and post-onboarding.
       - name: Credit Underwriting
-        description: Run credit decisioning Journeys for lending and BNPL
-          products.
+        description: Run credit decisioning Journeys for lending and BNPL products.
       - name: Embedded Finance Risk
-        description: Sponsor banks orchestrate fintech program risk through
-          configurable Journeys and ongoing monitoring.
+        description: Sponsor banks orchestrate fintech program risk through configurable Journeys and ongoing monitoring.
       - name: Perpetual KYC
-        description: Continuously re-evaluate customers against fresh data
-          using ongoing monitoring events.
+        description: Continuously re-evaluate customers against fresh data using ongoing monitoring events.
   - type: Integrations
     data:
       - name: Socure
@@ -202,26 +170,21 @@ common:
       - name: ThreatMetrix
         description: Device risk and fraud signals integration.
       - name: SAML SSO
-        description: Identity provider integrations for Okta, Azure AD, ADFS,
-          JumpCloud, and generic SAML 2.0.
+        description: Identity provider integrations for Okta, Azure AD, ADFS, JumpCloud, and generic SAML 2.0.
       - name: SCIM
         description: User provisioning integrations for Okta and Azure.
   - type: Solutions
     data:
       - name: Banks and Credit Unions
-        description: Identity and fraud platform for traditional financial
-          institutions.
+        description: Identity and fraud platform for traditional financial institutions.
       - name: Fintechs
-        description: Onboarding and risk platform for consumer and business
-          fintechs.
+        description: Onboarding and risk platform for consumer and business fintechs.
       - name: Sponsor Banks
-        description: Embedded finance program risk management for sponsor
-          banks supporting fintech programs.
+        description: Embedded finance program risk management for sponsor banks supporting fintech programs.
   - type: Certifications
     data:
       - name: SOC 2 Type 2
-        description: Independently audited security controls covering product,
-          infrastructure, and policies.
+        description: Independently audited security controls covering product, infrastructure, and policies.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
