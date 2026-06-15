@@ -1,0 +1,2339 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Evaluations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Run an Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/evaluations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Run an evaluation with a provided payload through Alloy's identity decisioning workflow."
+        },
+        {
+          "info": {
+            "name": "Get an Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/evaluations/:evaluation_token",
+            "params": [
+              {
+                "name": "evaluation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Evaluation"
+        },
+        {
+          "info": {
+            "name": "Update an Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/evaluations/:evaluation_token",
+            "params": [
+              {
+                "name": "evaluation_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an Evaluation"
+        },
+        {
+          "info": {
+            "name": "Audit Access to an Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/evaluations/:evaluation_token/auditaccess",
+            "params": [
+              {
+                "name": "evaluation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Audit Access to an Evaluation"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Parameters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Workflow Parameters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/parameters"
+          },
+          "docs": "Get Workflow Parameters"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Entities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Person Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/persons",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Person Entity"
+        },
+        {
+          "info": {
+            "name": "Get a Person Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/persons/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Person Entity"
+        },
+        {
+          "info": {
+            "name": "Update a Person Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/entities/persons/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Person Entity"
+        },
+        {
+          "info": {
+            "name": "Create a Business Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/businesses",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Business Entity"
+        },
+        {
+          "info": {
+            "name": "Get a Business Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/businesses/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Business Entity"
+        },
+        {
+          "info": {
+            "name": "Update a Business Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/entities/businesses/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Business Entity"
+        },
+        {
+          "info": {
+            "name": "Get an Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Entity"
+        },
+        {
+          "info": {
+            "name": "Get an Entity Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/evaluations/:evaluation_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "evaluation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Entity Evaluation"
+        },
+        {
+          "info": {
+            "name": "Merge Entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/merge",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Merge Entities"
+        },
+        {
+          "info": {
+            "name": "Add a Note to an Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/notes",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to an Entity"
+        },
+        {
+          "info": {
+            "name": "List Entity Feedback",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entity-feedback"
+          },
+          "docs": "List Entity Feedback"
+        },
+        {
+          "info": {
+            "name": "Submit Entity Feedback",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entity-feedback",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit Entity Feedback"
+        },
+        {
+          "info": {
+            "name": "Get Entity Group by Token or External ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entity-groups/:entity_token_or_external_id",
+            "params": [
+              {
+                "name": "entity_token_or_external_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Entity Group by Token or External ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Groups for an Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/groups/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Groups for an Entity"
+        },
+        {
+          "info": {
+            "name": "Run a Group Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/groups/:group_token/evaluations",
+            "params": [
+              {
+                "name": "group_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Run a Group Evaluation"
+        },
+        {
+          "info": {
+            "name": "Add a Note to a Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/groups/:group_token/notes",
+            "params": [
+              {
+                "name": "group_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to a Group"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Journeys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Get a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Update a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Journey Application"
+        },
+        {
+          "info": {
+            "name": "List Journey Application Notes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/notes",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Journey Application Notes"
+        },
+        {
+          "info": {
+            "name": "Add a Note to a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/notes",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Rerun a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/rerun",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Rerun a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Submit a Journey Application Review",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/review",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a Journey Application Review"
+        },
+        {
+          "info": {
+            "name": "Audit Access to a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/auditaccess",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Audit Access to a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Update a Journey Application Node",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/nodes/:node_id",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Journey Application Node"
+        },
+        {
+          "info": {
+            "name": "Get a Manual Review for a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/review/:manual_review_token",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "manual_review_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Manual Review for a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Submit a Case Review for a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/cases/:case_token/review",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a Case Review for a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Get the Latest Application by External ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/applications/ext/:external_application_id/latest",
+            "params": [
+              {
+                "name": "external_application_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the Latest Application by External ID"
+        },
+        {
+          "info": {
+            "name": "Update the Latest Application by External ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/journeys/applications/ext/:external_application_id/latest",
+            "params": [
+              {
+                "name": "external_application_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the Latest Application by External ID"
+        },
+        {
+          "info": {
+            "name": "Rerun the Latest Application by External ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/applications/ext/:external_application_id/latest/rerun",
+            "params": [
+              {
+                "name": "external_application_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Rerun the Latest Application by External ID"
+        },
+        {
+          "info": {
+            "name": "List Applications for an External Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/entities/:external_entity_id/applications",
+            "params": [
+              {
+                "name": "external_entity_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Applications for an External Entity"
+        },
+        {
+          "info": {
+            "name": "Get Journey Parameters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/parameters",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Journey Parameters"
+        },
+        {
+          "info": {
+            "name": "Get Journey Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/schema",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Journey Schema"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Batches",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Journey Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/batches",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Journey Batch"
+        },
+        {
+          "info": {
+            "name": "Get a Journey Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/batches/:journey_batch_token",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_batch_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Journey Batch"
+        },
+        {
+          "info": {
+            "name": "List Applications in a Journey Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/batches/:journey_batch_token/applications",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_batch_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Applications in a Journey Batch"
+        },
+        {
+          "info": {
+            "name": "Get a Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/batches/:batch_token",
+            "params": [
+              {
+                "name": "batch_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Batch"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Bank Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/accounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an Account"
+        },
+        {
+          "info": {
+            "name": "Update an Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/accounts/:bank_account_token",
+            "params": [
+              {
+                "name": "bank_account_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an Account"
+        },
+        {
+          "info": {
+            "name": "Get a Bank Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/bank-accounts/:account_identifier_or_token",
+            "params": [
+              {
+                "name": "account_identifier_or_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a single bank account uniquely defined by a bank account token or external account identifier."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload a Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/documents",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Upload a Document"
+        },
+        {
+          "info": {
+            "name": "Replace a Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/documents/:document_token",
+            "params": [
+              {
+                "name": "document_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace a Document"
+        },
+        {
+          "info": {
+            "name": "List Documents for an Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Documents for an Entity"
+        },
+        {
+          "info": {
+            "name": "Upload a Document for an Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a Document for an Entity"
+        },
+        {
+          "info": {
+            "name": "Get an Entity Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents/:document_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "document_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Entity Document"
+        },
+        {
+          "info": {
+            "name": "Replace an Entity Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents/:document_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "document_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace an Entity Document"
+        },
+        {
+          "info": {
+            "name": "Update an Entity Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents/:document_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "document_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an Entity Document"
+        },
+        {
+          "info": {
+            "name": "Add a Note to an Entity Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents/:document_token/notes",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "document_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to an Entity Document"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Monitoring Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/events",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a Monitoring Event"
+        },
+        {
+          "info": {
+            "name": "Get the Events Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/events/schema"
+          },
+          "docs": "Get the Events Schema"
+        },
+        {
+          "info": {
+            "name": "Get an Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/events/:event_request_token",
+            "params": [
+              {
+                "name": "event_request_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Event"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Cases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Cases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/cases"
+          },
+          "docs": "List Cases"
+        },
+        {
+          "info": {
+            "name": "Get a Case",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Case"
+        },
+        {
+          "info": {
+            "name": "List Case Evidences",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token/evidences",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Case Evidences"
+        },
+        {
+          "info": {
+            "name": "Add Case Evidence",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token/evidences",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add Case Evidence"
+        },
+        {
+          "info": {
+            "name": "Get a Case Evidence Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token/evidences/:evaluation_token/alert",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "evaluation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Case Evidence Alert"
+        },
+        {
+          "info": {
+            "name": "List Case Works",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token/works",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Case Works"
+        },
+        {
+          "info": {
+            "name": "Add Case Work",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token/works",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add Case Work"
+        },
+        {
+          "info": {
+            "name": "Submit Multi-Case Works",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/cases/multi/works",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit Multi-Case Works"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Investigations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Investigations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations"
+          },
+          "docs": "List Investigations"
+        },
+        {
+          "info": {
+            "name": "Create an Investigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/investigations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an Investigation"
+        },
+        {
+          "info": {
+            "name": "Get an Investigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Investigation"
+        },
+        {
+          "info": {
+            "name": "Add a Note to an Investigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/notes",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to an Investigation"
+        },
+        {
+          "info": {
+            "name": "Update Investigation Evidences",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/evidences",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Investigation Evidences"
+        },
+        {
+          "info": {
+            "name": "Promote an Investigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/promote",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Promote an Investigation"
+        },
+        {
+          "info": {
+            "name": "Review an Investigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/review",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Review an Investigation"
+        },
+        {
+          "info": {
+            "name": "Archive Investigations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/archive"
+          },
+          "docs": "Archive Investigations"
+        },
+        {
+          "info": {
+            "name": "Unarchive Investigations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/unarchive"
+          },
+          "docs": "Unarchive Investigations"
+        },
+        {
+          "info": {
+            "name": "Assign Investigations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/assign",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Assign Investigations"
+        },
+        {
+          "info": {
+            "name": "Unassign Investigations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/unassign"
+          },
+          "docs": "Unassign Investigations"
+        },
+        {
+          "info": {
+            "name": "Get an Investigation Alert by Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/alerts/:journey_application_token",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Investigation Alert by Journey Application"
+        },
+        {
+          "info": {
+            "name": "Assign an Investigation Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/alerts/:journey_application_token/assign",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Assign an Investigation Alert"
+        },
+        {
+          "info": {
+            "name": "Unassign an Investigation Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/alerts/:journey_application_token/unassign",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Unassign an Investigation Alert"
+        },
+        {
+          "info": {
+            "name": "Review an Investigation Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/alerts/:journey_application_token/review",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Review an Investigation Alert"
+        },
+        {
+          "info": {
+            "name": "Submit a Manual Review on an Investigation Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/alerts/:journey_application_token/review/:manual_review_token/review",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "manual_review_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a Manual Review on an Investigation Alert"
+        },
+        {
+          "info": {
+            "name": "Create an Investigation Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/investigations/types",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an Investigation Type"
+        },
+        {
+          "info": {
+            "name": "Archive Investigation Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/investigations/types/archive"
+          },
+          "docs": "Archive Investigation Types"
+        },
+        {
+          "info": {
+            "name": "Unarchive Investigation Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/investigations/types/unarchive"
+          },
+          "docs": "Unarchive Investigation Types"
+        },
+        {
+          "info": {
+            "name": "Delete an Investigation Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/investigations/types/delete"
+          },
+          "docs": "Delete an Investigation Type"
+        },
+        {
+          "info": {
+            "name": "List Investigation Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/types/list"
+          },
+          "docs": "List Investigation Types"
+        },
+        {
+          "info": {
+            "name": "List Investigation Use Cases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/use-cases"
+          },
+          "docs": "List Investigation Use Cases"
+        },
+        {
+          "info": {
+            "name": "List Investigation Filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/filters"
+          },
+          "docs": "List Investigation Filters"
+        },
+        {
+          "info": {
+            "name": "List Assignable Investigation Agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/assignable-agents"
+          },
+          "docs": "List Assignable Investigation Agents"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Custom Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Custom Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/custom-lists"
+          },
+          "docs": "List Custom Lists"
+        },
+        {
+          "info": {
+            "name": "Create a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/custom-lists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Custom List"
+        },
+        {
+          "info": {
+            "name": "Get a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/custom-lists/:custom_list_token",
+            "params": [
+              {
+                "name": "custom_list_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Custom List"
+        },
+        {
+          "info": {
+            "name": "Update a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/custom-lists/:custom_list_token",
+            "params": [
+              {
+                "name": "custom_list_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Custom List"
+        },
+        {
+          "info": {
+            "name": "Create a New Version of a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/custom-lists/:custom_list_token/versions",
+            "params": [
+              {
+                "name": "custom_list_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a New Version of a Custom List"
+        },
+        {
+          "info": {
+            "name": "Get a Specific Version of a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/custom-lists/:custom_list_token/versions/:version",
+            "params": [
+              {
+                "name": "custom_list_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Specific Version of a Custom List"
+        },
+        {
+          "info": {
+            "name": "Activate a Major Version of a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/custom-lists/:custom_list_token/activate-major-version",
+            "params": [
+              {
+                "name": "custom_list_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Activate a Major Version of a Custom List"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/lists"
+          },
+          "docs": "List Lists"
+        },
+        {
+          "info": {
+            "name": "Create a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/lists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a List"
+        },
+        {
+          "info": {
+            "name": "Get a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/lists/:list_token",
+            "params": [
+              {
+                "name": "list_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a List"
+        },
+        {
+          "info": {
+            "name": "Add to a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/lists/:list_token",
+            "params": [
+              {
+                "name": "list_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add to a List"
+        },
+        {
+          "info": {
+            "name": "Replace a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/lists/:list_token",
+            "params": [
+              {
+                "name": "list_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace a List"
+        },
+        {
+          "info": {
+            "name": "Update List Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/lists/:list_token/meta",
+            "params": [
+              {
+                "name": "list_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update List Metadata"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "OAuth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Issue a Bearer Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/oauth/bearer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Issue a Bearer Token"
+        },
+        {
+          "info": {
+            "name": "Validate a Bearer Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/oauth/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validate a Bearer Token"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Portfolio Evaluations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Portfolio Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/portfolio-evaluations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Portfolio Evaluation"
+        },
+        {
+          "info": {
+            "name": "Rerun a Portfolio Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/portfolio-evaluations/:portfolio_evaluation_token/rerun",
+            "params": [
+              {
+                "name": "portfolio_evaluation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Rerun a Portfolio Evaluation"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Published Attributes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Published Attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/published-attributes"
+          },
+          "docs": "List Published Attributes"
+        },
+        {
+          "info": {
+            "name": "Create a Published Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/published-attributes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Published Attribute"
+        },
+        {
+          "info": {
+            "name": "Get a Published Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/published-attributes/:published_attribute_token",
+            "params": [
+              {
+                "name": "published_attribute_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Published Attribute"
+        },
+        {
+          "info": {
+            "name": "Update a Published Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/published-attributes/:published_attribute_token",
+            "params": [
+              {
+                "name": "published_attribute_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Published Attribute"
+        },
+        {
+          "info": {
+            "name": "List Values for a Published Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/published-attributes/:published_attribute_token/values",
+            "params": [
+              {
+                "name": "published_attribute_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Values for a Published Attribute"
+        },
+        {
+          "info": {
+            "name": "Submit Values for a Published Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/published-attributes/:published_attribute_token/values",
+            "params": [
+              {
+                "name": "published_attribute_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit Values for a Published Attribute"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Reviews",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Entity Reviews",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/reviews",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Entity Reviews"
+        },
+        {
+          "info": {
+            "name": "Create an Entity Review",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/reviews",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an Entity Review"
+        },
+        {
+          "info": {
+            "name": "Get an Entity Review",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/reviews/:review_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "review_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Entity Review"
+        },
+        {
+          "info": {
+            "name": "Add a Note to an Entity Review",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/reviews/:review_token/notes",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "review_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to an Entity Review"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
