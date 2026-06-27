@@ -58,13 +58,13 @@ apis:
         url: https://developer.alloy.com/public/docs/webhooks
       - type: Webhooks
         url: https://developer.alloy.com/public/docs/webhook-events
-      - type: SDK
+      - type: SDKs
         url: https://developer.alloy.com/public/docs/sdk-installation
         x-name: Alloy Web SDK
-      - type: SDK
+      - type: SDKs
         url: https://developer.alloy.com/public/docs/ios-webview
         x-name: Alloy iOS Webview SDK
-      - type: SDK
+      - type: SDKs
         url: https://developer.alloy.com/public/docs/android-webview
         x-name: Alloy Android Webview SDK
 common:
@@ -76,11 +76,11 @@ common:
     url: https://developer.alloy.com/public/docs
   - type: APIReference
     url: https://developer.alloy.com/public/reference
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://developer.alloy.com/llms.txt
   - type: Login
     url: https://app.alloy.co/login/
-  - type: SignUp
+  - type: Signup
     url: https://www.alloy.com/contact
   - type: Pricing
     url: https://www.alloy.com/contact
