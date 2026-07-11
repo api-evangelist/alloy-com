@@ -1,0 +1,20 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/alloy-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic Authentication with workflow or account-level API key as username
+    and secret as password.
+  sources:
+  - openapi/alloy-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: OAuth 2.0 bearer token obtained via the OAuth endpoints.
+  sources:
+  - openapi/alloy-openapi.yml

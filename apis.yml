@@ -68,6 +68,10 @@ apis:
         url: https://developer.alloy.com/public/docs/android-webview
         x-name: Alloy Android Webview SDK
 common:
+  - type: DomainSecurity
+    url: security/alloy-com-domain-security.yml
+  - type: Authentication
+    url: authentication/alloy-com-authentication.yml
   - type: Website
     url: https://www.alloy.com/
   - type: Portal
