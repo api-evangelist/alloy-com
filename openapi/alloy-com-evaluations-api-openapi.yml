@@ -1,0 +1,196 @@
+openapi: 3.0.3
+info:
+  title: Alloy Bank Accounts Evaluations API
+  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
+
+    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
+
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+
+    fintechs.
+
+
+    The API is organized around evaluations, journey applications, entities
+
+    (persons and businesses), bank accounts, documents, events, cases,
+
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+
+    and production environments are exposed as two distinct base URLs.
+
+    '
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://api.alloy.co/v1
+  description: Production environment
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Evaluations
+  description: Run, retrieve, and audit identity, KYC, KYB, AML, fraud, and credit evaluations.
+paths:
+  /evaluations:
+    post:
+      tags:
+      - Evaluations
+      summary: Run an Evaluation
+      description: Run an evaluation with a provided payload through Alloy's identity decisioning workflow.
+      operationId: postEvaluation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationRequest'
+      responses:
+        '201':
+          description: Evaluation created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evaluation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /evaluations/{evaluation_token}:
+    parameters:
+    - name: evaluation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Evaluations
+      summary: Get an Evaluation
+      operationId: getEvaluation
+      responses:
+        '200':
+          description: Evaluation retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evaluation'
+    patch:
+      tags:
+      - Evaluations
+      summary: Update an Evaluation
+      operationId: patchEvaluation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Evaluation updated
+  /evaluations/{evaluation_token}/auditaccess:
+    parameters:
+    - name: evaluation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    patch:
+      tags:
+      - Evaluations
+      summary: Audit Access to an Evaluation
+      operationId: patchEvaluationAuditAccess
+      responses:
+        '200':
+          description: Audit access logged
+components:
+  responses:
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Evaluation:
+      type: object
+      properties:
+        evaluation_token:
+          type: string
+        entity_token:
+          type: string
+        outcome:
+          type: string
+          enum:
+          - Approved
+          - Denied
+          - Manual Review
+        summary:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+    EvaluationRequest:
+      type: object
+      description: Payload submitted to evaluate an entity against an Alloy workflow.
+      properties:
+        name_first:
+          type: string
+        name_last:
+          type: string
+        email_address:
+          type: string
+        phone_number:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        document_ssn:
+          type: string
+        address_line_1:
+          type: string
+        address_line_2:
+          type: string
+        address_city:
+          type: string
+        address_state:
+          type: string
+        address_postal_code:
+          type: string
+        address_country_code:
+          type: string
+        external_entity_id:
+          type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.

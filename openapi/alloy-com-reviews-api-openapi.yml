@@ -1,0 +1,149 @@
+openapi: 3.0.3
+info:
+  title: Alloy Bank Accounts Reviews API
+  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
+
+    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
+
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+
+    fintechs.
+
+
+    The API is organized around evaluations, journey applications, entities
+
+    (persons and businesses), bank accounts, documents, events, cases,
+
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+
+    and production environments are exposed as two distinct base URLs.
+
+    '
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://api.alloy.co/v1
+  description: Production environment
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Reviews
+  description: Manual review notes and decisions on entities.
+paths:
+  /entities/{entity_token}/reviews:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Reviews
+      summary: List Entity Reviews
+      operationId: getEntityReviews
+      responses:
+        '200':
+          description: Reviews
+    post:
+      tags:
+      - Reviews
+      summary: Create an Entity Review
+      operationId: postEntityReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Review created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+  /entities/{entity_token}/reviews/{review_token}:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: review_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Reviews
+      summary: Get an Entity Review
+      operationId: getEntityReview
+      responses:
+        '200':
+          description: Review
+  /entities/{entity_token}/reviews/{review_token}/notes:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: review_token
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Reviews
+      summary: Add a Note to an Entity Review
+      operationId: postEntityReviewNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          description: Note added
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        note_token:
+          type: string
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Review:
+      type: object
+      properties:
+        review_token:
+          type: string
+        decision:
+          type: string
+        notes:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.

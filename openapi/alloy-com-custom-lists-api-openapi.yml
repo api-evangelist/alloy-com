@@ -1,0 +1,174 @@
+openapi: 3.0.3
+info:
+  title: Alloy Bank Accounts Custom Lists API
+  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
+
+    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
+
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+
+    fintechs.
+
+
+    The API is organized around evaluations, journey applications, entities
+
+    (persons and businesses), bank accounts, documents, events, cases,
+
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+
+    and production environments are exposed as two distinct base URLs.
+
+    '
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://api.alloy.co/v1
+  description: Production environment
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Custom Lists
+  description: Tenant-defined reference lists with versioning and activation.
+paths:
+  /custom-lists:
+    get:
+      tags:
+      - Custom Lists
+      summary: List Custom Lists
+      operationId: getCustomLists
+      responses:
+        '200':
+          description: Custom lists
+    post:
+      tags:
+      - Custom Lists
+      summary: Create a Custom List
+      operationId: postCustomList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Custom list created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomList'
+  /custom-lists/{custom_list_token}:
+    parameters:
+    - name: custom_list_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Custom Lists
+      summary: Get a Custom List
+      operationId: getCustomList
+      responses:
+        '200':
+          description: Custom list
+    patch:
+      tags:
+      - Custom Lists
+      summary: Update a Custom List
+      operationId: patchCustomList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Custom list updated
+  /custom-lists/{custom_list_token}/versions:
+    parameters:
+    - name: custom_list_token
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Custom Lists
+      summary: Create a New Version of a Custom List
+      operationId: postCustomListVersion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Version created
+  /custom-lists/{custom_list_token}/versions/{version}:
+    parameters:
+    - name: custom_list_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      tags:
+      - Custom Lists
+      summary: Get a Specific Version of a Custom List
+      operationId: getCustomListVersion
+      responses:
+        '200':
+          description: Custom list version
+  /custom-lists/{custom_list_token}/activate-major-version:
+    parameters:
+    - name: custom_list_token
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Custom Lists
+      summary: Activate a Major Version of a Custom List
+      operationId: postCustomListActivateMajorVersion
+      responses:
+        '200':
+          description: Major version activated
+components:
+  schemas:
+    CustomList:
+      type: object
+      properties:
+        custom_list_token:
+          type: string
+        name:
+          type: string
+        version:
+          type: integer
+        active:
+          type: boolean
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.

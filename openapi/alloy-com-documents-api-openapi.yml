@@ -1,0 +1,222 @@
+openapi: 3.0.3
+info:
+  title: Alloy Bank Accounts Documents API
+  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
+
+    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
+
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+
+    fintechs.
+
+
+    The API is organized around evaluations, journey applications, entities
+
+    (persons and businesses), bank accounts, documents, events, cases,
+
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+
+    and production environments are exposed as two distinct base URLs.
+
+    '
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://api.alloy.co/v1
+  description: Production environment
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Documents
+  description: Uploaded identity, address, and supporting documents for entities.
+paths:
+  /documents:
+    post:
+      tags:
+      - Documents
+      summary: Upload a Document
+      operationId: postDocument
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Document uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+  /documents/{document_token}:
+    parameters:
+    - name: document_token
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Documents
+      summary: Replace a Document
+      operationId: putDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Document replaced
+  /entities/{entity_token}/documents:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Documents
+      summary: List Documents for an Entity
+      operationId: getEntityDocuments
+      responses:
+        '200':
+          description: Documents
+    post:
+      tags:
+      - Documents
+      summary: Upload a Document for an Entity
+      operationId: postEntityDocument
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Document uploaded
+  /entities/{entity_token}/documents/{document_token}:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: document_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Documents
+      summary: Get an Entity Document
+      operationId: getEntityDocument
+      responses:
+        '200':
+          description: Document
+    patch:
+      tags:
+      - Documents
+      summary: Update an Entity Document
+      operationId: patchEntityDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Document updated
+    put:
+      tags:
+      - Documents
+      summary: Replace an Entity Document
+      operationId: putEntityDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Document replaced
+  /entities/{entity_token}/documents/{document_token}/notes:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: document_token
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Documents
+      summary: Add a Note to an Entity Document
+      operationId: postEntityDocumentNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          description: Note created
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        note_token:
+          type: string
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Document:
+      type: object
+      properties:
+        document_token:
+          type: string
+        entity_token:
+          type: string
+        document_type:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.

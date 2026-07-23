@@ -1,0 +1,432 @@
+openapi: 3.0.3
+info:
+  title: Alloy Bank Accounts Investigations API
+  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
+
+    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
+
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+
+    fintechs.
+
+
+    The API is organized around evaluations, journey applications, entities
+
+    (persons and businesses), bank accounts, documents, events, cases,
+
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+
+    and production environments are exposed as two distinct base URLs.
+
+    '
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://api.alloy.co/v1
+  description: Production environment
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Investigations
+  description: Investigation lifecycle, assignment, review, archival, and types.
+paths:
+  /investigations:
+    get:
+      tags:
+      - Investigations
+      summary: List Investigations
+      operationId: getInvestigations
+      responses:
+        '200':
+          description: Investigations
+    post:
+      tags:
+      - Investigations
+      summary: Create an Investigation
+      operationId: postInvestigation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Investigation created
+  /investigations/{investigation_token}:
+    parameters:
+    - name: investigation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Investigations
+      summary: Get an Investigation
+      operationId: getInvestigation
+      responses:
+        '200':
+          description: Investigation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Investigation'
+  /investigations/{investigation_token}/notes:
+    parameters:
+    - name: investigation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Investigations
+      summary: Add a Note to an Investigation
+      operationId: postInvestigationNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          description: Note added
+  /investigations/{investigation_token}/evidences:
+    parameters:
+    - name: investigation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    patch:
+      tags:
+      - Investigations
+      summary: Update Investigation Evidences
+      operationId: patchInvestigationEvidences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Evidences updated
+  /investigations/{investigation_token}/promote:
+    parameters:
+    - name: investigation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Investigations
+      summary: Promote an Investigation
+      operationId: putInvestigationPromote
+      responses:
+        '200':
+          description: Investigation promoted
+  /investigations/{investigation_token}/review:
+    parameters:
+    - name: investigation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Investigations
+      summary: Review an Investigation
+      operationId: putInvestigationReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Investigation reviewed
+  /investigations/archive:
+    put:
+      tags:
+      - Investigations
+      summary: Archive Investigations
+      operationId: putInvestigationsArchive
+      responses:
+        '200':
+          description: Archived
+  /investigations/unarchive:
+    put:
+      tags:
+      - Investigations
+      summary: Unarchive Investigations
+      operationId: putInvestigationsUnarchive
+      responses:
+        '200':
+          description: Unarchived
+  /investigations/assign:
+    put:
+      tags:
+      - Investigations
+      summary: Assign Investigations
+      operationId: putInvestigationsAssign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Assigned
+  /investigations/unassign:
+    put:
+      tags:
+      - Investigations
+      summary: Unassign Investigations
+      operationId: putInvestigationsUnassign
+      responses:
+        '200':
+          description: Unassigned
+  /investigations/{investigation_token}/alerts/{journey_application_token}:
+    parameters:
+    - name: investigation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: journey_application_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Investigations
+      summary: Get an Investigation Alert by Journey Application
+      operationId: getInvestigationAlert
+      responses:
+        '200':
+          description: Alert
+  /investigations/{investigation_token}/alerts/{journey_application_token}/assign:
+    parameters:
+    - name: investigation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: journey_application_token
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Investigations
+      summary: Assign an Investigation Alert
+      operationId: putInvestigationAlertAssign
+      responses:
+        '200':
+          description: Alert assigned
+  /investigations/{investigation_token}/alerts/{journey_application_token}/unassign:
+    parameters:
+    - name: investigation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: journey_application_token
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Investigations
+      summary: Unassign an Investigation Alert
+      operationId: putInvestigationAlertUnassign
+      responses:
+        '200':
+          description: Alert unassigned
+  /investigations/{investigation_token}/alerts/{journey_application_token}/review:
+    parameters:
+    - name: investigation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: journey_application_token
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Investigations
+      summary: Review an Investigation Alert
+      operationId: putInvestigationAlertReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Alert reviewed
+  /investigations/{investigation_token}/alerts/{journey_application_token}/review/{manual_review_token}/review:
+    parameters:
+    - name: investigation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: journey_application_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: manual_review_token
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Investigations
+      summary: Submit a Manual Review on an Investigation Alert
+      operationId: postInvestigationAlertManualReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Manual review submitted
+  /investigations/types:
+    post:
+      tags:
+      - Investigations
+      summary: Create an Investigation Type
+      operationId: postInvestigationType
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Type created
+  /investigations/types/archive:
+    patch:
+      tags:
+      - Investigations
+      summary: Archive Investigation Types
+      operationId: patchInvestigationTypesArchive
+      responses:
+        '200':
+          description: Archived
+  /investigations/types/unarchive:
+    patch:
+      tags:
+      - Investigations
+      summary: Unarchive Investigation Types
+      operationId: patchInvestigationTypesUnarchive
+      responses:
+        '200':
+          description: Unarchived
+  /investigations/types/delete:
+    patch:
+      tags:
+      - Investigations
+      summary: Delete an Investigation Type
+      operationId: patchInvestigationTypeDelete
+      responses:
+        '200':
+          description: Deleted
+  /investigations/types/list:
+    get:
+      tags:
+      - Investigations
+      summary: List Investigation Types
+      operationId: getInvestigationTypes
+      responses:
+        '200':
+          description: Types
+  /investigations/use-cases:
+    get:
+      tags:
+      - Investigations
+      summary: List Investigation Use Cases
+      operationId: getInvestigationUseCases
+      responses:
+        '200':
+          description: Use cases
+  /investigations/filters:
+    get:
+      tags:
+      - Investigations
+      summary: List Investigation Filters
+      operationId: getInvestigationFilters
+      responses:
+        '200':
+          description: Filters
+  /investigations/assignable-agents:
+    get:
+      tags:
+      - Investigations
+      summary: List Assignable Investigation Agents
+      operationId: getInvestigationAssignableAgents
+      responses:
+        '200':
+          description: Agents
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        note_token:
+          type: string
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Investigation:
+      type: object
+      properties:
+        investigation_token:
+          type: string
+        status:
+          type: string
+        investigation_type:
+          type: string
+        assigned_agent:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.

@@ -1,0 +1,140 @@
+openapi: 3.0.3
+info:
+  title: Alloy Bank Accounts Batches API
+  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
+
+    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
+
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+
+    fintechs.
+
+
+    The API is organized around evaluations, journey applications, entities
+
+    (persons and businesses), bank accounts, documents, events, cases,
+
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+
+    and production environments are exposed as two distinct base URLs.
+
+    '
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://api.alloy.co/v1
+  description: Production environment
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Batches
+  description: Batch processing of journey applications and evaluations.
+paths:
+  /journeys/{journey_token}/batches:
+    parameters:
+    - name: journey_token
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Batches
+      summary: Create a Journey Batch
+      operationId: postJourneyBatch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Batch created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+  /journeys/{journey_token}/batches/{journey_batch_token}:
+    parameters:
+    - name: journey_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: journey_batch_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Batches
+      summary: Get a Journey Batch
+      operationId: getJourneyBatch
+      responses:
+        '200':
+          description: Batch
+  /journeys/{journey_token}/batches/{journey_batch_token}/applications:
+    parameters:
+    - name: journey_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: journey_batch_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Batches
+      summary: List Applications in a Journey Batch
+      operationId: getJourneyBatchApplications
+      responses:
+        '200':
+          description: Applications
+  /batches/{batch_token}:
+    parameters:
+    - name: batch_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Batches
+      summary: Get a Batch
+      operationId: getBatch
+      responses:
+        '200':
+          description: Batch
+components:
+  schemas:
+    Batch:
+      type: object
+      properties:
+        batch_token:
+          type: string
+        status:
+          type: string
+        count:
+          type: integer
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.

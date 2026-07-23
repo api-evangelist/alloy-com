@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Alloy Bank Accounts Lists API
+  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
+
+    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
+
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+
+    fintechs.
+
+
+    The API is organized around evaluations, journey applications, entities
+
+    (persons and businesses), bank accounts, documents, events, cases,
+
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+
+    and production environments are exposed as two distinct base URLs.
+
+    '
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://api.alloy.co/v1
+  description: Production environment
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Lists
+  description: Built-in watchlist-style lists and list metadata.
+paths:
+  /lists:
+    get:
+      tags:
+      - Lists
+      summary: List Lists
+      operationId: getLists
+      responses:
+        '200':
+          description: Lists
+    post:
+      tags:
+      - Lists
+      summary: Create a List
+      operationId: postList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: List created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+  /lists/{list_token}:
+    parameters:
+    - name: list_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Lists
+      summary: Get a List
+      operationId: getList
+      responses:
+        '200':
+          description: List
+    post:
+      tags:
+      - Lists
+      summary: Add to a List
+      operationId: postListItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Item added
+    put:
+      tags:
+      - Lists
+      summary: Replace a List
+      operationId: putList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: List replaced
+  /lists/{list_token}/meta:
+    parameters:
+    - name: list_token
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      tags:
+      - Lists
+      summary: Update List Metadata
+      operationId: putListMeta
+      responses:
+        '200':
+          description: Metadata updated
+components:
+  schemas:
+    List:
+      type: object
+      properties:
+        list_token:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.

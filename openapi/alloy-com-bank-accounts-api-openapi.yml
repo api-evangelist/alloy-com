@@ -1,0 +1,120 @@
+openapi: 3.0.3
+info:
+  title: Alloy Bank Accounts API
+  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
+
+    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
+
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+
+    fintechs.
+
+
+    The API is organized around evaluations, journey applications, entities
+
+    (persons and businesses), bank accounts, documents, events, cases,
+
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+
+    and production environments are exposed as two distinct base URLs.
+
+    '
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://api.alloy.co/v1
+  description: Production environment
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Bank Accounts
+  description: Bank account records and related entity history.
+paths:
+  /accounts:
+    post:
+      tags:
+      - Bank Accounts
+      summary: Create an Account
+      operationId: postAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Account created
+  /accounts/{bank_account_token}:
+    parameters:
+    - name: bank_account_token
+      in: path
+      required: true
+      schema:
+        type: string
+    patch:
+      tags:
+      - Bank Accounts
+      summary: Update an Account
+      operationId: patchAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Account updated
+  /bank-accounts/{account_identifier_or_token}:
+    parameters:
+    - name: account_identifier_or_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Bank Accounts
+      summary: Get a Bank Account
+      description: Retrieves a single bank account uniquely defined by a bank account token or external account identifier.
+      operationId: getBankAccount
+      responses:
+        '200':
+          description: Bank account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+components:
+  schemas:
+    BankAccount:
+      type: object
+      properties:
+        bank_account_token:
+          type: string
+        entity_token:
+          type: string
+        account_number_masked:
+          type: string
+        routing_number:
+          type: string
+        account_type:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.

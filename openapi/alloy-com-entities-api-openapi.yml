@@ -1,0 +1,326 @@
+openapi: 3.0.3
+info:
+  title: Alloy Bank Accounts Entities API
+  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
+
+    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
+
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+
+    fintechs.
+
+
+    The API is organized around evaluations, journey applications, entities
+
+    (persons and businesses), bank accounts, documents, events, cases,
+
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+
+    and production environments are exposed as two distinct base URLs.
+
+    '
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://api.alloy.co/v1
+  description: Production environment
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Entities
+  description: Person and business entities, notes, merging, feedback, and groups.
+paths:
+  /entities/persons:
+    post:
+      tags:
+      - Entities
+      summary: Create a Person Entity
+      operationId: postEntityPerson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationRequest'
+      responses:
+        '201':
+          description: Person entity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+  /entities/persons/{entity_token}:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Entities
+      summary: Get a Person Entity
+      operationId: getEntityPerson
+      responses:
+        '200':
+          description: Person entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+    patch:
+      tags:
+      - Entities
+      summary: Update a Person Entity
+      operationId: patchEntityPerson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Person entity updated
+  /entities/businesses:
+    post:
+      tags:
+      - Entities
+      summary: Create a Business Entity
+      operationId: postEntityBusiness
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Business entity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+  /entities/businesses/{entity_token}:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Entities
+      summary: Get a Business Entity
+      operationId: getEntityBusiness
+      responses:
+        '200':
+          description: Business entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+    patch:
+      tags:
+      - Entities
+      summary: Update a Business Entity
+      operationId: patchEntityBusiness
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Business entity updated
+  /entities/{entity_token}:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Entities
+      summary: Get an Entity
+      operationId: getEntity
+      responses:
+        '200':
+          description: Entity
+  /entities/{entity_token}/evaluations/{evaluation_token}:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: evaluation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Entities
+      summary: Get an Entity Evaluation
+      operationId: getEntityEvaluation
+      responses:
+        '200':
+          description: Entity evaluation
+  /entities/merge:
+    post:
+      tags:
+      - Entities
+      summary: Merge Entities
+      operationId: postEntityMerge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Entities merged
+  /entities/{entity_token}/notes:
+    parameters:
+    - name: entity_token
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Entities
+      summary: Add a Note to an Entity
+      operationId: postEntityNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          description: Note created
+  /entity-feedback:
+    get:
+      tags:
+      - Entities
+      summary: List Entity Feedback
+      operationId: getEntityFeedback
+      responses:
+        '200':
+          description: Entity feedback list
+    post:
+      tags:
+      - Entities
+      summary: Submit Entity Feedback
+      operationId: postEntityFeedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Feedback recorded
+  /entity-groups/{entity_token_or_external_id}:
+    parameters:
+    - name: entity_token_or_external_id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Entities
+      summary: Get Entity Group by Token or External ID
+      operationId: getEntityGroup
+      responses:
+        '200':
+          description: Entity group
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        note_token:
+          type: string
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Entity:
+      type: object
+      properties:
+        entity_token:
+          type: string
+        external_entity_id:
+          type: string
+        entity_type:
+          type: string
+          enum:
+          - person
+          - business
+        name_first:
+          type: string
+        name_last:
+          type: string
+        business_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    EvaluationRequest:
+      type: object
+      description: Payload submitted to evaluate an entity against an Alloy workflow.
+      properties:
+        name_first:
+          type: string
+        name_last:
+          type: string
+        email_address:
+          type: string
+        phone_number:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        document_ssn:
+          type: string
+        address_line_1:
+          type: string
+        address_line_2:
+          type: string
+        address_city:
+          type: string
+        address_state:
+          type: string
+        address_postal_code:
+          type: string
+        address_country_code:
+          type: string
+        external_entity_id:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.

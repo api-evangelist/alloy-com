@@ -1,0 +1,184 @@
+openapi: 3.0.3
+info:
+  title: Alloy Bank Accounts Cases API
+  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
+
+    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
+
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+
+    fintechs.
+
+
+    The API is organized around evaluations, journey applications, entities
+
+    (persons and businesses), bank accounts, documents, events, cases,
+
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+
+    and production environments are exposed as two distinct base URLs.
+
+    '
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://api.alloy.co/v1
+  description: Production environment
+security:
+- basicAuth: []
+- bearerAuth: []
+tags:
+- name: Cases
+  description: Case management, evidences, and review work items.
+paths:
+  /cases:
+    get:
+      tags:
+      - Cases
+      summary: List Cases
+      operationId: getCases
+      responses:
+        '200':
+          description: Cases
+  /cases/{case_token}:
+    parameters:
+    - name: case_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Cases
+      summary: Get a Case
+      operationId: getCase
+      responses:
+        '200':
+          description: Case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Case'
+  /cases/{case_token}/evidences:
+    parameters:
+    - name: case_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Cases
+      summary: List Case Evidences
+      operationId: getCaseEvidences
+      responses:
+        '200':
+          description: Evidences
+    post:
+      tags:
+      - Cases
+      summary: Add Case Evidence
+      operationId: postCaseEvidence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Evidence added
+  /cases/{case_token}/evidences/{evaluation_token}/alert:
+    parameters:
+    - name: case_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: evaluation_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Cases
+      summary: Get a Case Evidence Alert
+      operationId: getCaseEvidenceAlert
+      responses:
+        '200':
+          description: Alert
+  /cases/{case_token}/works:
+    parameters:
+    - name: case_token
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Cases
+      summary: List Case Works
+      operationId: getCaseWorks
+      responses:
+        '200':
+          description: Works
+    post:
+      tags:
+      - Cases
+      summary: Add Case Work
+      operationId: postCaseWork
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Work added
+  /cases/multi/works:
+    post:
+      tags:
+      - Cases
+      summary: Submit Multi-Case Works
+      operationId: postCasesMultiWorks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Works submitted
+components:
+  schemas:
+    Case:
+      type: object
+      properties:
+        case_token:
+          type: string
+        status:
+          type: string
+        entity_token:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.
