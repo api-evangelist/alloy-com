@@ -6,7 +6,20 @@ description: >-
   exposes the platform's evaluations, journey applications, entities, events, documents, cases, investigations, lists,
   and webhooks for programmatic identity decisioning and ongoing risk monitoring.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Free · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/alloy-com.png
 tags:
   - Identity Decisioning
   - Identity Verification
@@ -24,49 +37,482 @@ created: '2026-05-25'
 modified: '2026-05-25'
 specificationVersion: '0.19'
 apis:
-  - aid: alloy:alloy
-    name: Alloy API
-    description: >-
-      Identity decisioning API for KYC, KYB, AML, fraud, credit underwriting, and ongoing monitoring. Organized around
-      evaluations, journeys and journey applications, person and business entities, bank accounts, documents, events,
-      cases, investigations, custom lists, and webhooks.
-    humanURL: https://developer.alloy.com/public/reference
-    baseURL: https://api.alloy.co/v1
-    tags:
-      - Identity Decisioning
-      - KYC
-      - KYB
-      - AML
-      - Fraud Prevention
-      - Credit Underwriting
-      - Ongoing Monitoring
-      - Case Management
-      - Investigations
-      - Webhooks
-    properties:
-      - type: Documentation
-        url: https://developer.alloy.com/public/docs
-      - type: APIReference
-        url: https://developer.alloy.com/public/reference
-      - type: GettingStarted
-        url: https://developer.alloy.com/public/docs/introduction
-      - type: Authentication
-        url: https://developer.alloy.com/public/docs/authentication-guide
-      - type: OpenAPI
-        url: openapi/alloy-openapi.yml
-      - type: Webhooks
-        url: https://developer.alloy.com/public/docs/webhooks
-      - type: Webhooks
-        url: https://developer.alloy.com/public/docs/webhook-events
-      - type: SDKs
-        url: https://developer.alloy.com/public/docs/sdk-installation
-        x-name: Alloy Web SDK
-      - type: SDKs
-        url: https://developer.alloy.com/public/docs/ios-webview
-        x-name: Alloy iOS Webview SDK
-      - type: SDKs
-        url: https://developer.alloy.com/public/docs/android-webview
-        x-name: Alloy Android Webview SDK
+- aid: alloy-com:alloy-com-bank-accounts-api
+  name: Alloy Bank Accounts API
+  description: Bank account records and related entity history.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Bank Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-bank-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-batches-api
+  name: Alloy Batches API
+  description: Batch processing of journey applications and evaluations.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Batches
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-batches-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-cases-api
+  name: Alloy Cases API
+  description: Case management, evidences, and review work items.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Cases
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-cases-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-custom-lists-api
+  name: Alloy Custom Lists API
+  description: Tenant-defined reference lists with versioning and activation.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Custom Lists
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-custom-lists-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-documents-api
+  name: Alloy Documents API
+  description: Uploaded identity, address, and supporting documents for entities.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-documents-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-entities-api
+  name: Alloy Entities API
+  description: Person and business entities, notes, merging, feedback, and groups.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Entities
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-entities-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-evaluations-api
+  name: Alloy Evaluations API
+  description: Run, retrieve, and audit identity, KYC, KYB, AML, fraud, and credit evaluations.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Evaluations
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-evaluations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-events-api
+  name: Alloy Events API
+  description: Real-time monitoring events for entities, accounts, transactions, and logins.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-events-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-groups-api
+  name: Alloy Groups API
+  description: Entity groups and group-level evaluations.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-groups-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-investigations-api
+  name: Alloy Investigations API
+  description: Investigation lifecycle, assignment, review, archival, and types.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Investigations
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-investigations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-journeys-api
+  name: Alloy Journeys API
+  description: Multi-step decisioning journeys, applications, batches, and reviews.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Journeys
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-journeys-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-lists-api
+  name: Alloy Lists API
+  description: Built-in watchlist-style lists and list metadata.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Lists
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-lists-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-oauth-api
+  name: Alloy OAuth API
+  description: OAuth 2.0 bearer token issuance and validation.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - OAuth
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-oauth-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-parameters-api
+  name: Alloy Parameters API
+  description: Tenant-level parameters for evaluations and journeys.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Parameters
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-parameters-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-portfolio-evaluations-api
+  name: Alloy Portfolio Evaluations API
+  description: Bulk re-evaluations across a portfolio of entities.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Portfolio Evaluations
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-portfolio-evaluations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-published-attributes-api
+  name: Alloy Published Attributes API
+  description: Custom attributes published from external systems and used in policy.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Published Attributes
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-published-attributes-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-reviews-api
+  name: Alloy Reviews API
+  description: Manual review notes and decisions on entities.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Reviews
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-reviews-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
 common:
   - type: AgenticAccess
     url: agentic-access/alloy-com-agentic-access.yml
