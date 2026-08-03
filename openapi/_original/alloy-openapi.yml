@@ -1,0 +1,2048 @@
+openapi: 3.0.3
+info:
+  title: Alloy API
+  description: |
+    The Alloy API is the programmatic surface for Alloy's identity decisioning
+    platform. It exposes the resources behind Alloy's KYC, KYB, AML, fraud,
+    credit, and ongoing-monitoring workflows used by banks, credit unions, and
+    fintechs.
+
+    The API is organized around evaluations, journey applications, entities
+    (persons and businesses), bank accounts, documents, events, cases,
+    investigations, custom lists, published attributes, and webhooks. Sandbox
+    and production environments are exposed as two distinct base URLs.
+  version: '1.0'
+  contact:
+    name: Alloy Developer Support
+    url: https://help.alloy.com
+  license:
+    name: Proprietary
+    url: https://www.alloy.com/tos
+servers:
+  - url: https://sandbox.alloy.co/v1
+    description: Sandbox environment
+  - url: https://api.alloy.co/v1
+    description: Production environment
+security:
+  - basicAuth: []
+  - bearerAuth: []
+tags:
+  - name: Evaluations
+    description: Run, retrieve, and audit identity, KYC, KYB, AML, fraud, and credit evaluations.
+  - name: Journeys
+    description: Multi-step decisioning journeys, applications, batches, and reviews.
+  - name: Entities
+    description: Person and business entities, notes, merging, feedback, and groups.
+  - name: Bank Accounts
+    description: Bank account records and related entity history.
+  - name: Documents
+    description: Uploaded identity, address, and supporting documents for entities.
+  - name: Events
+    description: Real-time monitoring events for entities, accounts, transactions, and logins.
+  - name: Cases
+    description: Case management, evidences, and review work items.
+  - name: Investigations
+    description: Investigation lifecycle, assignment, review, archival, and types.
+  - name: Custom Lists
+    description: Tenant-defined reference lists with versioning and activation.
+  - name: Lists
+    description: Built-in watchlist-style lists and list metadata.
+  - name: Published Attributes
+    description: Custom attributes published from external systems and used in policy.
+  - name: Portfolio Evaluations
+    description: Bulk re-evaluations across a portfolio of entities.
+  - name: Reviews
+    description: Manual review notes and decisions on entities.
+  - name: Groups
+    description: Entity groups and group-level evaluations.
+  - name: Batches
+    description: Batch processing of journey applications and evaluations.
+  - name: OAuth
+    description: OAuth 2.0 bearer token issuance and validation.
+  - name: Parameters
+    description: Tenant-level parameters for evaluations and journeys.
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication with workflow or account-level API key as username and secret as password.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token obtained via the OAuth endpoints.
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+    EvaluationRequest:
+      type: object
+      description: Payload submitted to evaluate an entity against an Alloy workflow.
+      properties:
+        name_first:
+          type: string
+        name_last:
+          type: string
+        email_address:
+          type: string
+        phone_number:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        document_ssn:
+          type: string
+        address_line_1:
+          type: string
+        address_line_2:
+          type: string
+        address_city:
+          type: string
+        address_state:
+          type: string
+        address_postal_code:
+          type: string
+        address_country_code:
+          type: string
+        external_entity_id:
+          type: string
+    Evaluation:
+      type: object
+      properties:
+        evaluation_token:
+          type: string
+        entity_token:
+          type: string
+        outcome:
+          type: string
+          enum: [Approved, Denied, Manual Review]
+        summary:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+    Entity:
+      type: object
+      properties:
+        entity_token:
+          type: string
+        external_entity_id:
+          type: string
+        entity_type:
+          type: string
+          enum: [person, business]
+        name_first:
+          type: string
+        name_last:
+          type: string
+        business_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    JourneyApplication:
+      type: object
+      properties:
+        journey_application_token:
+          type: string
+        journey_token:
+          type: string
+        entity_token:
+          type: string
+        status:
+          type: string
+        outcome:
+          type: string
+        current_step:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Event:
+      type: object
+      properties:
+        event_request_token:
+          type: string
+        event_type:
+          type: string
+          description: Person Created, Business Created, Bank Account Created, Transaction, Login, Credentials Updated, External Account Created, External Account Updated, Modify Notification, Embedded Authentication, etc.
+        entity_token:
+          type: string
+        payload:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+    Case:
+      type: object
+      properties:
+        case_token:
+          type: string
+        status:
+          type: string
+        entity_token:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Investigation:
+      type: object
+      properties:
+        investigation_token:
+          type: string
+        status:
+          type: string
+        investigation_type:
+          type: string
+        assigned_agent:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Document:
+      type: object
+      properties:
+        document_token:
+          type: string
+        entity_token:
+          type: string
+        document_type:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    BankAccount:
+      type: object
+      properties:
+        bank_account_token:
+          type: string
+        entity_token:
+          type: string
+        account_number_masked:
+          type: string
+        routing_number:
+          type: string
+        account_type:
+          type: string
+    CustomList:
+      type: object
+      properties:
+        custom_list_token:
+          type: string
+        name:
+          type: string
+        version:
+          type: integer
+        active:
+          type: boolean
+    List:
+      type: object
+      properties:
+        list_token:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    PublishedAttribute:
+      type: object
+      properties:
+        published_attribute_token:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    PortfolioEvaluation:
+      type: object
+      properties:
+        portfolio_evaluation_token:
+          type: string
+        status:
+          type: string
+    Review:
+      type: object
+      properties:
+        review_token:
+          type: string
+        decision:
+          type: string
+        notes:
+          type: string
+    Note:
+      type: object
+      properties:
+        note_token:
+          type: string
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Group:
+      type: object
+      properties:
+        group_token:
+          type: string
+        members:
+          type: array
+          items:
+            type: string
+    Batch:
+      type: object
+      properties:
+        batch_token:
+          type: string
+        status:
+          type: string
+        count:
+          type: integer
+    OAuthToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+        expires_in:
+          type: integer
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+paths:
+  /evaluations:
+    post:
+      tags: [Evaluations]
+      summary: Run an Evaluation
+      description: Run an evaluation with a provided payload through Alloy's identity decisioning workflow.
+      operationId: postEvaluation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationRequest'
+      responses:
+        '201':
+          description: Evaluation created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evaluation'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /evaluations/{evaluation_token}:
+    parameters:
+      - name: evaluation_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Evaluations]
+      summary: Get an Evaluation
+      operationId: getEvaluation
+      responses:
+        '200':
+          description: Evaluation retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evaluation'
+    patch:
+      tags: [Evaluations]
+      summary: Update an Evaluation
+      operationId: patchEvaluation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Evaluation updated
+  /evaluations/{evaluation_token}/auditaccess:
+    parameters:
+      - name: evaluation_token
+        in: path
+        required: true
+        schema: { type: string }
+    patch:
+      tags: [Evaluations]
+      summary: Audit Access to an Evaluation
+      operationId: patchEvaluationAuditAccess
+      responses:
+        '200':
+          description: Audit access logged
+  /parameters:
+    get:
+      tags: [Parameters]
+      summary: Get Workflow Parameters
+      operationId: getParameters
+      responses:
+        '200':
+          description: Parameters retrieved
+  /entities/persons:
+    post:
+      tags: [Entities]
+      summary: Create a Person Entity
+      operationId: postEntityPerson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationRequest'
+      responses:
+        '201':
+          description: Person entity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+  /entities/persons/{entity_token}:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Entities]
+      summary: Get a Person Entity
+      operationId: getEntityPerson
+      responses:
+        '200':
+          description: Person entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+    patch:
+      tags: [Entities]
+      summary: Update a Person Entity
+      operationId: patchEntityPerson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Person entity updated
+  /entities/businesses:
+    post:
+      tags: [Entities]
+      summary: Create a Business Entity
+      operationId: postEntityBusiness
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Business entity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+  /entities/businesses/{entity_token}:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Entities]
+      summary: Get a Business Entity
+      operationId: getEntityBusiness
+      responses:
+        '200':
+          description: Business entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+    patch:
+      tags: [Entities]
+      summary: Update a Business Entity
+      operationId: patchEntityBusiness
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Business entity updated
+  /entities/{entity_token}:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Entities]
+      summary: Get an Entity
+      operationId: getEntity
+      responses:
+        '200':
+          description: Entity
+  /entities/{entity_token}/evaluations/{evaluation_token}:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: evaluation_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Entities]
+      summary: Get an Entity Evaluation
+      operationId: getEntityEvaluation
+      responses:
+        '200':
+          description: Entity evaluation
+  /entities/merge:
+    post:
+      tags: [Entities]
+      summary: Merge Entities
+      operationId: postEntityMerge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Entities merged
+  /entities/{entity_token}/notes:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Entities]
+      summary: Add a Note to an Entity
+      operationId: postEntityNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          description: Note created
+  /entity-feedback:
+    get:
+      tags: [Entities]
+      summary: List Entity Feedback
+      operationId: getEntityFeedback
+      responses:
+        '200':
+          description: Entity feedback list
+    post:
+      tags: [Entities]
+      summary: Submit Entity Feedback
+      operationId: postEntityFeedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Feedback recorded
+  /entity-groups/{entity_token_or_external_id}:
+    parameters:
+      - name: entity_token_or_external_id
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Entities]
+      summary: Get Entity Group by Token or External ID
+      operationId: getEntityGroup
+      responses:
+        '200':
+          description: Entity group
+  /groups/{entity_token}:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Groups]
+      summary: Get Groups for an Entity
+      operationId: getGroups
+      responses:
+        '200':
+          description: Groups
+  /groups/{group_token}/evaluations:
+    parameters:
+      - name: group_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Groups]
+      summary: Run a Group Evaluation
+      operationId: postGroupEvaluation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Group evaluation created
+  /groups/{group_token}/notes:
+    parameters:
+      - name: group_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Groups]
+      summary: Add a Note to a Group
+      operationId: postGroupNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          description: Note created
+  /journeys/{journey_token}/applications:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Journeys]
+      summary: Create a Journey Application
+      operationId: postJourneyApplication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Journey application created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JourneyApplication'
+  /journeys/{journey_token}/applications/{journey_application_token}:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Journeys]
+      summary: Get a Journey Application
+      operationId: getJourneyApplication
+      responses:
+        '200':
+          description: Journey application
+    put:
+      tags: [Journeys]
+      summary: Update a Journey Application
+      operationId: putJourneyApplication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Journey application updated
+  /journeys/{journey_token}/applications/{journey_application_token}/notes:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Journeys]
+      summary: List Journey Application Notes
+      operationId: getJourneyApplicationNotes
+      responses:
+        '200':
+          description: Notes
+    post:
+      tags: [Journeys]
+      summary: Add a Note to a Journey Application
+      operationId: postJourneyApplicationNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          description: Note created
+  /journeys/{journey_token}/applications/{journey_application_token}/rerun:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Journeys]
+      summary: Rerun a Journey Application
+      operationId: postJourneyApplicationRerun
+      responses:
+        '201':
+          description: Journey application rerun
+  /journeys/{journey_token}/applications/{journey_application_token}/review:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Journeys]
+      summary: Submit a Journey Application Review
+      operationId: postJourneyApplicationReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Review recorded
+  /journeys/{journey_token}/applications/{journey_application_token}/auditaccess:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+    patch:
+      tags: [Journeys]
+      summary: Audit Access to a Journey Application
+      operationId: patchJourneyApplicationAuditAccess
+      responses:
+        '200':
+          description: Audit access logged
+  /journeys/{journey_token}/applications/{journey_application_token}/nodes/{node_id}:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: node_id
+        in: path
+        required: true
+        schema: { type: string }
+    put:
+      tags: [Journeys]
+      summary: Update a Journey Application Node
+      operationId: putJourneyApplicationNode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Node updated
+  /journeys/{journey_token}/applications/{journey_application_token}/review/{manual_review_token}:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: manual_review_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Journeys]
+      summary: Get a Manual Review for a Journey Application
+      operationId: getJourneyApplicationManualReview
+      responses:
+        '200':
+          description: Manual review
+  /journeys/{journey_token}/applications/{journey_application_token}/cases/{case_token}/review:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: case_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Journeys]
+      summary: Submit a Case Review for a Journey Application
+      operationId: postJourneyApplicationCaseReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Case review recorded
+  /journeys/applications/ext/{external_application_id}/latest:
+    parameters:
+      - name: external_application_id
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Journeys]
+      summary: Get the Latest Application by External ID
+      operationId: getJourneyApplicationByExternalId
+      responses:
+        '200':
+          description: Journey application
+    put:
+      tags: [Journeys]
+      summary: Update the Latest Application by External ID
+      operationId: putJourneyApplicationByExternalId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Journey application updated
+  /journeys/applications/ext/{external_application_id}/latest/rerun:
+    parameters:
+      - name: external_application_id
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Journeys]
+      summary: Rerun the Latest Application by External ID
+      operationId: postJourneyApplicationRerunByExternalId
+      responses:
+        '201':
+          description: Application rerun
+  /journeys/entities/{external_entity_id}/applications:
+    parameters:
+      - name: external_entity_id
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Journeys]
+      summary: List Applications for an External Entity
+      operationId: getJourneyApplicationsByExternalEntity
+      responses:
+        '200':
+          description: Applications
+  /journeys/{journey_token}/parameters:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Journeys]
+      summary: Get Journey Parameters
+      operationId: getJourneyParameters
+      responses:
+        '200':
+          description: Parameters
+  /journeys/{journey_token}/schema:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Journeys]
+      summary: Get Journey Schema
+      operationId: getJourneySchema
+      responses:
+        '200':
+          description: Schema
+  /journeys/{journey_token}/batches:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Batches]
+      summary: Create a Journey Batch
+      operationId: postJourneyBatch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Batch created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+  /journeys/{journey_token}/batches/{journey_batch_token}:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_batch_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Batches]
+      summary: Get a Journey Batch
+      operationId: getJourneyBatch
+      responses:
+        '200':
+          description: Batch
+  /journeys/{journey_token}/batches/{journey_batch_token}/applications:
+    parameters:
+      - name: journey_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_batch_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Batches]
+      summary: List Applications in a Journey Batch
+      operationId: getJourneyBatchApplications
+      responses:
+        '200':
+          description: Applications
+  /batches/{batch_token}:
+    parameters:
+      - name: batch_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Batches]
+      summary: Get a Batch
+      operationId: getBatch
+      responses:
+        '200':
+          description: Batch
+  /accounts:
+    post:
+      tags: [Bank Accounts]
+      summary: Create an Account
+      operationId: postAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Account created
+  /accounts/{bank_account_token}:
+    parameters:
+      - name: bank_account_token
+        in: path
+        required: true
+        schema: { type: string }
+    patch:
+      tags: [Bank Accounts]
+      summary: Update an Account
+      operationId: patchAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Account updated
+  /bank-accounts/{account_identifier_or_token}:
+    parameters:
+      - name: account_identifier_or_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Bank Accounts]
+      summary: Get a Bank Account
+      description: Retrieves a single bank account uniquely defined by a bank account token or external account identifier.
+      operationId: getBankAccount
+      responses:
+        '200':
+          description: Bank account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+  /documents:
+    post:
+      tags: [Documents]
+      summary: Upload a Document
+      operationId: postDocument
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Document uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+  /documents/{document_token}:
+    parameters:
+      - name: document_token
+        in: path
+        required: true
+        schema: { type: string }
+    put:
+      tags: [Documents]
+      summary: Replace a Document
+      operationId: putDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Document replaced
+  /entities/{entity_token}/documents:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Documents]
+      summary: List Documents for an Entity
+      operationId: getEntityDocuments
+      responses:
+        '200':
+          description: Documents
+    post:
+      tags: [Documents]
+      summary: Upload a Document for an Entity
+      operationId: postEntityDocument
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Document uploaded
+  /entities/{entity_token}/documents/{document_token}:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: document_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Documents]
+      summary: Get an Entity Document
+      operationId: getEntityDocument
+      responses:
+        '200':
+          description: Document
+    patch:
+      tags: [Documents]
+      summary: Update an Entity Document
+      operationId: patchEntityDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Document updated
+    put:
+      tags: [Documents]
+      summary: Replace an Entity Document
+      operationId: putEntityDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Document replaced
+  /entities/{entity_token}/documents/{document_token}/notes:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: document_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Documents]
+      summary: Add a Note to an Entity Document
+      operationId: postEntityDocumentNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          description: Note created
+  /events:
+    post:
+      tags: [Events]
+      summary: Submit a Monitoring Event
+      operationId: postEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: Event accepted
+  /events/schema:
+    get:
+      tags: [Events]
+      summary: Get the Events Schema
+      operationId: getEventsSchema
+      responses:
+        '200':
+          description: Schema
+  /events/{event_request_token}:
+    parameters:
+      - name: event_request_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Events]
+      summary: Get an Event
+      operationId: getEvent
+      responses:
+        '200':
+          description: Event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+  /cases:
+    get:
+      tags: [Cases]
+      summary: List Cases
+      operationId: getCases
+      responses:
+        '200':
+          description: Cases
+  /cases/{case_token}:
+    parameters:
+      - name: case_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Cases]
+      summary: Get a Case
+      operationId: getCase
+      responses:
+        '200':
+          description: Case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Case'
+  /cases/{case_token}/evidences:
+    parameters:
+      - name: case_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Cases]
+      summary: List Case Evidences
+      operationId: getCaseEvidences
+      responses:
+        '200':
+          description: Evidences
+    post:
+      tags: [Cases]
+      summary: Add Case Evidence
+      operationId: postCaseEvidence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Evidence added
+  /cases/{case_token}/evidences/{evaluation_token}/alert:
+    parameters:
+      - name: case_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: evaluation_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Cases]
+      summary: Get a Case Evidence Alert
+      operationId: getCaseEvidenceAlert
+      responses:
+        '200':
+          description: Alert
+  /cases/{case_token}/works:
+    parameters:
+      - name: case_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Cases]
+      summary: List Case Works
+      operationId: getCaseWorks
+      responses:
+        '200':
+          description: Works
+    post:
+      tags: [Cases]
+      summary: Add Case Work
+      operationId: postCaseWork
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Work added
+  /cases/multi/works:
+    post:
+      tags: [Cases]
+      summary: Submit Multi-Case Works
+      operationId: postCasesMultiWorks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Works submitted
+  /investigations:
+    get:
+      tags: [Investigations]
+      summary: List Investigations
+      operationId: getInvestigations
+      responses:
+        '200':
+          description: Investigations
+    post:
+      tags: [Investigations]
+      summary: Create an Investigation
+      operationId: postInvestigation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Investigation created
+  /investigations/{investigation_token}:
+    parameters:
+      - name: investigation_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Investigations]
+      summary: Get an Investigation
+      operationId: getInvestigation
+      responses:
+        '200':
+          description: Investigation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Investigation'
+  /investigations/{investigation_token}/notes:
+    parameters:
+      - name: investigation_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Investigations]
+      summary: Add a Note to an Investigation
+      operationId: postInvestigationNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          description: Note added
+  /investigations/{investigation_token}/evidences:
+    parameters:
+      - name: investigation_token
+        in: path
+        required: true
+        schema: { type: string }
+    patch:
+      tags: [Investigations]
+      summary: Update Investigation Evidences
+      operationId: patchInvestigationEvidences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Evidences updated
+  /investigations/{investigation_token}/promote:
+    parameters:
+      - name: investigation_token
+        in: path
+        required: true
+        schema: { type: string }
+    put:
+      tags: [Investigations]
+      summary: Promote an Investigation
+      operationId: putInvestigationPromote
+      responses:
+        '200':
+          description: Investigation promoted
+  /investigations/{investigation_token}/review:
+    parameters:
+      - name: investigation_token
+        in: path
+        required: true
+        schema: { type: string }
+    put:
+      tags: [Investigations]
+      summary: Review an Investigation
+      operationId: putInvestigationReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Investigation reviewed
+  /investigations/archive:
+    put:
+      tags: [Investigations]
+      summary: Archive Investigations
+      operationId: putInvestigationsArchive
+      responses:
+        '200':
+          description: Archived
+  /investigations/unarchive:
+    put:
+      tags: [Investigations]
+      summary: Unarchive Investigations
+      operationId: putInvestigationsUnarchive
+      responses:
+        '200':
+          description: Unarchived
+  /investigations/assign:
+    put:
+      tags: [Investigations]
+      summary: Assign Investigations
+      operationId: putInvestigationsAssign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Assigned
+  /investigations/unassign:
+    put:
+      tags: [Investigations]
+      summary: Unassign Investigations
+      operationId: putInvestigationsUnassign
+      responses:
+        '200':
+          description: Unassigned
+  /investigations/{investigation_token}/alerts/{journey_application_token}:
+    parameters:
+      - name: investigation_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Investigations]
+      summary: Get an Investigation Alert by Journey Application
+      operationId: getInvestigationAlert
+      responses:
+        '200':
+          description: Alert
+  /investigations/{investigation_token}/alerts/{journey_application_token}/assign:
+    parameters:
+      - name: investigation_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+    put:
+      tags: [Investigations]
+      summary: Assign an Investigation Alert
+      operationId: putInvestigationAlertAssign
+      responses:
+        '200':
+          description: Alert assigned
+  /investigations/{investigation_token}/alerts/{journey_application_token}/unassign:
+    parameters:
+      - name: investigation_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+    put:
+      tags: [Investigations]
+      summary: Unassign an Investigation Alert
+      operationId: putInvestigationAlertUnassign
+      responses:
+        '200':
+          description: Alert unassigned
+  /investigations/{investigation_token}/alerts/{journey_application_token}/review:
+    parameters:
+      - name: investigation_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+    put:
+      tags: [Investigations]
+      summary: Review an Investigation Alert
+      operationId: putInvestigationAlertReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Alert reviewed
+  /investigations/{investigation_token}/alerts/{journey_application_token}/review/{manual_review_token}/review:
+    parameters:
+      - name: investigation_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: journey_application_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: manual_review_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Investigations]
+      summary: Submit a Manual Review on an Investigation Alert
+      operationId: postInvestigationAlertManualReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Manual review submitted
+  /investigations/types:
+    post:
+      tags: [Investigations]
+      summary: Create an Investigation Type
+      operationId: postInvestigationType
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Type created
+  /investigations/types/archive:
+    patch:
+      tags: [Investigations]
+      summary: Archive Investigation Types
+      operationId: patchInvestigationTypesArchive
+      responses:
+        '200':
+          description: Archived
+  /investigations/types/unarchive:
+    patch:
+      tags: [Investigations]
+      summary: Unarchive Investigation Types
+      operationId: patchInvestigationTypesUnarchive
+      responses:
+        '200':
+          description: Unarchived
+  /investigations/types/delete:
+    patch:
+      tags: [Investigations]
+      summary: Delete an Investigation Type
+      operationId: patchInvestigationTypeDelete
+      responses:
+        '200':
+          description: Deleted
+  /investigations/types/list:
+    get:
+      tags: [Investigations]
+      summary: List Investigation Types
+      operationId: getInvestigationTypes
+      responses:
+        '200':
+          description: Types
+  /investigations/use-cases:
+    get:
+      tags: [Investigations]
+      summary: List Investigation Use Cases
+      operationId: getInvestigationUseCases
+      responses:
+        '200':
+          description: Use cases
+  /investigations/filters:
+    get:
+      tags: [Investigations]
+      summary: List Investigation Filters
+      operationId: getInvestigationFilters
+      responses:
+        '200':
+          description: Filters
+  /investigations/assignable-agents:
+    get:
+      tags: [Investigations]
+      summary: List Assignable Investigation Agents
+      operationId: getInvestigationAssignableAgents
+      responses:
+        '200':
+          description: Agents
+  /custom-lists:
+    get:
+      tags: [Custom Lists]
+      summary: List Custom Lists
+      operationId: getCustomLists
+      responses:
+        '200':
+          description: Custom lists
+    post:
+      tags: [Custom Lists]
+      summary: Create a Custom List
+      operationId: postCustomList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Custom list created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomList'
+  /custom-lists/{custom_list_token}:
+    parameters:
+      - name: custom_list_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Custom Lists]
+      summary: Get a Custom List
+      operationId: getCustomList
+      responses:
+        '200':
+          description: Custom list
+    patch:
+      tags: [Custom Lists]
+      summary: Update a Custom List
+      operationId: patchCustomList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Custom list updated
+  /custom-lists/{custom_list_token}/versions:
+    parameters:
+      - name: custom_list_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Custom Lists]
+      summary: Create a New Version of a Custom List
+      operationId: postCustomListVersion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Version created
+  /custom-lists/{custom_list_token}/versions/{version}:
+    parameters:
+      - name: custom_list_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: version
+        in: path
+        required: true
+        schema: { type: integer }
+    get:
+      tags: [Custom Lists]
+      summary: Get a Specific Version of a Custom List
+      operationId: getCustomListVersion
+      responses:
+        '200':
+          description: Custom list version
+  /custom-lists/{custom_list_token}/activate-major-version:
+    parameters:
+      - name: custom_list_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Custom Lists]
+      summary: Activate a Major Version of a Custom List
+      operationId: postCustomListActivateMajorVersion
+      responses:
+        '200':
+          description: Major version activated
+  /lists:
+    get:
+      tags: [Lists]
+      summary: List Lists
+      operationId: getLists
+      responses:
+        '200':
+          description: Lists
+    post:
+      tags: [Lists]
+      summary: Create a List
+      operationId: postList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: List created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+  /lists/{list_token}:
+    parameters:
+      - name: list_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Lists]
+      summary: Get a List
+      operationId: getList
+      responses:
+        '200':
+          description: List
+    post:
+      tags: [Lists]
+      summary: Add to a List
+      operationId: postListItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Item added
+    put:
+      tags: [Lists]
+      summary: Replace a List
+      operationId: putList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: List replaced
+  /lists/{list_token}/meta:
+    parameters:
+      - name: list_token
+        in: path
+        required: true
+        schema: { type: string }
+    put:
+      tags: [Lists]
+      summary: Update List Metadata
+      operationId: putListMeta
+      responses:
+        '200':
+          description: Metadata updated
+  /oauth/bearer:
+    post:
+      tags: [OAuth]
+      summary: Issue a Bearer Token
+      operationId: postOAuthBearer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Token issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthToken'
+  /oauth/validate:
+    post:
+      tags: [OAuth]
+      summary: Validate a Bearer Token
+      operationId: postOAuthValidate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Validation result
+  /portfolio-evaluations:
+    post:
+      tags: [Portfolio Evaluations]
+      summary: Create a Portfolio Evaluation
+      operationId: postPortfolioEvaluation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Portfolio evaluation created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioEvaluation'
+  /portfolio-evaluations/{portfolio_evaluation_token}/rerun:
+    parameters:
+      - name: portfolio_evaluation_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Portfolio Evaluations]
+      summary: Rerun a Portfolio Evaluation
+      operationId: postPortfolioEvaluationRerun
+      responses:
+        '201':
+          description: Portfolio evaluation rerun
+  /published-attributes:
+    get:
+      tags: [Published Attributes]
+      summary: List Published Attributes
+      operationId: getPublishedAttributes
+      responses:
+        '200':
+          description: Published attributes
+    post:
+      tags: [Published Attributes]
+      summary: Create a Published Attribute
+      operationId: postPublishedAttribute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Published attribute created
+  /published-attributes/{published_attribute_token}:
+    parameters:
+      - name: published_attribute_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Published Attributes]
+      summary: Get a Published Attribute
+      operationId: getPublishedAttribute
+      responses:
+        '200':
+          description: Published attribute
+    patch:
+      tags: [Published Attributes]
+      summary: Update a Published Attribute
+      operationId: patchPublishedAttribute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Published attribute updated
+  /published-attributes/{published_attribute_token}/values:
+    parameters:
+      - name: published_attribute_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Published Attributes]
+      summary: List Values for a Published Attribute
+      operationId: getPublishedAttributeValues
+      responses:
+        '200':
+          description: Values
+    post:
+      tags: [Published Attributes]
+      summary: Submit Values for a Published Attribute
+      operationId: postPublishedAttributeValues
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Values submitted
+  /entities/{entity_token}/reviews:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Reviews]
+      summary: List Entity Reviews
+      operationId: getEntityReviews
+      responses:
+        '200':
+          description: Reviews
+    post:
+      tags: [Reviews]
+      summary: Create an Entity Review
+      operationId: postEntityReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Review created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+  /entities/{entity_token}/reviews/{review_token}:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: review_token
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Reviews]
+      summary: Get an Entity Review
+      operationId: getEntityReview
+      responses:
+        '200':
+          description: Review
+  /entities/{entity_token}/reviews/{review_token}/notes:
+    parameters:
+      - name: entity_token
+        in: path
+        required: true
+        schema: { type: string }
+      - name: review_token
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Reviews]
+      summary: Add a Note to an Entity Review
+      operationId: postEntityReviewNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '201':
+          description: Note added
