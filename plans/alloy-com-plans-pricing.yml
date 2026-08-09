@@ -1,0 +1,44 @@
+name: Alloy Plans and Pricing
+description: >-
+  Alloy offers enterprise pricing tailored to each financial institution's
+  transaction volume and product needs. Pricing is not publicly listed and
+  requires contacting their sales team directly. Plans are typically customized
+  for banks and fintechs based on evaluation volume, number of data sources
+  integrated, product modules used, and ongoing monitoring requirements.
+url: https://www.alloy.com/contact
+created: '2026-06-13'
+modified: '2026-06-13'
+plans:
+  - name: Enterprise
+    description: >-
+      Custom pricing for banks, credit unions, and fintechs. Includes access to
+      the full Alloy Identity API, configurable workflows, 85+ data source
+      integrations, sandbox environment, journey applications, ongoing
+      monitoring, transaction monitoring, document verification, investigations
+      dashboard, and dedicated support. Pricing is based on evaluation volume
+      and product modules selected.
+    type: enterprise
+    pricing: custom
+    contact: https://www.alloy.com/contact
+    features:
+      - Single REST API access
+      - 85+ data source integrations
+      - Configurable KYC/KYB workflows
+      - Journey application management
+      - Transaction monitoring
+      - Ongoing monitoring
+      - Document verification
+      - Investigations and case management
+      - Custom lists and attributes
+      - Webhooks and event notifications
+      - Sandbox environment
+      - SAML SSO (Okta, Azure, ADFS, JumpCloud)
+      - SCIM provisioning
+      - Role-based access control (RBAC)
+      - Dedicated support and training (Alloy LAB)
+      - SOC 2 Type 2 compliance
+notes: >-
+  Alloy does not publish standard pricing tiers publicly. All pricing is
+  negotiated directly with their sales team. Prospective customers should
+  contact Alloy via https://www.alloy.com/contact or request a demo to obtain
+  a quote.

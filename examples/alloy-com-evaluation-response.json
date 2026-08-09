@@ -1,0 +1,13 @@
+{
+  "status_code": "approved",
+  "error": null,
+  "timestamp": 1704067200000,
+  "evaluation_token": "E-abc123def456",
+  "entity_token": "P-xyz789ghi012",
+  "application_token": null,
+  "application_version_id": null,
+  "summary": {
+    "outcome": "approved",
+    "reasons": []
+  }
+}

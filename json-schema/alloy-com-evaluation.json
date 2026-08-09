@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alloy/main/json-schema/alloy-evaluation.json",
+  "title": "Alloy Evaluation",
+  "description": "Represents the result of an identity evaluation run through an Alloy workflow",
+  "type": "object",
+  "properties": {
+    "evaluation_token": {
+      "type": "string",
+      "description": "Unique token identifying the evaluation, prefixed with 'E-'"
+    },
+    "entity_token": {
+      "type": "string",
+      "description": "Token of the entity this evaluation is associated with"
+    },
+    "status_code": {
+      "type": "string",
+      "description": "The outcome of the evaluation (e.g., approved, denied, pending)"
+    },
+    "error": {
+      "type": "object",
+      "description": "Error details if the evaluation encountered an issue"
+    },
+    "timestamp": {
+      "type": "number",
+      "description": "Unix timestamp of when the evaluation was created"
+    },
+    "outcome": {
+      "type": "string",
+      "description": "Final decision outcome of the evaluation"
+    },
+    "application_token": {
+      "type": "string",
+      "description": "Token of associated journey application if applicable"
+    },
+    "summary": {
+      "type": "object",
+      "description": "Summary of the evaluation results",
+      "properties": {
+        "outcome": {
+          "type": "string"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

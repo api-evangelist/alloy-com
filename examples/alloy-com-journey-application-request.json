@@ -1,0 +1,17 @@
+{
+  "name_first": "John",
+  "name_last": "Smith",
+  "email_address": "john.smith@example.com",
+  "phone_number": "2125559876",
+  "birth_date": "1985-06-20",
+  "document_ssn_last4": "6789",
+  "addresses": [
+    {
+      "line_1": "456 Park Ave",
+      "city": "Brooklyn",
+      "state": "NY",
+      "zip": "11201",
+      "country_code": "US"
+    }
+  ]
+}

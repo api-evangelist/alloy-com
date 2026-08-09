@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alloy/main/json-schema/alloy-entity.json",
+  "title": "Alloy Entity",
+  "description": "Represents a person or business entity in the Alloy Identity platform",
+  "type": "object",
+  "properties": {
+    "entity_token": {
+      "type": "string",
+      "description": "Unique token identifying the entity, prefixed with 'P-' for persons or 'B-' for businesses"
+    },
+    "external_entity_id": {
+      "type": "string",
+      "description": "Your system's identifier for this entity"
+    },
+    "name_first": {
+      "type": "string",
+      "description": "First name (for person entities)"
+    },
+    "name_last": {
+      "type": "string",
+      "description": "Last name (for person entities)"
+    },
+    "name_middle": {
+      "type": "string",
+      "description": "Middle name (for person entities)"
+    },
+    "email_address": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address"
+    },
+    "phone_number": {
+      "type": "string",
+      "description": "Phone number"
+    },
+    "birth_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of birth (YYYY-MM-DD)"
+    },
+    "document_ssn": {
+      "type": "string",
+      "description": "Social Security Number"
+    },
+    "document_ssn_last4": {
+      "type": "string",
+      "description": "Last 4 digits of SSN"
+    },
+    "addresses": {
+      "type": "array",
+      "description": "Physical addresses associated with the entity",
+      "items": {
+        "type": "object",
+        "properties": {
+          "line_1": {
+            "type": "string"
+          },
+          "line_2": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "country_code": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "person",
+        "business"
+      ],
+      "description": "Type of entity"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the entity"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/alloy-identity-api-openapi.yml
+docs: https://developer.alloy.com/public/docs/authentication-guide
+note: Alloy's API uses OAuth 2.0 client_credentials (API token/secret exchanged for a
+  one-hour bearer token) or Basic HTTP auth, and does not use or document OAuth scopes
+  (https://developer.alloy.com/public/docs/authentication-guide).
+schemes:
+- name: oauth2
+  source: openapi/alloy-identity-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/bearer
+  description: OAuth2 using a workflow token and secret to generate a bearer token
+scopes: []

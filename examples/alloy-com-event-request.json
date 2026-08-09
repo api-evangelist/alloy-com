@@ -1,0 +1,9 @@
+{
+  "type": "person_created",
+  "data": {
+    "entity_token": "P-abc123def456",
+    "name_first": "Alice",
+    "name_last": "Johnson",
+    "email_address": "alice@example.com"
+  }
+}

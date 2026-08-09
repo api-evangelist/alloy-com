@@ -1,0 +1,170 @@
+openapi: 3.0.0
+info:
+  title: Alloy Identity Bank Accounts Entity Groups API
+  version: 1.0.0
+  description: The Alloy Identity API provides endpoints for creating and managing person and business entities, running evaluations through configurable risk workflows, managing journey applications, submitting events for ongoing monitoring, handling document verification, and managing investigations and case alerts. Authentication is via Basic HTTP credentials or OAuth 2.0 Client Credentials.
+  contact:
+    name: Alloy Support
+    url: https://help.alloy.com/hc/en-us
+  license:
+    name: Proprietary
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://alloy.co/v1
+  description: Production environment
+security:
+- basic: []
+- oauth2: []
+tags:
+- name: Entity Groups
+  description: Entity groups can be used to associate multiple Person and Business Entities together at the point of onboarding and update throughout the entity lifecycle.
+paths:
+  /entity-groups/{entity_token_or_external_id}:
+    parameters:
+    - in: path
+      name: entity_token_or_external_id
+      schema:
+        type: string
+      required: true
+      description: Token or external identifier associated with the Entity Group.
+      example: EG-80vO8Cy0fMD1vJfZjbEB
+    get:
+      tags:
+      - Entity Groups
+      summary: Get information about an Entity Group
+      description: Using an Entity Group's token or external identifier, get information about the Entity Group and its relationships
+      responses:
+        '200':
+          x-summary: Success
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  entity_group_token:
+                    type: string
+                  entity_group_name:
+                    type: string
+                  entity_group_type:
+                    type: string
+                    enum:
+                    - business
+                    - joint_account
+                    - membership
+                    - merchant
+                  created_at:
+                    type: string
+                    example: '2025-12-10T16:19:56.000Z'
+                  archived_at:
+                    type: string
+                    example: '2025-12-11T16:19:56.000Z'
+                  entity_group_external_identifiers:
+                    type: array
+                    items:
+                      type: string
+                  entity_group_relationships:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        entity_token:
+                          type: string
+                        name:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - person
+                          - business
+                        ownership_percentage:
+                          type: string
+                        title:
+                          type: string
+                          example: CEO
+                        relationship_created_at:
+                          type: string
+                          example: '2025-12-08T14:01:00.000Z'
+                        roles:
+                          type: array
+                          items:
+                            type: string
+                            enum:
+                            - primary
+                            - shareholder
+                            - secondary
+                            - beneficiary
+                            - beneficial_owner
+                            - control_prong
+                            - director
+                            - authorized_signer
+                            - principal_owner
+                            - coborrower
+                            - joint
+                            - guarantor
+                        bank_accounts:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              bank_account_token:
+                                type: string
+                              external_account_id:
+                                type: string
+                              account_holder_type:
+                                type: string
+                                enum:
+                                - primary
+                                - secondary
+                                - power_of_attorney
+                                - authorized_signer
+                                - authorized_user
+                                - beneficiary
+                                - joint_owner
+                                - custodian
+                                - guardian
+                                - trustee
+                example:
+                  entity_group_token: EG-wnUeDsz7dvC4sbXM9VtA
+                  entity_group_external_identifiers:
+                  - 087ac67e-17ab-4529-8d1a-a8b2214d305f
+                  entity_group_name: Jane's Biscuit Co.
+                  entity_group_type: business
+                  created_at: '2025-12-17T22:09:00.684Z'
+                  archived_at: null,
+                  entity_group_relationships:
+                  - entity_token: B-v3aBv8wydmqs1h6wTgMI
+                    name: Jane's Biscuit Co.
+                    type: business
+                    roles:
+                    - primary
+                    title: null
+                    ownership_percentage: null
+                    relationship_created_at: '2025-12-17T22:09:00.684Z'
+                    bank_accounts: []
+                  - entity_token: P-lRE0vrgm2840nxlFgzf0
+                    name: Jane Doe
+                    type: person
+                    roles:
+                    - director
+                    - shareholder
+                    title: Director of Sales
+                    ownership_percentage: '80'
+                    relationship_created_at: '2025-12-17T22:09:00.684Z'
+                    bank_accounts:
+                    - bank_account_token: A-3BHSHBnt6E1QpPfkk7xR
+                      external_account_id: 9348234-127391823-283489
+                      account_holder_type: authorized_user
+components:
+  securitySchemes:
+    basic:
+      type: http
+      description: HTTP basic authorization using a workflow token and secret
+      scheme: basic
+    oauth2:
+      type: oauth2
+      description: OAuth2 using a workflow token and secret to generate a bearer token
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/bearer
+          scopes: {}

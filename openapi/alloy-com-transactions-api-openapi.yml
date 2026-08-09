@@ -1,0 +1,432 @@
+openapi: 3.0.0
+info:
+  title: Alloy Identity Bank Accounts Transactions API
+  version: 1.0.0
+  description: The Alloy Identity API provides endpoints for creating and managing person and business entities, running evaluations through configurable risk workflows, managing journey applications, submitting events for ongoing monitoring, handling document verification, and managing investigations and case alerts. Authentication is via Basic HTTP credentials or OAuth 2.0 Client Credentials.
+  contact:
+    name: Alloy Support
+    url: https://help.alloy.com/hc/en-us
+  license:
+    name: Proprietary
+servers:
+- url: https://sandbox.alloy.co/v1
+  description: Sandbox environment
+- url: https://alloy.co/v1
+  description: Production environment
+security:
+- basic: []
+- oauth2: []
+tags:
+- name: Transactions
+  description: Manage transactions. These transactions are aggregated and decisioned through Transaction Monitoring workflows and evaluations.
+paths:
+  /transactions/{transaction_id}:
+    parameters:
+    - in: path
+      name: transaction_id
+      description: Unique external identifier for the transaction.
+      schema:
+        type: string
+      required: true
+    get:
+      deprecated: true
+      tags:
+      - Transactions
+      summary: Get a transaction.
+      description: 'Retrieves a Transaction by external transaction ID.
+
+
+        *Note*: If you are using the Alloy Events API, you do not need to use any of the Transactions endpoints. All data should be sent through the Events API with a relevant `event_type`.
+
+        '
+      responses:
+        '200':
+          x-summary: OK
+          description: Returns the transaction matching the ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/12/allOf/0'
+        '404':
+          x-summary: Resource not found.
+          description: Unable to find the transaction_id.
+    patch:
+      deprecated: true
+      tags:
+      - Transactions
+      summary: Update a transaction.
+      description: 'Updates a Transaction by external transaction ID.
+
+
+        *Note*: If you are using the Alloy Events API, you do not need to use any of the Transactions endpoints. All data should be sent through the Events API with a relevant `event_type`.
+
+        '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                transaction_id:
+                  description: Unique external identifier for the transaction
+                  readOnly: true
+                source:
+                  readOnly: true
+                destination:
+                  readOnly: true
+                account_snapshot:
+                  readOnly: true
+              allOf:
+              - properties:
+                  transaction_id:
+                    description: Unique external identifier for the transaction. Required if using counterparty MLA.
+                  transaction_date:
+                    description: ISO 8601 date. Used as the transaction's date or date to look back from when evaluating an account.
+                    type: string
+                  amount:
+                    description: Amount in cents
+                    type: integer
+                  currency:
+                    description: 3-character currency code (e.g. "USD")
+                    type: string
+                  source:
+                    type: object
+                    description: 'The account that is being evaluated. Typically this is the account that is owned by your organization.
+
+                      The body must contain either an `external_account_id` or `account_number`.
+
+                      '
+                    allOf:
+                    - $ref: '#/paths/~1accounts/post/requestBody/content/application~1json/schema/allOf/0/allOf/0'
+                    anyOf:
+                    - required:
+                      - external_account_id
+                    - required:
+                      - account_number
+                  destination:
+                    type: object
+                    description: 'The counterparty account that is interacting with the `source_account`-- for example, a merchant account.
+
+                      The body must contain either an `external_account_id` or `account_number`.
+
+                      '
+                    allOf:
+                    - $ref: '#/paths/~1accounts/post/requestBody/content/application~1json/schema/allOf/0/allOf/0'
+                    anyOf:
+                    - $ref: '#/paths/~1transactions~1%7Btransaction_id%7D/patch/requestBody/content/application~1json/schema/allOf/0/properties/source/anyOf/0'
+                    - $ref: '#/paths/~1transactions~1%7Btransaction_id%7D/patch/requestBody/content/application~1json/schema/allOf/0/properties/source/anyOf/1'
+                    properties:
+                      name_first:
+                        type: string
+                      name_last:
+                        type: string
+                      birth_date:
+                        description: YYYY-MM-DD
+                        type: string
+                      address_line_1:
+                        type: string
+                      address_line_2:
+                        type: string
+                      address_city:
+                        type: string
+                      address_state:
+                        type: string
+                      address_postal_code:
+                        type: string
+                      address_country_code:
+                        description: 2-character ISO 3166-1 alpha-2 country code, e.g. "US".
+                        type: string
+                  account_snapshot:
+                    description: Snapshot of the source account of the transaction. Note that this is not a separate call, it is part of either an /accounts call or an /evaluations call
+                    type: object
+                    nullable: true
+                    required:
+                    - timestamp
+                    properties:
+                      timestamp:
+                        description: ISO 8601 timestamp of the account snapshot.
+                        type: string
+                        format: date
+                      meta:
+                        description: JSON object with any meta information related to the account snpashot.
+                        type: object
+                      details:
+                        description: JSON object with any details related to the account snapshot.
+                        type: object
+                        properties:
+                          status:
+                            type: string
+                            enum:
+                            - null
+                            - Active
+                            - Deactivated
+                            - Frozen
+                            - Pending
+                            - Inactive
+                          status_detail:
+                            type: string
+                          loan_credit_limit:
+                            type: integer
+                          interest_rate:
+                            type: number
+                          original_interest_rate:
+                            type: number
+                          original_amount:
+                            type: integer
+                          ach_push_limit:
+                            type: integer
+                          ach_pull_limit:
+                            type: integer
+                          name_first:
+                            type: string
+                          name_last:
+                            type: string
+                          email_address:
+                            type: string
+                          phone_number:
+                            type: string
+                          mailing_address_line1:
+                            type: string
+                          mailing_address_line2:
+                            type: string
+                          mailing_address_city:
+                            type: string
+                          mailing_address_state:
+                            type: string
+                          mailing_address_postal_code:
+                            type: string
+                          mailing_address_country_code:
+                            description: 3-character country code (e.g. "USA")
+                            type: string
+                          primary_address_line1:
+                            type: string
+                          primary_address_line2:
+                            type: string
+                          primary_address_city:
+                            type: string
+                          primary_address_state:
+                            type: string
+                          primary_address_postal_code:
+                            type: string
+                          primary_address_country_code:
+                            description: 3-character country code (e.g. "USA").
+                            type: string
+                            maxLength: 3
+                      account_view:
+                        description: JSON object
+                        type: object
+                        properties:
+                          account_balance:
+                            description: Account balance in cents.
+                            type: integer
+                          date_last_activity:
+                            description: ISO 8601 timestamp of last activity.
+                            type: string
+                          is_good_standing:
+                            type: boolean
+                          past_due_days:
+                            type: integer
+                  process_method:
+                    description: Platform or process method of the transaction. Allowed values are (`"Card"`. `"Internal"`, `"Check"`, `"P2P"`, `"ACH"`, `"Cash"`, `"Wire"`, `null`)
+                    type: string
+                    nullable: true
+                    enum:
+                    - Card. Internal
+                    - Check
+                    - P2P
+                    - ACH
+                    - Cash
+                    - Wire
+                    - RTP
+                  category:
+                    description: Splits process_method into more granular values. Allowed values are (`"Adjustment"`, `"ATM Rebate"`, `"Bill Pay"`, `"Chargeback"`, `"Deposit"`, `"Direct Deposit Bonus"`, `"Interest"`, `"Overdraft Fee"`, `"Payment"`, `"Promo"`, `"Purchase"`, `"Purchase Return"`, `"Return"`, `"Service Charge"`, `"Withdrawal"`, `null`)
+                    type: string
+                    nullable: true
+                    enum:
+                    - Adjustment
+                    - ATM Rebate
+                    - Bill Pay
+                    - Chargeback
+                    - Deposit
+                    - Direct Deposit Bonus
+                    - Interest
+                    - Overdraft Fee
+                    - Payment
+                    - Promo
+                    - Purchase
+                    - Purchase Return
+                    - Return
+                    - Service Charge
+                    - Withdrawal
+                  interaction_point:
+                    description: Where the transaction took place. Allow values are (`"Android"`, `"ATM"`, `"Card Swipe Terminal"`, `"iOS"`, `"Mobile"`, `"Online Form"`, `"Point of Sale"`, `"Teller"`, `"3rd Party App"`, `null`)
+                    type: string
+                    nullable: true
+                    enum:
+                    - Android
+                    - ATM
+                    - Card Swipe Terminal
+                    - iOS
+                    - Mobile
+                    - Online Form
+                    - Point of Sale
+                    - Teller
+                    - 3rd Party App
+                  type_code:
+                    description: The raw type code of the transaction.  There should be a 1:1 mapping from type_code to type_description provided to Alloy.
+                    type: string
+                    nullable: true
+                  type_description:
+                    description: Description of the type code. There should be a 1:1 mapping from type_code to type_description provided to Alloy. Currently not used in decisioning.
+                    type: string
+                    nullable: true
+                  is_approved:
+                    description: If the transaction was approved by the customer
+                    type: boolean
+                    nullable: true
+                  is_reversal:
+                    description: If the transaction is a refund
+                    type: boolean
+                    nullable: true
+                  is_triggered_by_user:
+                    description: Whether the transaction is initiated by the source entity. Mainly used to distinguish betweeh ACH push and pull
+                    type: boolean
+                    nullable: true
+                  is_international_override:
+                    description: True if the transaction is international
+                    type: boolean
+                    nullable: true
+                  return_code:
+                    description: This represents the Alphanumeric ACH return Code. (e.g. R01)
+                    type: string
+                    nullable: true
+                  return_code_reason:
+                    description: Allowed values are (`"Unauthorized"`, `null`). Currently not used in decisioning.
+                    type: string
+                    nullable: true
+                    enum:
+                    - Unauthorized
+                  entry_mode:
+                    description: POS entry modes on card transactions
+                    type: number
+                    nullable: true
+                  response_code:
+                    description: Response codes returned on card transactions
+                    type: number
+                    nullable: true
+                  status:
+                    description: Allowed values are (`"Acknowledged"`, `"Accepted"`, `"Rejected"`, `"Paused"`, `"Pending"`, `"Completed"`, `"Declined"`, `"Cancelled"`, `null`)
+                    type: string
+                    nullable: true
+                    enum:
+                    - Acknowledged
+                    - Accepted
+                    - Rejected
+                    - Paused
+                    - Pending
+                    - Completed
+                    - Declined
+                    - Cancelled
+                  status_detail:
+                    description: Additional description on transaction status. Currently not used in decisioning.
+                    type: string
+                    nullable: true
+                  iso_message:
+                    description: ISO standard value returned on card transactions
+                    type: number
+                    nullable: true
+                  settled_at:
+                    description: ISO 8601 date. Currently not used in decisioning.
+                    type: string
+                    nullable: true
+                  latest_transaction_date:
+                    description: ISO 8601 date. Currently not used in decisioning.
+                    type: string
+                    nullable: true
+                  description:
+                    description: A description of the transaction. Currently not used in decisioning.
+                    type: string
+                    nullable: true
+                  approval_code:
+                    description: The raw approval code provided by the customer. Currently not used in decisioning.
+                    type: string
+                    nullable: true
+                  transaction_meta:
+                    description: Object containing extra raw data not stored in other columns. Currently not used in decisioning.
+                    type: object
+                    nullable: true
+              example:
+                transaction_date: '2021-10-24 18:02:00+00'
+                latest_transaction_date: '2021-10-24 18:02:00+00'
+                settled_at: '2021-10-24 18:03:00+00'
+                amount: 200
+                category: Deposit
+                currency: USD
+                description: Mobile App Deposit
+                is_approved: true
+                transaction_meta:
+                  customAttribute: customValue
+                process_method: ACH
+                interaction_point: iOS
+      responses:
+        '200':
+          x-summary: OK
+          description: Transaction updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: integer
+                  error:
+                    type: string
+                  source:
+                    readOnly: true
+                  destination:
+                    readOnly: true
+                  account_snapshot:
+                    readOnly: true
+                allOf:
+                - $ref: '#/paths/~1transactions~1%7Btransaction_id%7D/patch/requestBody/content/application~1json/schema/allOf/0'
+                example:
+                  status_code: 200
+                  error: null
+                  transaction_id: sample-001
+                  transaction_date: '2021-10-24T18:02:00.000Z'
+                  latest_transaction_date: '2021-10-24T18:02:00.000Z'
+                  settled_at: '2021-10-24T18:03:00.000Z'
+                  currency_code: USD
+                  description: Mobile App Deposit
+                  card_process_mode: null
+                  device_type_code: null
+                  type_code: null
+                  type_description: null
+                  is_approved: true
+                  approval_code: null
+                  is_reversal: null
+                  meta:
+                    customAttribute: customValue
+                  category: Deposit
+                  is_triggered_by_user: true
+                  is_international_override: null
+                  amount: '200'
+                  interaction_point: iOS
+                  status: null
+                  status_detail: null
+                  process_method: ACH
+                  return_code: null
+                  return_code_reason: null
+components:
+  securitySchemes:
+    basic:
+      type: http
+      description: HTTP basic authorization using a workflow token and secret
+      scheme: basic
+    oauth2:
+      type: oauth2
+      description: OAuth2 using a workflow token and secret to generate a bearer token
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/bearer
+          scopes: {}

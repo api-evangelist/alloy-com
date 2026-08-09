@@ -1,0 +1,226 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "alloy": "https://developer.alloy.com/vocabulary#",
+    "hydra": "http://www.w3.org/ns/hydra/core#",
+
+    "Entity": "alloy:Entity",
+    "PersonEntity": "alloy:PersonEntity",
+    "BusinessEntity": "alloy:BusinessEntity",
+    "Evaluation": "alloy:Evaluation",
+    "Journey": "alloy:Journey",
+    "JourneyApplication": "alloy:JourneyApplication",
+    "Event": "alloy:Event",
+    "Investigation": "alloy:Investigation",
+    "EntityGroup": "alloy:EntityGroup",
+    "Document": "alloy:Document",
+    "Transaction": "alloy:Transaction",
+    "BankAccount": "alloy:BankAccount",
+    "CustomList": "alloy:CustomList",
+    "PublishedAttribute": "alloy:PublishedAttribute",
+    "Webhook": "alloy:Webhook",
+
+    "entity_token": {
+      "@id": "alloy:entityToken",
+      "@type": "xsd:string"
+    },
+    "external_entity_id": {
+      "@id": "alloy:externalEntityId",
+      "@type": "xsd:string"
+    },
+    "entity_type": {
+      "@id": "alloy:entityType",
+      "@type": "xsd:string"
+    },
+    "evaluation_token": {
+      "@id": "alloy:evaluationToken",
+      "@type": "xsd:string"
+    },
+    "application_token": {
+      "@id": "alloy:applicationToken",
+      "@type": "xsd:string"
+    },
+    "status_code": {
+      "@id": "alloy:statusCode",
+      "@type": "xsd:string"
+    },
+    "outcome": {
+      "@id": "alloy:outcome",
+      "@type": "xsd:string"
+    },
+    "workflow_token": {
+      "@id": "alloy:workflowToken",
+      "@type": "xsd:string"
+    },
+    "journey_token": {
+      "@id": "alloy:journeyToken",
+      "@type": "xsd:string"
+    },
+    "investigation_token": {
+      "@id": "alloy:investigationToken",
+      "@type": "xsd:string"
+    },
+    "event_request_token": {
+      "@id": "alloy:eventRequestToken",
+      "@type": "xsd:string"
+    },
+    "document_token": {
+      "@id": "alloy:documentToken",
+      "@type": "xsd:string"
+    },
+    "transaction_id": {
+      "@id": "alloy:transactionId",
+      "@type": "xsd:string"
+    },
+
+    "name_first": {
+      "@id": "schema:givenName",
+      "@type": "xsd:string"
+    },
+    "name_last": {
+      "@id": "schema:familyName",
+      "@type": "xsd:string"
+    },
+    "name_middle": {
+      "@id": "schema:additionalName",
+      "@type": "xsd:string"
+    },
+    "email_address": {
+      "@id": "schema:email",
+      "@type": "xsd:string"
+    },
+    "phone_number": {
+      "@id": "schema:telephone",
+      "@type": "xsd:string"
+    },
+    "birth_date": {
+      "@id": "schema:birthDate",
+      "@type": "xsd:date"
+    },
+    "addresses": {
+      "@id": "schema:address",
+      "@container": "@set"
+    },
+    "company_name": {
+      "@id": "schema:legalName",
+      "@type": "xsd:string"
+    },
+    "company_dba_name": {
+      "@id": "schema:alternateName",
+      "@type": "xsd:string"
+    },
+    "company_ein": {
+      "@id": "schema:taxID",
+      "@type": "xsd:string"
+    },
+    "company_website": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "company_email": {
+      "@id": "schema:email",
+      "@type": "xsd:string"
+    },
+    "company_phone_number": {
+      "@id": "schema:telephone",
+      "@type": "xsd:string"
+    },
+
+    "timestamp": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:long"
+    },
+    "created_at": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "updated_at": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+
+    "document_ssn": {
+      "@id": "alloy:socialSecurityNumber",
+      "@type": "xsd:string"
+    },
+    "document_ssn_last4": {
+      "@id": "alloy:socialSecurityNumberLast4",
+      "@type": "xsd:string"
+    },
+    "document_license": {
+      "@id": "alloy:driversLicenseNumber",
+      "@type": "xsd:string"
+    },
+    "document_license_state": {
+      "@id": "alloy:driversLicenseState",
+      "@type": "xsd:string"
+    },
+
+    "line_1": {
+      "@id": "schema:streetAddress",
+      "@type": "xsd:string"
+    },
+    "line_2": {
+      "@id": "schema:streetAddress",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "schema:addressLocality",
+      "@type": "xsd:string"
+    },
+    "state": {
+      "@id": "schema:addressRegion",
+      "@type": "xsd:string"
+    },
+    "zip": {
+      "@id": "schema:postalCode",
+      "@type": "xsd:string"
+    },
+    "country_code": {
+      "@id": "schema:addressCountry",
+      "@type": "xsd:string"
+    },
+
+    "amount": {
+      "@id": "schema:amount",
+      "@type": "xsd:decimal"
+    },
+    "currency": {
+      "@id": "schema:currency",
+      "@type": "xsd:string"
+    },
+    "transaction_date": {
+      "@id": "schema:startDate",
+      "@type": "xsd:dateTime"
+    },
+
+    "kyc": "alloy:kyc",
+    "kyb": "alloy:kyb",
+    "aml": "alloy:aml",
+    "fraud_prevention": "alloy:fraudPrevention",
+    "compliance": "alloy:compliance",
+    "risk_decisioning": "alloy:riskDecisioning",
+    "ongoing_monitoring": "alloy:ongoingMonitoring",
+    "transaction_monitoring": "alloy:transactionMonitoring",
+    "onboarding": "alloy:onboarding",
+
+    "api": {
+      "@id": "alloy:api",
+      "@type": "@id"
+    },
+    "baseURL": {
+      "@id": "alloy:baseURL",
+      "@type": "@id"
+    },
+    "sandboxURL": {
+      "@id": "alloy:sandboxURL",
+      "@type": "@id"
+    },
+    "documentation": {
+      "@id": "schema:documentation",
+      "@type": "@id"
+    }
+  }
+}

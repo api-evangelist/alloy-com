@@ -1,0 +1,39 @@
+name: Alloy API Rate Limits
+description: >-
+  Alloy does not publicly document specific rate limit thresholds in their
+  developer documentation. Rate limits are enforced at the API level and are
+  typically negotiated as part of enterprise contracts. The platform is
+  designed to handle high-volume evaluation workflows for banks and fintechs.
+  Customers should contact Alloy support or their account team for specific
+  rate limit information applicable to their plan.
+url: https://developer.alloy.com/public/docs/introduction
+created: '2026-06-13'
+modified: '2026-06-13'
+rateLimits:
+  - scope: API
+    description: >-
+      Rate limits are applied per application API token. Specific thresholds
+      are not publicly published and are determined by contract terms. Alloy
+      recommends contacting support for rate limit details applicable to your
+      account.
+    limitPublished: false
+    contact: https://help.alloy.com/hc/en-us
+  - scope: OAuth Token
+    description: >-
+      OAuth 2.0 bearer tokens issued via the Client Credentials grant type are
+      valid for one hour. Tokens must be refreshed after expiration by
+      requesting a new token from the token endpoint.
+    endpoint: https://sandbox.alloy.co/v1/oauth/bearer
+    tokenTTL: 3600
+    limitPublished: true
+  - scope: Sandbox
+    description: >-
+      The sandbox environment at sandbox.alloy.co is available for testing
+      integrations without incurring production evaluation costs. Sandbox
+      rate limits may differ from production limits. Contact support for details.
+    sandboxURL: https://sandbox.alloy.co/v1
+    limitPublished: false
+notes: >-
+  For production rate limit specifications, customers should work with their
+  Alloy account team. The platform includes API health signals with latency
+  and error rate monitoring, and webhook retry logic for delivery failures.

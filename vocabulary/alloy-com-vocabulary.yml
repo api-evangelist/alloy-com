@@ -1,0 +1,125 @@
+vocabulary:
+  - term: entity
+    definition: >-
+      The central data object in Alloy representing a person or business being
+      evaluated. All evaluations, manual reviews, and documents are associated
+      with an entity. Entity tokens are prefixed with 'P-' (person) or 'B-'
+      (business).
+
+  - term: evaluation
+    definition: >-
+      The process of running identity verification checks on an entity through
+      a configured Alloy workflow. An evaluation collects input data, runs it
+      through configured data sources, and produces an outcome decision such as
+      approved, denied, or pending review. Evaluation tokens are prefixed with 'E-'.
+
+  - term: workflow
+    definition: >-
+      A configurable pipeline of identity verification services and decision
+      logic defined in the Alloy platform. Workflows determine which data
+      sources are queried during an evaluation and how the results are used to
+      make decisioning outcomes.
+
+  - term: journey
+    definition: >-
+      A structured onboarding or decisioning experience that guides applicants
+      through a series of steps and evaluations. Journeys are the primary
+      decisioning mechanism in Alloy, replacing the deprecated standalone
+      evaluation flow for new integrations.
+
+  - term: journey_application
+    definition: >-
+      A specific instance of a person or business going through a Journey.
+      Each application has a unique token and tracks the state of an applicant
+      as they progress through the journey steps and evaluations.
+
+  - term: KYC
+    definition: >-
+      Know Your Customer — a regulatory compliance process to verify the
+      identity of individual customers, typically including identity document
+      verification, watchlist screening, and risk assessment.
+
+  - term: KYB
+    definition: >-
+      Know Your Business — a regulatory compliance process to verify the
+      identity and legitimacy of a business entity, including ownership
+      structure, beneficial owners, and business registration verification.
+
+  - term: event
+    definition: >-
+      A data submission to the Alloy Events API representing a lifecycle
+      occurrence such as a person or business being created or updated, a
+      transaction, a login, a bank account change, or a card creation. Events
+      trigger ongoing monitoring evaluations.
+
+  - term: investigation
+    definition: >-
+      A case management record created when an entity or event requires
+      further review by compliance agents. Investigations have types, statuses,
+      assignable agents, and can contain alerts linked to journey applications.
+
+  - term: entity_group
+    definition: >-
+      A collection of related entities (e.g., a business and its beneficial
+      owners) that can be evaluated together in a grouped workflow.
+
+  - term: document_verification
+    definition: >-
+      The process of verifying identity documents such as passports, driver
+      licenses, or utility bills submitted by applicants. Documents can be
+      uploaded via the Documents API and linked to entities.
+
+  - term: external_entity_id
+    definition: >-
+      A client-provided string identifier that links an Alloy entity to a
+      corresponding record in the client's own system. Allows lookups and
+      evaluations without storing Alloy-native entity tokens.
+
+  - term: published_attribute
+    definition: >-
+      A custom data field defined by the client that can be stored and tracked
+      on entities throughout their lifecycle. Published attributes allow
+      clients to store additional compliance signals or contextual data.
+
+  - term: custom_list
+    definition: >-
+      A versioned list of values (e.g., blocked accounts, allowed countries)
+      that can be referenced in workflow decisioning logic to approve or flag
+      entities or transactions.
+
+  - term: AML
+    definition: >-
+      Anti-Money Laundering — regulatory requirements to detect and prevent
+      financial crimes including money laundering, sanctions violations, and
+      terrorist financing. Alloy supports AML through transaction monitoring
+      and watchlist screening.
+
+  - term: portfolio_evaluation
+    definition: >-
+      A bulk evaluation operation that runs a workflow against a set of
+      existing entities for ongoing risk monitoring or re-evaluation purposes.
+
+  - term: webhook
+    definition: >-
+      An HTTP callback sent by Alloy to a client-configured endpoint when
+      specific events occur within the platform, such as evaluation completion,
+      journey application status changes, or investigation updates.
+
+  - term: sandbox
+    definition: >-
+      A testing environment available at sandbox.alloy.co that mirrors the
+      production API but uses simulated data sources. Allows integration
+      testing without affecting production data or incurring real verification
+      costs.
+
+  - term: workflow_token
+    definition: >-
+      An API credential token that identifies a specific workflow. Used in the
+      Authorization header for Basic authentication or when specifying which
+      workflow to use for an evaluation via the alloy-workflow-token header.
+
+  - term: entity_feedback
+    definition: >-
+      Structured data submitted to Alloy to provide ground truth labels or
+      corrections about entities, used to improve model accuracy and support
+      custom model training.

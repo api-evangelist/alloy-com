@@ -1,0 +1,75 @@
+name: Alloy FinOps
+description: >-
+  Financial operations guidance for teams integrating the Alloy Identity API.
+  Alloy pricing is based on enterprise contracts with costs driven by
+  evaluation volume, data source usage, and product modules enabled. Since
+  Alloy connects to 85+ third-party data sources (credit bureaus, document
+  verification providers, behavioral analytics, etc.), costs are influenced by
+  how many data sources are called per evaluation and the volume of evaluations
+  run monthly.
+url: https://www.alloy.com/contact
+created: '2026-06-13'
+modified: '2026-06-13'
+costDrivers:
+  - name: Evaluation Volume
+    description: >-
+      Each evaluation run through an Alloy workflow (onboarding KYC/KYB check,
+      credit underwriting, transaction monitoring event) consumes billable
+      units. High-volume fintechs processing thousands of applications monthly
+      should forecast evaluation counts carefully.
+  - name: Data Source Calls
+    description: >-
+      Alloy connects to 85+ data sources. Each data source called within a
+      workflow (e.g., Experian, Socure, BioCatch, NeuroID, ThreatMetrix) may
+      carry per-call or per-hit charges. Workflow design directly impacts cost.
+  - name: Ongoing Monitoring
+    description: >-
+      Continuous monitoring of entity portfolios, transaction surveillance,
+      and scheduled portfolio evaluations generate recurring costs proportional
+      to the size of the monitored population.
+  - name: Document Verification
+    description: >-
+      Document upload and verification services may be priced separately based
+      on volume of document checks run for identity proofing workflows.
+  - name: Journey Applications
+    description: >-
+      Multi-step journey application workflows with step-up authentication,
+      manual review queues, and re-run capabilities contribute to total
+      evaluation costs.
+costOptimization:
+  - strategy: Workflow Design
+    description: >-
+      Minimize unnecessary data source calls by designing workflows with
+      conditional branching that only invokes expensive data sources (e.g.,
+      credit bureau pulls) when earlier, cheaper checks pass. Use the
+      parameters endpoint to understand required vs optional inputs.
+  - strategy: Sandbox Testing
+    description: >-
+      Use the sandbox environment extensively before going to production to
+      validate workflow logic and avoid costly misfires in production that
+      result in unnecessary evaluation charges.
+  - strategy: Portfolio Monitoring Cadence
+    description: >-
+      Review the frequency of scheduled portfolio evaluations for ongoing
+      monitoring. Reducing cadence for low-risk cohorts can significantly
+      reduce monthly costs.
+  - strategy: Event Batching
+    description: >-
+      Use batch processing capabilities for journey applications to group
+      related evaluations and reduce per-transaction overhead.
+  - strategy: Deprecation Management
+    description: >-
+      Avoid deprecated endpoints (legacy account creation, case management)
+      which may carry additional overhead. Migrate to the Events API and
+      Investigations endpoints for efficiency.
+billing:
+  model: enterprise-contract
+  cadence: negotiated
+  contact: https://www.alloy.com/contact
+  notes: >-
+    Alloy does not publish a self-serve pricing page. All billing is managed
+    through enterprise agreements. Teams should request a cost estimate during
+    the sales process that accounts for projected evaluation volumes and
+    desired data sources. Budget line items should include both Alloy platform
+    fees and pass-through costs for any third-party data sources included in
+    workflows.
