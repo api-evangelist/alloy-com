@@ -1,0 +1,421 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Investigations API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Investigations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Investigations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations"
+          },
+          "docs": "List Investigations"
+        },
+        {
+          "info": {
+            "name": "Create an Investigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/investigations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an Investigation"
+        },
+        {
+          "info": {
+            "name": "Get an Investigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Investigation"
+        },
+        {
+          "info": {
+            "name": "Add a Note to an Investigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/notes",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to an Investigation"
+        },
+        {
+          "info": {
+            "name": "Update Investigation Evidences",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/evidences",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Investigation Evidences"
+        },
+        {
+          "info": {
+            "name": "Promote an Investigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/promote",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Promote an Investigation"
+        },
+        {
+          "info": {
+            "name": "Review an Investigation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/review",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Review an Investigation"
+        },
+        {
+          "info": {
+            "name": "Archive Investigations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/archive"
+          },
+          "docs": "Archive Investigations"
+        },
+        {
+          "info": {
+            "name": "Unarchive Investigations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/unarchive"
+          },
+          "docs": "Unarchive Investigations"
+        },
+        {
+          "info": {
+            "name": "Assign Investigations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/assign",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Assign Investigations"
+        },
+        {
+          "info": {
+            "name": "Unassign Investigations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/unassign"
+          },
+          "docs": "Unassign Investigations"
+        },
+        {
+          "info": {
+            "name": "Get an Investigation Alert by Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/alerts/:journey_application_token",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Investigation Alert by Journey Application"
+        },
+        {
+          "info": {
+            "name": "Assign an Investigation Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/alerts/:journey_application_token/assign",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Assign an Investigation Alert"
+        },
+        {
+          "info": {
+            "name": "Unassign an Investigation Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/alerts/:journey_application_token/unassign",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Unassign an Investigation Alert"
+        },
+        {
+          "info": {
+            "name": "Review an Investigation Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/alerts/:journey_application_token/review",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Review an Investigation Alert"
+        },
+        {
+          "info": {
+            "name": "Submit a Manual Review on an Investigation Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/investigations/:investigation_token/alerts/:journey_application_token/review/:manual_review_token/review",
+            "params": [
+              {
+                "name": "investigation_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "manual_review_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a Manual Review on an Investigation Alert"
+        },
+        {
+          "info": {
+            "name": "Create an Investigation Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/investigations/types",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an Investigation Type"
+        },
+        {
+          "info": {
+            "name": "Archive Investigation Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/investigations/types/archive"
+          },
+          "docs": "Archive Investigation Types"
+        },
+        {
+          "info": {
+            "name": "Unarchive Investigation Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/investigations/types/unarchive"
+          },
+          "docs": "Unarchive Investigation Types"
+        },
+        {
+          "info": {
+            "name": "Delete an Investigation Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/investigations/types/delete"
+          },
+          "docs": "Delete an Investigation Type"
+        },
+        {
+          "info": {
+            "name": "List Investigation Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/types/list"
+          },
+          "docs": "List Investigation Types"
+        },
+        {
+          "info": {
+            "name": "List Investigation Use Cases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/use-cases"
+          },
+          "docs": "List Investigation Use Cases"
+        },
+        {
+          "info": {
+            "name": "List Investigation Filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/filters"
+          },
+          "docs": "List Investigation Filters"
+        },
+        {
+          "info": {
+            "name": "List Assignable Investigation Agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/investigations/assignable-agents"
+          },
+          "docs": "List Assignable Investigation Agents"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

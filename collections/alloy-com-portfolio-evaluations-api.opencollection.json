@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Portfolio Evaluations API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Portfolio Evaluations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Portfolio Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/portfolio-evaluations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Portfolio Evaluation"
+        },
+        {
+          "info": {
+            "name": "Rerun a Portfolio Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/portfolio-evaluations/:portfolio_evaluation_token/rerun",
+            "params": [
+              {
+                "name": "portfolio_evaluation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Rerun a Portfolio Evaluation"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

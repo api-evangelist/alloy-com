@@ -1,0 +1,424 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Journeys API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Journeys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Get a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Update a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Journey Application"
+        },
+        {
+          "info": {
+            "name": "List Journey Application Notes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/notes",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Journey Application Notes"
+        },
+        {
+          "info": {
+            "name": "Add a Note to a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/notes",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Rerun a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/rerun",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Rerun a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Submit a Journey Application Review",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/review",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a Journey Application Review"
+        },
+        {
+          "info": {
+            "name": "Audit Access to a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/auditaccess",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Audit Access to a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Update a Journey Application Node",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/nodes/:node_id",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Journey Application Node"
+        },
+        {
+          "info": {
+            "name": "Get a Manual Review for a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/review/:manual_review_token",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "manual_review_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Manual Review for a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Submit a Case Review for a Journey Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/applications/:journey_application_token/cases/:case_token/review",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_application_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a Case Review for a Journey Application"
+        },
+        {
+          "info": {
+            "name": "Get the Latest Application by External ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/applications/ext/:external_application_id/latest",
+            "params": [
+              {
+                "name": "external_application_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the Latest Application by External ID"
+        },
+        {
+          "info": {
+            "name": "Update the Latest Application by External ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/journeys/applications/ext/:external_application_id/latest",
+            "params": [
+              {
+                "name": "external_application_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the Latest Application by External ID"
+        },
+        {
+          "info": {
+            "name": "Rerun the Latest Application by External ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/applications/ext/:external_application_id/latest/rerun",
+            "params": [
+              {
+                "name": "external_application_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Rerun the Latest Application by External ID"
+        },
+        {
+          "info": {
+            "name": "List Applications for an External Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/entities/:external_entity_id/applications",
+            "params": [
+              {
+                "name": "external_entity_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Applications for an External Entity"
+        },
+        {
+          "info": {
+            "name": "Get Journey Parameters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/parameters",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Journey Parameters"
+        },
+        {
+          "info": {
+            "name": "Get Journey Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/schema",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Journey Schema"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

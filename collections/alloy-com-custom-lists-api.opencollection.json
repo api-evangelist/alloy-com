@@ -1,0 +1,154 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Custom Lists API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Custom Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Custom Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/custom-lists"
+          },
+          "docs": "List Custom Lists"
+        },
+        {
+          "info": {
+            "name": "Create a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/custom-lists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Custom List"
+        },
+        {
+          "info": {
+            "name": "Get a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/custom-lists/:custom_list_token",
+            "params": [
+              {
+                "name": "custom_list_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Custom List"
+        },
+        {
+          "info": {
+            "name": "Update a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/custom-lists/:custom_list_token",
+            "params": [
+              {
+                "name": "custom_list_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Custom List"
+        },
+        {
+          "info": {
+            "name": "Create a New Version of a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/custom-lists/:custom_list_token/versions",
+            "params": [
+              {
+                "name": "custom_list_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a New Version of a Custom List"
+        },
+        {
+          "info": {
+            "name": "Get a Specific Version of a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/custom-lists/:custom_list_token/versions/:version",
+            "params": [
+              {
+                "name": "custom_list_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Specific Version of a Custom List"
+        },
+        {
+          "info": {
+            "name": "Activate a Major Version of a Custom List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/custom-lists/:custom_list_token/activate-major-version",
+            "params": [
+              {
+                "name": "custom_list_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Activate a Major Version of a Custom List"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

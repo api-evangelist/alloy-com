@@ -1,0 +1,257 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Entities API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Entities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Person Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/persons",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Person Entity"
+        },
+        {
+          "info": {
+            "name": "Get a Person Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/persons/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Person Entity"
+        },
+        {
+          "info": {
+            "name": "Update a Person Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/entities/persons/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Person Entity"
+        },
+        {
+          "info": {
+            "name": "Create a Business Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/businesses",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Business Entity"
+        },
+        {
+          "info": {
+            "name": "Get a Business Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/businesses/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Business Entity"
+        },
+        {
+          "info": {
+            "name": "Update a Business Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/entities/businesses/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Business Entity"
+        },
+        {
+          "info": {
+            "name": "Get an Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Entity"
+        },
+        {
+          "info": {
+            "name": "Get an Entity Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/evaluations/:evaluation_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "evaluation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Entity Evaluation"
+        },
+        {
+          "info": {
+            "name": "Merge Entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/merge",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Merge Entities"
+        },
+        {
+          "info": {
+            "name": "Add a Note to an Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/notes",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to an Entity"
+        },
+        {
+          "info": {
+            "name": "List Entity Feedback",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entity-feedback"
+          },
+          "docs": "List Entity Feedback"
+        },
+        {
+          "info": {
+            "name": "Submit Entity Feedback",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entity-feedback",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit Entity Feedback"
+        },
+        {
+          "info": {
+            "name": "Get Entity Group by Token or External ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entity-groups/:entity_token_or_external_id",
+            "params": [
+              {
+                "name": "entity_token_or_external_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Entity Group by Token or External ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

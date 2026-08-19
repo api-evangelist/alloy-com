@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Identity Bank Accounts Entity Groups API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Entity Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get information about an Entity Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entity-groups/:entity_token_or_external_id",
+            "params": [
+              {
+                "name": "entity_token_or_external_id",
+                "value": "EG-80vO8Cy0fMD1vJfZjbEB",
+                "type": "path",
+                "description": "Token or external identifier associated with the Entity Group."
+              }
+            ]
+          },
+          "docs": "Using an Entity Group's token or external identifier, get information about the Entity Group and its relationships"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

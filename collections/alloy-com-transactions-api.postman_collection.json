@@ -1,0 +1,306 @@
+{
+  "item": [
+    {
+      "id": "45b8968e-426f-4416-acab-8083b2daecd6",
+      "name": "Transactions",
+      "description": {
+        "content": "Manage transactions. These transactions are aggregated and decisioned through Transaction Monitoring workflows and evaluations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "636c7875-1546-4943-8730-311f94dc99a9",
+          "name": "Get a transaction.",
+          "request": {
+            "name": "Get a transaction.",
+            "description": {
+              "content": "Retrieves a Transaction by external transaction ID.\n\n*Note*: If you are using the Alloy Events API, you do not need to use any of the Transactions endpoints. All data should be sent through the Events API with a relevant `event_type`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                ":transaction_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "transaction_id",
+                  "description": "(Required) Unique external identifier for the transaction."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "720450cd-d831-4b0e-a5e3-6aee92724cff",
+              "name": "Returns the transaction matching the ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transaction_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transaction_id",
+                      "description": "(Required) Unique external identifier for the transaction."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0fa35e2e-5245-440b-bd81-d79ab51fec48",
+              "name": "Unable to find the transaction_id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transaction_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transaction_id",
+                      "description": "(Required) Unique external identifier for the transaction."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "054d7466-0d8f-4bbf-bd85-6713ed8ce1f8",
+          "name": "Update a transaction.",
+          "request": {
+            "name": "Update a transaction.",
+            "description": {
+              "content": "Updates a Transaction by external transaction ID.\n\n*Note*: If you are using the Alloy Events API, you do not need to use any of the Transactions endpoints. All data should be sent through the Events API with a relevant `event_type`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                ":transaction_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "transaction_id",
+                  "description": "(Required) Unique external identifier for the transaction."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transaction_id\": {},\n  \"transaction_date\": \"<string>\",\n  \"amount\": \"<integer>\",\n  \"currency\": \"<string>\",\n  \"source\": {},\n  \"destination\": {},\n  \"account_snapshot\": {\n    \"timestamp\": \"<date>\",\n    \"meta\": \"<object>\",\n    \"details\": {\n      \"status\": \"<string>\",\n      \"status_detail\": \"<string>\",\n      \"loan_credit_limit\": \"<integer>\",\n      \"interest_rate\": \"<number>\",\n      \"original_interest_rate\": \"<number>\",\n      \"original_amount\": \"<integer>\",\n      \"ach_push_limit\": \"<integer>\",\n      \"ach_pull_limit\": \"<integer>\",\n      \"name_first\": \"<string>\",\n      \"name_last\": \"<string>\",\n      \"email_address\": \"<string>\",\n      \"phone_number\": \"<string>\",\n      \"mailing_address_line1\": \"<string>\",\n      \"mailing_address_line2\": \"<string>\",\n      \"mailing_address_city\": \"<string>\",\n      \"mailing_address_state\": \"<string>\",\n      \"mailing_address_postal_code\": \"<string>\",\n      \"mailing_address_country_code\": \"<string>\",\n      \"primary_address_line1\": \"<string>\",\n      \"primary_address_line2\": \"<string>\",\n      \"primary_address_city\": \"<string>\",\n      \"primary_address_state\": \"<string>\",\n      \"primary_address_postal_code\": \"<string>\",\n      \"primary_address_country_code\": \"<string>\"\n    },\n    \"account_view\": {\n      \"account_balance\": \"<integer>\",\n      \"date_last_activity\": \"<string>\",\n      \"is_good_standing\": \"<boolean>\",\n      \"past_due_days\": \"<integer>\"\n    }\n  },\n  \"process_method\": \"<string>\",\n  \"category\": \"<string>\",\n  \"interaction_point\": \"<string>\",\n  \"type_code\": \"<string>\",\n  \"type_description\": \"<string>\",\n  \"is_approved\": \"<boolean>\",\n  \"is_reversal\": \"<boolean>\",\n  \"is_triggered_by_user\": \"<boolean>\",\n  \"is_international_override\": \"<boolean>\",\n  \"return_code\": \"<string>\",\n  \"return_code_reason\": \"<string>\",\n  \"entry_mode\": \"<number>\",\n  \"response_code\": \"<number>\",\n  \"status\": \"<string>\",\n  \"status_detail\": \"<string>\",\n  \"iso_message\": \"<number>\",\n  \"settled_at\": \"<string>\",\n  \"latest_transaction_date\": \"<string>\",\n  \"description\": \"<string>\",\n  \"approval_code\": \"<string>\",\n  \"transaction_meta\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7c1aacd9-a0e2-4484-8d39-6e7dbd9d3cee",
+              "name": "Transaction updated successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transaction_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transaction_id",
+                      "description": "(Required) Unique external identifier for the transaction."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transaction_date\": \"2021-10-24 18:02:00+00\",\n  \"latest_transaction_date\": \"2021-10-24 18:02:00+00\",\n  \"settled_at\": \"2021-10-24 18:03:00+00\",\n  \"amount\": 200,\n  \"category\": \"Deposit\",\n  \"currency\": \"USD\",\n  \"description\": \"Mobile App Deposit\",\n  \"is_approved\": true,\n  \"transaction_meta\": {\n    \"customAttribute\": \"customValue\"\n  },\n  \"process_method\": \"ACH\",\n  \"interaction_point\": \"iOS\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 181,\n  \"error\": \"string\",\n  \"source\": {},\n  \"destination\": {},\n  \"account_snapshot\": {\n    \"timestamp\": \"<date>\",\n    \"meta\": \"<object>\",\n    \"details\": {\n      \"status\": \"<string>\",\n      \"status_detail\": \"<string>\",\n      \"loan_credit_limit\": \"<integer>\",\n      \"interest_rate\": \"<number>\",\n      \"original_interest_rate\": \"<number>\",\n      \"original_amount\": \"<integer>\",\n      \"ach_push_limit\": \"<integer>\",\n      \"ach_pull_limit\": \"<integer>\",\n      \"name_first\": \"<string>\",\n      \"name_last\": \"<string>\",\n      \"email_address\": \"<string>\",\n      \"phone_number\": \"<string>\",\n      \"mailing_address_line1\": \"<string>\",\n      \"mailing_address_line2\": \"<string>\",\n      \"mailing_address_city\": \"<string>\",\n      \"mailing_address_state\": \"<string>\",\n      \"mailing_address_postal_code\": \"<string>\",\n      \"mailing_address_country_code\": \"<string>\",\n      \"primary_address_line1\": \"<string>\",\n      \"primary_address_line2\": \"<string>\",\n      \"primary_address_city\": \"<string>\",\n      \"primary_address_state\": \"<string>\",\n      \"primary_address_postal_code\": \"<string>\",\n      \"primary_address_country_code\": \"<string>\"\n    },\n    \"account_view\": {\n      \"account_balance\": \"<integer>\",\n      \"date_last_activity\": \"<string>\",\n      \"is_good_standing\": \"<boolean>\",\n      \"past_due_days\": \"<integer>\"\n    }\n  },\n  \"transaction_id\": {},\n  \"transaction_date\": \"<string>\",\n  \"amount\": \"<integer>\",\n  \"currency\": \"<string>\",\n  \"process_method\": \"<string>\",\n  \"category\": \"<string>\",\n  \"interaction_point\": \"<string>\",\n  \"type_code\": \"<string>\",\n  \"type_description\": \"<string>\",\n  \"is_approved\": \"<boolean>\",\n  \"is_reversal\": \"<boolean>\",\n  \"is_triggered_by_user\": \"<boolean>\",\n  \"is_international_override\": \"<boolean>\",\n  \"return_code\": \"<string>\",\n  \"return_code_reason\": \"<string>\",\n  \"entry_mode\": \"<number>\",\n  \"response_code\": \"<number>\",\n  \"status\": \"<string>\",\n  \"status_detail\": \"<string>\",\n  \"iso_message\": \"<number>\",\n  \"settled_at\": \"<string>\",\n  \"latest_transaction_date\": \"<string>\",\n  \"description\": \"<string>\",\n  \"approval_code\": \"<string>\",\n  \"transaction_meta\": \"<object>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sandbox.alloy.co/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3cd45009-2363-48a3-8d33-565c8308220a",
+    "name": "Alloy Identity Bank Accounts Transactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Alloy Identity API provides endpoints for creating and managing person and business entities, running evaluations through configurable risk workflows, managing journey applications, submitting events for ongoing monitoring, handling document verification, and managing investigations and case alerts. Authentication is via Basic HTTP credentials or OAuth 2.0 Client Credentials.\n\nContact Support:\n Name: Alloy Support",
+      "type": "text/plain"
+    }
+  }
+}

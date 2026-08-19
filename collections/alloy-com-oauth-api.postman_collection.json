@@ -1,0 +1,233 @@
+{
+  "item": [
+    {
+      "id": "090dfdf1-d2b8-420b-9255-f303ce343b14",
+      "name": "OAuth",
+      "description": {
+        "content": "OAuth 2.0 bearer token issuance and validation.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "738bae0c-80ca-44f2-b96a-2a529306fbed",
+          "name": "Issue a Bearer Token",
+          "request": {
+            "name": "Issue a Bearer Token",
+            "description": {},
+            "url": {
+              "path": [
+                "oauth",
+                "bearer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "466d26c4-81ce-4799-bd83-96b22b9ab87f",
+              "name": "Token issued",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oauth",
+                    "bearer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_token\": \"string\",\n  \"token_type\": \"string\",\n  \"expires_in\": 7767\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e631e619-e129-4e9d-a4f2-c4e51aa2495a",
+          "name": "Validate a Bearer Token",
+          "request": {
+            "name": "Validate a Bearer Token",
+            "description": {},
+            "url": {
+              "path": [
+                "oauth",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b221c25a-d099-449e-9e78-d1b0a97f6384",
+              "name": "Validation result",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oauth",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sandbox.alloy.co/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d5835c72-faa5-4c37-8818-0f81d1fb03ba",
+    "name": "Alloy Bank Accounts OAuth API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Alloy API is the programmatic surface for Alloy's identity decisioning\nplatform. It exposes the resources behind Alloy's KYC, KYB, AML, fraud,\ncredit, and ongoing-monitoring workflows used by banks, credit unions, and\nfintechs.\n\nThe API is organized around evaluations, journey applications, entities\n(persons and businesses), bank accounts, documents, events, cases,\ninvestigations, custom lists, published attributes, and webhooks. Sandbox\nand production environments are exposed as two distinct base URLs.\n\n\nContact Support:\n Name: Alloy Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

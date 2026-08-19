@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Groups API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Groups for an Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/groups/:entity_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Groups for an Entity"
+        },
+        {
+          "info": {
+            "name": "Run a Group Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/groups/:group_token/evaluations",
+            "params": [
+              {
+                "name": "group_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Run a Group Evaluation"
+        },
+        {
+          "info": {
+            "name": "Add a Note to a Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/groups/:group_token/notes",
+            "params": [
+              {
+                "name": "group_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to a Group"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

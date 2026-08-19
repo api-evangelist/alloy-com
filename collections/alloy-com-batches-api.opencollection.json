@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Batches API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Batches",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Journey Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/batches",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Journey Batch"
+        },
+        {
+          "info": {
+            "name": "Get a Journey Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/batches/:journey_batch_token",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_batch_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Journey Batch"
+        },
+        {
+          "info": {
+            "name": "List Applications in a Journey Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/journeys/:journey_token/batches/:journey_batch_token/applications",
+            "params": [
+              {
+                "name": "journey_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "journey_batch_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Applications in a Journey Batch"
+        },
+        {
+          "info": {
+            "name": "Get a Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/batches/:batch_token",
+            "params": [
+              {
+                "name": "batch_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Batch"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

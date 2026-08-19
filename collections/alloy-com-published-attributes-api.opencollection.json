@@ -1,0 +1,131 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Published Attributes API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Published Attributes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Published Attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/published-attributes"
+          },
+          "docs": "List Published Attributes"
+        },
+        {
+          "info": {
+            "name": "Create a Published Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/published-attributes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Published Attribute"
+        },
+        {
+          "info": {
+            "name": "Get a Published Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/published-attributes/:published_attribute_token",
+            "params": [
+              {
+                "name": "published_attribute_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Published Attribute"
+        },
+        {
+          "info": {
+            "name": "Update a Published Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/published-attributes/:published_attribute_token",
+            "params": [
+              {
+                "name": "published_attribute_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Published Attribute"
+        },
+        {
+          "info": {
+            "name": "List Values for a Published Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/published-attributes/:published_attribute_token/values",
+            "params": [
+              {
+                "name": "published_attribute_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Values for a Published Attribute"
+        },
+        {
+          "info": {
+            "name": "Submit Values for a Published Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/published-attributes/:published_attribute_token/values",
+            "params": [
+              {
+                "name": "published_attribute_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit Values for a Published Attribute"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

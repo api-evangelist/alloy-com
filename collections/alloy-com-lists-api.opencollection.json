@@ -1,0 +1,131 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Lists API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/lists"
+          },
+          "docs": "List Lists"
+        },
+        {
+          "info": {
+            "name": "Create a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/lists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a List"
+        },
+        {
+          "info": {
+            "name": "Get a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/lists/:list_token",
+            "params": [
+              {
+                "name": "list_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a List"
+        },
+        {
+          "info": {
+            "name": "Add to a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/lists/:list_token",
+            "params": [
+              {
+                "name": "list_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add to a List"
+        },
+        {
+          "info": {
+            "name": "Replace a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/lists/:list_token",
+            "params": [
+              {
+                "name": "list_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace a List"
+        },
+        {
+          "info": {
+            "name": "Update List Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/lists/:list_token/meta",
+            "params": [
+              {
+                "name": "list_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update List Metadata"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

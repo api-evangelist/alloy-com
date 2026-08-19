@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Identity Bank Accounts Transactions API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a transaction.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/transactions/:transaction_id",
+            "params": [
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique external identifier for the transaction."
+              }
+            ]
+          },
+          "docs": "Retrieves a Transaction by external transaction ID.\n\n*Note*: If you are using the Alloy Events API, you do not need to use any of the Transactions endpoints. All data should be sent through the Events API with a relevant `event_type`.\n"
+        },
+        {
+          "info": {
+            "name": "Update a transaction.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/transactions/:transaction_id",
+            "params": [
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique external identifier for the transaction."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a Transaction by external transaction ID.\n\n*Note*: If you are using the Alloy Events API, you do not need to use any of the Transactions endpoints. All data should be sent through the Events API with a relevant `event_type`.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

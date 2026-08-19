@@ -1,0 +1,141 @@
+{
+  "item": [
+    {
+      "id": "4f95e695-d8fd-4be7-b475-59f6d753d09f",
+      "name": "Entity Groups",
+      "description": {
+        "content": "Entity groups can be used to associate multiple Person and Business Entities together at the point of onboarding and update throughout the entity lifecycle.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f0cba19c-4014-4ccf-92dd-15ebf95c003c",
+          "name": "Get information about an Entity Group",
+          "request": {
+            "name": "Get information about an Entity Group",
+            "description": {
+              "content": "Using an Entity Group's token or external identifier, get information about the Entity Group and its relationships",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entity-groups",
+                ":entity_token_or_external_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entity_token_or_external_id",
+                  "description": "(Required) Token or external identifier associated with the Entity Group."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "96683927-4285-4e90-be0a-8f9f740a0fb2",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entity-groups",
+                    ":entity_token_or_external_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity_token_or_external_id",
+                      "description": "(Required) Token or external identifier associated with the Entity Group."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_group_token\": \"string\",\n  \"entity_group_name\": \"string\",\n  \"entity_group_type\": \"merchant\",\n  \"created_at\": \"2025-12-10T16:19:56.000Z\",\n  \"archived_at\": \"2025-12-11T16:19:56.000Z\",\n  \"entity_group_external_identifiers\": [\n    \"string\",\n    \"string\"\n  ],\n  \"entity_group_relationships\": [\n    {\n      \"entity_token\": \"string\",\n      \"name\": \"string\",\n      \"type\": \"person\",\n      \"ownership_percentage\": \"string\",\n      \"title\": \"CEO\",\n      \"relationship_created_at\": \"2025-12-08T14:01:00.000Z\",\n      \"roles\": [\n        \"beneficial_owner\",\n        \"authorized_signer\"\n      ],\n      \"bank_accounts\": [\n        {\n          \"bank_account_token\": \"string\",\n          \"external_account_id\": \"string\",\n          \"account_holder_type\": \"joint_owner\"\n        },\n        {\n          \"bank_account_token\": \"string\",\n          \"external_account_id\": \"string\",\n          \"account_holder_type\": \"primary\"\n        }\n      ]\n    },\n    {\n      \"entity_token\": \"string\",\n      \"name\": \"string\",\n      \"type\": \"business\",\n      \"ownership_percentage\": \"string\",\n      \"title\": \"CEO\",\n      \"relationship_created_at\": \"2025-12-08T14:01:00.000Z\",\n      \"roles\": [\n        \"guarantor\",\n        \"guarantor\"\n      ],\n      \"bank_accounts\": [\n        {\n          \"bank_account_token\": \"string\",\n          \"external_account_id\": \"string\",\n          \"account_holder_type\": \"power_of_attorney\"\n        },\n        {\n          \"bank_account_token\": \"string\",\n          \"external_account_id\": \"string\",\n          \"account_holder_type\": \"authorized_signer\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://sandbox.alloy.co/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bf3b6b12-13d8-493f-a9e9-2a3cd7edc64d",
+    "name": "Alloy Identity Bank Accounts Entity Groups API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Alloy Identity API provides endpoints for creating and managing person and business entities, running evaluations through configurable risk workflows, managing journey applications, submitting events for ongoing monitoring, handling document verification, and managing investigations and case alerts. Authentication is via Basic HTTP credentials or OAuth 2.0 Client Credentials.\n\nContact Support:\n Name: Alloy Support",
+      "type": "text/plain"
+    }
+  }
+}

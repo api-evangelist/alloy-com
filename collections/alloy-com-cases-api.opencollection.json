@@ -1,0 +1,172 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Cases API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Cases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/cases"
+          },
+          "docs": "List Cases"
+        },
+        {
+          "info": {
+            "name": "Get a Case",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Case"
+        },
+        {
+          "info": {
+            "name": "List Case Evidences",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token/evidences",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Case Evidences"
+        },
+        {
+          "info": {
+            "name": "Add Case Evidence",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token/evidences",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add Case Evidence"
+        },
+        {
+          "info": {
+            "name": "Get a Case Evidence Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token/evidences/:evaluation_token/alert",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "evaluation_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Case Evidence Alert"
+        },
+        {
+          "info": {
+            "name": "List Case Works",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token/works",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Case Works"
+        },
+        {
+          "info": {
+            "name": "Add Case Work",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/cases/:case_token/works",
+            "params": [
+              {
+                "name": "case_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add Case Work"
+        },
+        {
+          "info": {
+            "name": "Submit Multi-Case Works",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/cases/multi/works",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit Multi-Case Works"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

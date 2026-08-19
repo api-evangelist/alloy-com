@@ -1,0 +1,212 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alloy Bank Accounts Documents API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload a Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/documents",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Upload a Document"
+        },
+        {
+          "info": {
+            "name": "Replace a Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/documents/:document_token",
+            "params": [
+              {
+                "name": "document_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace a Document"
+        },
+        {
+          "info": {
+            "name": "List Documents for an Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Documents for an Entity"
+        },
+        {
+          "info": {
+            "name": "Upload a Document for an Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a Document for an Entity"
+        },
+        {
+          "info": {
+            "name": "Get an Entity Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents/:document_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "document_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an Entity Document"
+        },
+        {
+          "info": {
+            "name": "Replace an Entity Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents/:document_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "document_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace an Entity Document"
+        },
+        {
+          "info": {
+            "name": "Update an Entity Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents/:document_token",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "document_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an Entity Document"
+        },
+        {
+          "info": {
+            "name": "Add a Note to an Entity Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sandbox.alloy.co/v1/entities/:entity_token/documents/:document_token/notes",
+            "params": [
+              {
+                "name": "entity_token",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "document_token",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a Note to an Entity Document"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
