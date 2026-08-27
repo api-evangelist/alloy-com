@@ -533,6 +533,30 @@ apis:
     url: https://developer.alloy.com/public/docs/ios-webview
   - type: SDKs
     url: https://developer.alloy.com/public/docs/android-webview
+- aid: alloy-com:alloy-com-entity-groups-api
+  name: Alloy Entity Groups API
+  description: >-
+    Entity groups can be used to associate multiple Person and Business Entities together at the point
+    of onboarding and update throughout the entity lifecycle.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Entity Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-entity-groups-api-openapi.yml
+- aid: alloy-com:alloy-com-transactions-api
+  name: Alloy Transactions API
+  description: >-
+    Manage transactions. These transactions are aggregated and decisioned through Transaction Monitoring
+    workflows and evaluations.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-transactions-api-openapi.yml
 common:
 - type: GettingStarted
   url: https://developer.alloy.com/public/docs/getting-started
