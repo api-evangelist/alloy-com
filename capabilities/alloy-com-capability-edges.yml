@@ -1,0 +1,49 @@
+slug: alloy-com
+provider: Alloy
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Cases
+  spec_file: alloy-com-cases-api-openapi.yml
+  capability_id: BC-1400.50
+  capability_id_l1: BC-1400
+  capability_name: Financial Crime Investigations Management
+  confidence: 0.85
+  evidence: '''List Cases'', ''Add Case Evidence'', ''Get a Case Evidence Alert'', ''Add Case Work'' on
+    a platform for ''KYC, KYB, AML, fraud, credit, and ongoing-monitoring workflows'''
+  reason: Case, evidence, alert and case-work operations are financial-crime case management and investigation
+    workflow for AML/fraud alerts.
+- tag: Investigations
+  spec_file: alloy-com-investigations-api-openapi.yml
+  capability_id: BC-1400.50
+  capability_id_l1: BC-1400
+  capability_name: Financial Crime Investigations Management
+  confidence: 0.8
+  evidence: PATCH /investigations/{investigation_token}/evidences 'Update Investigation Evidences'; PUT
+    /investigations/{investigation_token}/review 'Review an Investigation'; GET /investigations/{investigation_token}/alerts/{journey_application_token}
+    'Get an Investigation Alert by Journey Application'; PUT /investigations/assign 'Assign Investigations'
+  reason: Full case-management lifecycle — create, assign, evidence, review, promote, archive, alerts
+    — on a KYC/AML/fraud platform. This is Financial Crime Investigations / case management; the only
+    ambiguity is whether fraud investigation (BC-1400.30) is the better L2.
+- tag: Journeys
+  spec_file: alloy-com-journeys-api-openapi.yml
+  capability_id: BC-1300.10
+  capability_id_l1: BC-1300
+  capability_name: Customer Onboarding Management
+  confidence: 0.7
+  evidence: POST /journeys/{journey_token}/applications 'Create Journey Application'; POST .../review
+    'Submit a Journey Application Review'; GET .../review/{manual_review_token} 'Get a Manual Review for
+    a Journey Application'
+  reason: Journey applications are the applicant onboarding workflow (application intake, rerun, manual
+    review, case review) used by banks and credit unions for account opening decisions, which maps to
+    Customer Onboarding Management.

@@ -558,6 +558,9 @@ apis:
   - type: OpenAPI
     url: openapi/alloy-com-transactions-api-openapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/alloy-com-capability-edges.yml
+  name: Alloy Business Capability Map
 - type: GettingStarted
   url: https://developer.alloy.com/public/docs/getting-started
 - type: AgenticAccess
