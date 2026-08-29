@@ -1,43 +1,313 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Alloy Bank Accounts API
-  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
-
-    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
-
-    credit, and ongoing-monitoring workflows used by banks, credit unions, and
-
-    fintechs.
-
-
-    The API is organized around evaluations, journey applications, entities
-
-    (persons and businesses), bank accounts, documents, events, cases,
-
-    investigations, custom lists, published attributes, and webhooks. Sandbox
-
-    and production environments are exposed as two distinct base URLs.
-
-    '
+  title: Alloy Com Bank Accounts API
   version: '1.0'
-  contact:
-    name: Alloy Developer Support
-    url: https://help.alloy.com
-  license:
-    name: Proprietary
-    url: https://www.alloy.com/tos
+  description: 'Operations tagged Bank Accounts across 2 of this provider''s published API definitions: alloy-com-identity-api-openapi.yml, alloy-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://sandbox.alloy.co/v1
   description: Sandbox environment
+- url: https://alloy.co/v1
+  description: Production environment
 - url: https://api.alloy.co/v1
   description: Production environment
-security:
-- basicAuth: []
-- bearerAuth: []
 tags:
 - name: Bank Accounts
-  description: Bank account records and related entity history.
+  description: Get Bank Account data with historical bank account snapshots and entity data.
 paths:
+  /bank-accounts/{account_identifier_or_token}:
+    get:
+      tags:
+      - Bank Accounts
+      summary: Get a single bank account, with historical and entity data, by unique token or identifier.
+      description: Retrieves a single bank account uniquely defined by a bank account token or external account identifier. Bank account tokens are alphanumeric characters that start with a prefix "A-". External account identifers are strings provided by services or clients.
+      parameters:
+      - in: path
+        name: account_identifier_or_token
+        schema:
+          type: string
+        required: true
+        description: Token of bank account to get details for.
+      - in: query
+        name: page
+        schema:
+          type: number
+          example: 2
+        required: false
+        description: The page of history results to return. Default is 1.
+      - in: query
+        name: per_page
+        schema:
+          type: number
+          example: 1000
+        required: false
+        description: How many history results per page to return. Default/maximum is 1000.
+      responses:
+        '200':
+          x-summary: OK
+          description: Returns the bank account matching bank account token.
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                - properties:
+                    account_token:
+                      type: string
+                      example: A-WO6WloK6odpcoxJkTKAt
+                - properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: ISO 8601 timestamp of when the event occurred.
+                      example: '2024-06-01T12:00:00.000Z'
+                    external_account_id:
+                      type: string
+                      description: Your system's unique identifier for the bank account.
+                      example: acct-0a9b1c2d3e4f5a6b
+                    external_entity_id:
+                      type: string
+                      description: 'Unique identifier of one of the Entities associated with the Account.
+
+
+                        Not strictly required if the event is not being monitored, but recommended to include for future proofing your integration. This field has no impact on which Entities are attached to the Account, although it should match at least one of the Entities that the Account belongs to.
+
+
+                        Click [here](https://developer.alloy.com/public/docs/api-request#source-workflow-impact-on-entity-fields) for more information.
+
+                        '
+                    entity_token:
+                      type:
+                      - string
+                      - 'null'
+                      description: Alloy-issued token of the entity associated with this account.
+                      example: P-R21gUOQ8rwCvmx8tIscf
+                    account_class:
+                      type:
+                      - string
+                      - 'null'
+                      enum:
+                      - credit
+                      - deposit
+                      - brokerage
+                      - loan
+                      description: 'The type of account. One of: credit, deposit (checking or savings), brokerage, loan.'
+                      example: deposit
+                    account_name:
+                      type:
+                      - string
+                      - 'null'
+                      description: Descriptive name for the account.
+                      example: My Checking Account
+                    account_number:
+                      type: string
+                      description: Account number, as it appears on statements or checks.
+                      example: '123456789'
+                    routing_number:
+                      type:
+                      - string
+                      - 'null'
+                      description: The ABA routing number for the bank account.
+                      example: '021000021'
+                    opening_date:
+                      type:
+                      - string
+                      - 'null'
+                      format: date-time
+                      description: Date the account was opened.
+                      example: '2022-01-15T00:00:00.000Z'
+                    maturity_date:
+                      type:
+                      - string
+                      - 'null'
+                      format: date-time
+                      description: Date the account matures (for term-based accounts such as CDs or loans).
+                      example: '2027-01-15T00:00:00.000Z'
+                    closing_date:
+                      type:
+                      - string
+                      - 'null'
+                      format: date-time
+                      description: Date the account was or will be closed.
+                      example: '2025-06-01T00:00:00.000Z'
+                    cif_number:
+                      type:
+                      - string
+                      - 'null'
+                      description: Customer Information File (CIF) number linking this account to a customer record in your core banking system.
+                      example: CIF-00123456
+                    card_network:
+                      type:
+                      - string
+                      - 'null'
+                      description: Payment card network associated with the account (e.g. Visa, Mastercard).
+                      example: Visa
+                    country_code:
+                      type:
+                      - string
+                      - 'null'
+                      description: 2-letter country code for the account.
+                      example: US
+                    currency:
+                      type:
+                      - string
+                      - 'null'
+                      description: Currency of the account (e.g. USD).
+                      example: USD
+                    product_code:
+                      type:
+                      - string
+                      - 'null'
+                      description: Internal product code identifying the account product type in your system.
+                      example: CHK-PREMIER
+                    product_name:
+                      type:
+                      - string
+                      - 'null'
+                      description: Human-readable name of the account product.
+                      example: Premier Checking
+                    status:
+                      type:
+                      - string
+                      - 'null'
+                      description: Current status of the account as defined in your system.
+                      example: active
+                    status_detail:
+                      type:
+                      - string
+                      - 'null'
+                      description: Free-form companion to the status field. Commonly used to communicate fraud labels on closed or restricted accounts (e.g. Fraud, potentialFraud, confirmedFraud). Any custom value is accepted.
+                      example: Fraud
+                    credit_limit:
+                      type:
+                      - number
+                      - 'null'
+                      description: Credit limit of the account, in cents.
+                      example: 500000
+                    account_balance:
+                      type:
+                      - number
+                      - 'null'
+                      description: Current balance of the account, in cents.
+                      example: 12345
+                    account_type_status:
+                      type:
+                      - string
+                      - 'null'
+                      enum:
+                      - Written Off
+                      - Active
+                      - Refinanced
+                      - Past Due
+                      - Paid Off
+                      - Cancelled
+                      description: Lifecycle status of the account from a credit or loan servicing perspective.
+                      example: Active
+                    status_fraud:
+                      type:
+                      - string
+                      - 'null'
+                      enum:
+                      - fraud
+                      - not fraud
+                      description: Indicates whether this account has been flagged as fraudulent. Set to fraud when the account is confirmed or suspected fraudulent, not fraud otherwise.
+                      example: not fraud
+                    entity_group_token:
+                      type:
+                      - string
+                      - 'null'
+                      description: Alloy-issued token for the entity group associated with this account. When present, at least one entry in entities is required.
+                      example: EG-Xk3mR8pLqN2wYvT1cZsA
+                    external_entity_group_id:
+                      type:
+                      - string
+                      - 'null'
+                      description: Your system's identifier for the entity group associated with this account. When present, at least one entry in entities is required.
+                      example: group-acct-0012
+                    entities:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          account_holder_type:
+                            type: string
+                            enum:
+                            - primary
+                            - secondary
+                            - power_of_attorney
+                            - authorized_signer
+                            - authorized_user
+                            - beneficiary
+                            - joint_owner
+                            - custodian
+                            - guardian
+                            - trustee
+                          external_entity_id:
+                            type: string
+                          entity_token:
+                            type: string
+                        anyOf:
+                        - title: Linked by External ID
+                          required:
+                          - external_entity_id
+                        - title: Linked by Entity Token
+                          required:
+                          - entity_token
+                - properties:
+                    history:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          timestamp:
+                            type: string
+                            format: date-time
+                          status:
+                            type: string
+                          status_detail:
+                            type: string
+                          credit_limit:
+                            type: number
+                          account_balance:
+                            type: number
+                          status_fraud:
+                            type: string
+                            enum:
+                            - fraud
+                            - not fraud
+                - properties:
+                    entity_groups:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          entity_group_token:
+                            type: string
+                          entity_group_name:
+                            type: string
+                          entity_group_type:
+                            type: string
+                            enum:
+                            - business
+                            - joint_account
+                            - membership
+                            - merchant
+        '404':
+          x-summary: Resource not found.
+          description: Unable to find the bank account token.
+      security:
+      - basic: []
+      - oauth2: []
+    parameters:
+    - name: account_identifier_or_token
+      in: path
+      required: true
+      schema:
+        type: string
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
   /accounts:
     post:
       tags:
@@ -53,6 +323,14 @@ paths:
       responses:
         '201':
           description: Account created
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /accounts/{bank_account_token}:
     parameters:
     - name: bank_account_token
@@ -74,26 +352,14 @@ paths:
       responses:
         '200':
           description: Account updated
-  /bank-accounts/{account_identifier_or_token}:
-    parameters:
-    - name: account_identifier_or_token
-      in: path
-      required: true
-      schema:
-        type: string
-    get:
-      tags:
-      - Bank Accounts
-      summary: Get a Bank Account
-      description: Retrieves a single bank account uniquely defined by a bank account token or external account identifier.
-      operationId: getBankAccount
-      responses:
-        '200':
-          description: Bank account
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BankAccount'
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
 components:
   schemas:
     BankAccount:
@@ -110,6 +376,17 @@ components:
         account_type:
           type: string
   securitySchemes:
+    basic:
+      type: http
+      description: HTTP basic authorization using a workflow token and secret
+      scheme: basic
+    oauth2:
+      type: oauth2
+      description: OAuth2 using a workflow token and secret to generate a bearer token
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/bearer
+          scopes: {}
     basicAuth:
       type: http
       scheme: basic
@@ -118,3 +395,6 @@ components:
       type: http
       scheme: bearer
       description: OAuth 2.0 bearer token obtained via the OAuth endpoints.
+x-refined-from:
+- alloy-com-identity-api-openapi.yml
+- alloy-openapi.yml

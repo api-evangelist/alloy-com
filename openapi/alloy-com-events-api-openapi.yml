@@ -1,43 +1,1514 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Alloy Bank Accounts Events API
-  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
-
-    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
-
-    credit, and ongoing-monitoring workflows used by banks, credit unions, and
-
-    fintechs.
-
-
-    The API is organized around evaluations, journey applications, entities
-
-    (persons and businesses), bank accounts, documents, events, cases,
-
-    investigations, custom lists, published attributes, and webhooks. Sandbox
-
-    and production environments are exposed as two distinct base URLs.
-
-    '
+  title: Alloy Com Events API
   version: '1.0'
-  contact:
-    name: Alloy Developer Support
-    url: https://help.alloy.com
-  license:
-    name: Proprietary
-    url: https://www.alloy.com/tos
+  description: 'Operations tagged Events across 2 of this provider''s published API definitions: alloy-com-identity-api-openapi.yml, alloy-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://sandbox.alloy.co/v1
   description: Sandbox environment
+- url: https://alloy.co/v1
+  description: Production environment
 - url: https://api.alloy.co/v1
   description: Production environment
-security:
-- basicAuth: []
-- bearerAuth: []
 tags:
 - name: Events
-  description: Real-time monitoring events for entities, accounts, transactions, and logins.
+  description: Events are how we receive ongoing data, including entities (persons, businesses), logins, bank accounts, and transactions.
 paths:
+  /events/{event_request_token}:
+    get:
+      tags:
+      - Events
+      summary: Get an event by token
+      description: Retrieves a previously submitted event by its event request token, including the original request body.
+      parameters:
+      - in: path
+        name: event_request_token
+        schema:
+          type: string
+          example: EV-xi7Etep0gW7gZiuWsqXG
+        required: true
+        description: The event request token returned when the event was created.
+      responses:
+        '200':
+          x-summary: OK
+          description: Event found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  event_request_token:
+                    type: string
+                    example: EV-xi7Etep0gW7gZiuWsqXG
+                  event_type:
+                    type: string
+                    description: The type of event that was submitted.
+                    example: person_created
+                  events_api_type_id:
+                    type: integer
+                    description: Internal numeric identifier for the event type.
+                  event_status_id:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Internal identifier for the event status, if one was assigned.
+                  event_lifecycle_id:
+                    type:
+                    - string
+                    - 'null'
+                    maxLength: 128
+                    description: Lifecycle identifier for grouping related events.
+                  external_event_id:
+                    type:
+                    - string
+                    - 'null'
+                    description: External event identifier provided in the original request.
+                  event_request_status_type_id:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Status type of the event request (e.g. processed, error).
+                  event_request_source:
+                    type:
+                    - string
+                    - 'null'
+                    description: Source of the event request (e.g. API, batch ingestion).
+                  ingestion_batch_token:
+                    type:
+                    - string
+                    - 'null'
+                    description: Token of the ingestion batch, if the event was submitted via batch.
+                  upserted_events_type_id:
+                    type:
+                    - integer
+                    - 'null'
+                    description: For upserted events, indicates whether the upsert resolved to a create or update.
+                  timestamp:
+                    type: string
+                    format: date-time
+                    description: Timestamp of when the event request was recorded.
+                  body:
+                    type: object
+                    description: The original request body that was submitted with the event.
+                example:
+                  event_request_token: EV-xi7Etep0gW7gZiuWsqXG
+                  event_type: person_created
+                  events_api_type_id: 1
+                  event_status_id: null
+                  event_lifecycle_id: null
+                  external_event_id: audit-event-123
+                  event_request_status_type_id: 1
+                  event_request_source: null
+                  ingestion_batch_token: null
+                  upserted_events_type_id: null
+                  timestamp: '2024-12-06T17:04:25.579Z'
+                  body:
+                    event_type: person_created
+                    data:
+                      external_entity_id: 087ac67e-17ab-4529-8d1a-a8b2214d305f
+                      name_first: John
+                      name_last: Smith
+                      timestamp: '2024-12-06T17:04:25.579Z'
+        '404':
+          x-summary: NOT FOUND
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: EV-xi7Etep0gW7gZiuWsqXG not found
+      security:
+      - basic: []
+      - oauth2: []
+    parameters:
+    - name: event_request_token
+      in: path
+      required: true
+      schema:
+        type: string
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /events/schema:
+    get:
+      tags:
+      - Events
+      summary: Get the schema for request event type
+      description: Retrieves the schema for requested event type
+      parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - person_created
+          - person_updated
+          - business_created
+          - business_updated
+          - bank_account_created
+          - bank_account_updated
+          - external_account_created
+          - external_account_updated
+          - transaction
+          - login
+          - credentials_updated
+          - embedded_authentication
+          - entity_group_created
+          - entity_group_updated
+          example: login
+        required: true
+        description: The type of event for the schema.
+      responses:
+        '200':
+          x-summary: OK
+          description: Returns the schema for specified events. If a workflow is attached to event, will also include supplemental data for the workflow
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status_code: 200
+                  type: Object
+                  event_type:
+                    type: string
+                    enum:
+                    - login
+                  external_event_id:
+                    type:
+                    - string
+                    - 'null'
+                  data:
+                    timestamp:
+                      type: string
+                    supplemental_data:
+                      type: object
+                      properties: {}
+        '400':
+          x-summary: ERROR
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /events/:
+    post:
+      tags:
+      - Events
+      summary: Create an event
+      requestBody:
+        description: 'The post bodies are fully documented in the [Request Specifications](/public/docs/api-request).
+
+          '
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - event_type
+              properties:
+                event_type:
+                  type: string
+                  enum:
+                  - person_created
+                  - person_updated
+                  - business_created
+                  - business_updated
+                  - bank_account_created
+                  - bank_account_updated
+                  - external_account_created
+                  - external_account_updated
+                  - transaction
+                  - login
+                  - credentials_updated
+                  - embedded_authentication
+                  - modify_notification
+                  - entity_group_created
+                  - entity_group_updated
+                  - card_created
+                  - card_updated
+                external_event_id:
+                  type: string
+                  example: audit-event-123
+                event_status:
+                  type: string
+                  example: successful
+                  description: Event statuses are customer-defined values.
+                data:
+                  type: object
+                  allOf:
+                  - properties:
+                      timestamp:
+                        type: string
+                        format: date-time
+                    required:
+                    - timestamp
+                  oneOf:
+                  - title: Person Created data
+                    required:
+                    - external_entity_id
+                    allOf:
+                    - properties:
+                        external_entity_id:
+                          type: string
+                        gender:
+                          type: string
+                        birth_date:
+                          type: string
+                        document_ssn:
+                          type: string
+                        name_first:
+                          type: string
+                        name_last:
+                          type: string
+                        document_id_card:
+                          type: string
+                        document_license:
+                          type: string
+                        document_passport:
+                          type: string
+                        addresses:
+                          type: array
+                          description: 'List of addresses for the given entity.
+
+                            '
+                          items:
+                            type: object
+                            description: 'Full address for an entity. When `country_code` is `"US"`, `state` is also required.
+
+                              '
+                            required:
+                            - line_1
+                            - city
+                            - postal_code
+                            - country_code
+                            - type
+                            properties:
+                              type:
+                                type: string
+                                description: Allowed values are (`"primary"`, `"secondary"`, `"previous"`, `"mailing"`, `"shipping"`, `"service"`, `"other"`, `"business_primary"`, `"business_secondary"`, `"business_previous"`)
+                                example: primary
+                              line_1:
+                                type: string
+                                example: 41 E. 11th
+                              line_2:
+                                type: string
+                                example: 2nd floor
+                              city:
+                                type: string
+                                example: New York
+                              state:
+                                type: string
+                                description: Required when `country_code` is `"US"`.
+                                example: NY
+                              postal_code:
+                                type: string
+                                example: 10003
+                              country_code:
+                                type: string
+                                example: US
+                        emails:
+                          type: array
+                          description: 'List of emails for the given entity.
+
+                            '
+                          items:
+                            type: object
+                            description: Email for an entity
+                            properties:
+                              email_address:
+                                type: string
+                                example: events@alloy.com
+                        phones:
+                          type: array
+                          description: 'List of phone numbers for the given entity.
+
+                            '
+                          items:
+                            type: object
+                            description: Phone for an entity
+                            properties:
+                              phone_number:
+                                type: string
+                                example: 5555555555
+                              type:
+                                type: string
+                                enum:
+                                - home
+                                - cell
+                                - fax
+                                - work
+                                default: home
+                            required:
+                            - phone_number
+                        status:
+                          type: string
+                          enum:
+                          - active
+                          - inactive
+                        status_detail:
+                          type:
+                          - string
+                          - 'null'
+                          minLength: 1
+                        status_fraud:
+                          type: string
+                          enum:
+                          - fraud
+                          - not fraud
+                    - $ref: '#/paths/~1entities~1persons~1%7Bentity_token%7D/patch/requestBody/content/application~1json/schema/allOf/1'
+                    - properties:
+                        entity_groups:
+                          type: array
+                          items:
+                            type: object
+                            anyOf:
+                            - title: Specify Entity Group Token
+                              required:
+                              - entity_group_token
+                            - title: Specify External Entity Group ID
+                              required:
+                              - external_entity_group_id
+                            properties:
+                              entity_group_token:
+                                type: string
+                              external_entity_group_id:
+                                type: string
+                              roles:
+                                type: array
+                                items:
+                                  type: string
+                                  enum:
+                                  - primary
+                                  - shareholder
+                                  - secondary
+                                  - beneficiary
+                                  - beneficial_owner
+                                  - control_prong
+                                  - director
+                                  - authorized_signer
+                                  - principal_owner
+                                  - coborrower
+                                  - joint
+                                  - guarantor
+                              ownership_percentage:
+                                type: number
+                              title:
+                                type: string
+                  - title: Person Updated data
+                    allOf:
+                    - $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/0/allOf/0'
+                    - properties:
+                        entity_token:
+                          type: string
+                          example: P-R21gUOQ8rwCvmx8tIscf
+                    - $ref: '#/paths/~1entities~1persons~1%7Bentity_token%7D/patch/requestBody/content/application~1json/schema/allOf/1'
+                    - $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/0/allOf/2'
+                    anyOf:
+                    - title: Updated by External ID
+                      $ref: '#/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/1/properties/entities/items/anyOf/0'
+                    - title: Updated by Entity Token
+                      $ref: '#/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/1/properties/entities/items/anyOf/1'
+                  - title: Business Created data
+                    required:
+                    - external_entity_id
+                    - business_name
+                    allOf:
+                    - properties:
+                        external_entity_id:
+                          type: string
+                        business_name:
+                          type: string
+                        business_alternate_name:
+                          type: string
+                        business_registry_id:
+                          type: string
+                        business_federal_ein:
+                          type: string
+                        addresses:
+                          type: array
+                          description: 'List of addresses for the given entity.
+
+                            '
+                          items:
+                            $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/0/allOf/0/properties/addresses/items'
+                        emails:
+                          type: array
+                          description: 'List of emails for the given entity.
+
+                            '
+                          items:
+                            $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/0/allOf/0/properties/emails/items'
+                        phones:
+                          type: array
+                          description: 'List of phone numbers for the given entity.
+
+                            '
+                          items:
+                            $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/0/allOf/0/properties/phones/items'
+                        status:
+                          type: string
+                          enum:
+                          - active
+                          - inactive
+                        status_detail:
+                          type:
+                          - string
+                          - 'null'
+                          minLength: 1
+                        status_fraud:
+                          type: string
+                          enum:
+                          - fraud
+                          - not fraud
+                    - $ref: '#/paths/~1entities~1persons~1%7Bentity_token%7D/patch/requestBody/content/application~1json/schema/allOf/1'
+                    - $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/0/allOf/2'
+                  - title: Business Updated data
+                    allOf:
+                    - $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/2/allOf/0'
+                    - $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/1/allOf/1'
+                    - $ref: '#/paths/~1entities~1persons~1%7Bentity_token%7D/patch/requestBody/content/application~1json/schema/allOf/1'
+                    - $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/0/allOf/2'
+                    anyOf:
+                    - title: Updated by External ID
+                      $ref: '#/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/1/properties/entities/items/anyOf/0'
+                    - title: Updated by Entity Token
+                      $ref: '#/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/1/properties/entities/items/anyOf/1'
+                  - title: Bank Account Created data
+                    required:
+                    - external_account_id
+                    - account_number
+                    - entities
+                    - timestamp
+                    allOf:
+                    - $ref: '#/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/1'
+                  - title: Bank Account Updated data
+                    required:
+                    - timestamp
+                    allOf:
+                    - $ref: '#/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/1'
+                    - $ref: '#/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/0'
+                    anyOf:
+                    - title: Updated by External ID
+                      required:
+                      - external_account_id
+                    - title: Updated by Account Token
+                      required:
+                      - account_token
+                  - title: Credentials Updated data
+                    anyOf:
+                    - title: Specify External Entity ID
+                      required:
+                      - external_entity_id
+                    - title: Specify Entity Token
+                      required:
+                      - entity_token
+                    required:
+                    - target
+                    - timestamp
+                    properties:
+                      entity_token:
+                        type: string
+                      external_entity_id:
+                        type: string
+                      external_credentials_updated_event_identifier:
+                        type: string
+                        description: Unique external identifier for grouping multiple credentials updated events.
+                      target:
+                        description: The user credential attribute that is being updated
+                        type: string
+                        enum:
+                        - 2fa
+                        - username
+                        - password
+                        - passkey
+                      channel:
+                        type: string
+                        enum:
+                        - contact_center
+                        - online_banking
+                        - in_branch
+                      authenticated_user:
+                        type: boolean
+                      status:
+                        type: string
+                        enum:
+                        - pending
+                        - successful
+                        - failed
+                      device:
+                        allOf:
+                        - allOf:
+                          - $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/10/properties/device/allOf/0'
+                          properties:
+                            registered_device:
+                              type: boolean
+                      2fa:
+                        allOf:
+                        - required:
+                          - methods
+                          properties:
+                            methods:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  method:
+                                    type: string
+                                    enum:
+                                    - email
+                                    - voice
+                                    - sms
+                                  value:
+                                    type: string
+                                    minLength: 1
+                                    maxLength: 65535
+                                required:
+                                - method
+                                - value
+                            required:
+                              type: boolean
+                              default: false
+                      operation:
+                        type: string
+                        enum:
+                        - create
+                        - delete
+                        - update
+                  - title: Embedded Authentication data
+                    required:
+                    - embedded_application
+                    - external_entity_id
+                    - timestamp
+                    properties:
+                      embedded_application:
+                        description: The application that is embedded in the host application, e.g. Zelle
+                        type: string
+                        enum:
+                        - zelle
+                        - billpay
+                      external_entity_id:
+                        description: External ID of the entity interacting with the embedded application
+                        type: string
+                      external_embedded_authentication_id:
+                        description: Unique external identifier for grouping multiple embedded authentication events
+                        type: string
+                      device:
+                        allOf:
+                        - $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/6/properties/device/allOf/0'
+                  - title: External Account Created data
+                    required:
+                    - timestamp
+                    - external_account_id
+                    - entities
+                    allOf:
+                    - $ref: '#/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/1'
+                    - properties:
+                        link_timestamp:
+                          type:
+                          - string
+                          - 'null'
+                          format: date-time
+                          description: ISO 8601 timestamp of when the external account was linked to the entity. If omitted, Alloy uses the top-level `timestamp` value from the `external_account_created` event.
+                          example: '2024-06-01T12:00:00.000Z'
+                  - title: External Account Updated data
+                    required:
+                    - timestamp
+                    allOf:
+                    - $ref: '#/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/1'
+                    - $ref: '#/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/0'
+                    - $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/8/allOf/1'
+                    - properties:
+                        unlink_timestamp:
+                          type:
+                          - string
+                          - 'null'
+                          format: date-time
+                          description: ISO 8601 timestamp of when the external account was unlinked from the entity. When provided, Alloy records this as the time the account association ended.
+                          example: '2024-09-15T08:30:00.000Z'
+                    anyOf:
+                    - title: Updated by External ID
+                      $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/5/anyOf/0'
+                    - title: Updated by Account Token
+                      $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/5/anyOf/1'
+                  - title: Login data
+                    anyOf:
+                    - title: Specify External Entity ID
+                      required:
+                      - external_entity_id
+                    - title: Specify Entity Token
+                      required:
+                      - entity_token
+                    required:
+                    - login_method
+                    - timestamp
+                    properties:
+                      entity_token:
+                        type: string
+                      external_entity_id:
+                        type: string
+                      external_login_id:
+                        type: string
+                        description: Unique identifier for grouping multiple login events into a single login.
+                      username:
+                        type: string
+                      login_method:
+                        type: string
+                        enum:
+                        - biometric
+                        - password
+                        - sso
+                        - passwordless
+                      sso:
+                        type: string
+                        enum:
+                        - okta
+                        - google
+                        - apple
+                      status:
+                        type: string
+                        enum:
+                        - attempted
+                        - failed
+                        - mfa
+                        - rejected
+                        - successful
+                      device:
+                        allOf:
+                        - properties:
+                            external_device_id:
+                              type: string
+                            ip_address_v4:
+                              type: string
+                            ip_address_v6:
+                              type: string
+                  - title: Modify Notification data
+                    anyOf:
+                    - title: Specify External Entity ID
+                      required:
+                      - external_entity_id
+                    - title: Specify Entity Token
+                      required:
+                      - entity_token
+                    required:
+                    - timestamp
+                    properties:
+                      entity_token:
+                        type: string
+                      external_entity_id:
+                        type: string
+                      external_modify_notification_event_identifier:
+                        type: string
+                        description: Unique external identifier for grouping multiple modify_notification events.
+                      notification:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            enum:
+                            - account
+                            - general
+                            - security
+                            - transaction
+                          subtype:
+                            type: string
+                            minLength: 1
+                        required:
+                        - type
+                        - subtype
+                      notification_target:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            method:
+                              type: string
+                              enum:
+                              - email
+                              - voice
+                              - sms
+                              - message_center
+                              - push_notification
+                            value:
+                              type: string
+                              minLength: 1
+                          required:
+                          - method
+                          - value
+                      enabled:
+                        type: boolean
+                      operator:
+                        type: string
+                        enum:
+                        - less_than
+                        - greater_than
+                        - equals
+                      external_account_id:
+                        type: string
+                      amount:
+                        type: integer
+                      device:
+                        allOf:
+                        - $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/6/properties/device/allOf/0'
+                  - title: Transaction data
+                    allOf:
+                    - properties:
+                        external_transaction_id:
+                          description: Unique external identifier for the transaction.
+                          type: string
+                        amount:
+                          description: Amount in cents. +/- indicate direction of funds.
+                          type: integer
+                        currency:
+                          description: 3-character currency code (e.g. "USD")
+                          type: string
+                        entity_token:
+                          type: string
+                        external_entity_id:
+                          type: string
+                        external_account_id:
+                          type: string
+                        counterparty:
+                          type: object
+                          anyOf:
+                          - title: Specify Account Number
+                            required:
+                            - account_number
+                          - title: Specify External Counterparty ID
+                            required:
+                            - external_counterparty_id
+                          properties:
+                            external_counterparty_id:
+                              type: string
+                            name_first:
+                              type: string
+                            name_last:
+                              type: string
+                            routing_number:
+                              type: string
+                            account_number:
+                              type: string
+                            counterparty_type:
+                              type: string
+                            account_name:
+                              type: string
+                            address_line_1:
+                              type: string
+                            address_line_2:
+                              type: string
+                            address_city:
+                              type: string
+                            address_state:
+                              type: string
+                            address_postal_code:
+                              type: string
+                            address_country_code:
+                              type: string
+                            card_network:
+                              type: string
+                            merchant_category_code:
+                              type: string
+                            name_on_card:
+                              type: string
+                            avs:
+                              type: string
+                            description:
+                              type: string
+                            merchant_category_description:
+                              type: string
+                            currency:
+                              type: string
+                        category:
+                          description: Splits process_method into more granular values. Allowed values are (`"Adjustment"`, `"ATM Rebate"`, `"Bill Pay"`, `"Chargeback"`, `"Deposit"`, `"Direct Deposit Bonus"`, `"Interest"`, `"Overdraft Fee"`, `"Payment"`, `"Promo"`, `"Purchase"`, `"Purchase Return"`, `"Return"`, `"Service Charge"`, `"Withdrawal"`, `null`)
+                          type:
+                          - string
+                          - 'null'
+                          enum:
+                          - Adjustment
+                          - ATM Rebate
+                          - Bill Pay
+                          - Chargeback
+                          - Deposit
+                          - Direct Deposit Bonus
+                          - Interest
+                          - Overdraft Fee
+                          - Payment
+                          - Promo
+                          - Purchase
+                          - Purchase Return
+                          - Return
+                          - Service Charge
+                          - Withdrawal
+                        transaction_settled_at:
+                          description: 'The datetime the transaction was settled in the customer''s system (Valid Format: YYYY-MM-DD''T''HH:MM:SS''Z''). Currently not used in decisioning.'
+                          type:
+                          - string
+                          - 'null'
+                          format: date-time
+                        description:
+                          description: A description of the transaction. Currently not used in decisioning.
+                          type:
+                          - string
+                          - 'null'
+                        type_code:
+                          description: The raw type code of the transaction.  There should be a 1:1 mapping from type_code to type_description provided to Alloy.
+                          type:
+                          - string
+                          - 'null'
+                        type_description:
+                          description: Description of the type code. There should be a 1:1 mapping from type_code to type_description provided to Alloy. Currently not used in decisioning.
+                          type:
+                          - string
+                          - 'null'
+                        is_approved:
+                          description: If the transaction was approved by the customer
+                          type:
+                          - boolean
+                          - 'null'
+                        is_reversal:
+                          description: If the transaction is a refund
+                          type:
+                          - boolean
+                          - 'null'
+                        process_method:
+                          description: Platform or process method of the transaction. Allowed values are (`"Card"`, `"Internal"`, `"Check"`, `"P2P"`, `"ACH"`, `"Cash"`, `"Wire"`, `RTP`, `null`)
+                          type:
+                          - string
+                          - 'null'
+                          enum:
+                          - Card
+                          - Internal
+                          - Check
+                          - P2P
+                          - ACH
+                          - Cash
+                          - Wire
+                        is_triggered_by_user:
+                          description: Whether the transaction is initiated by the source entity. Mainly used to distinguish betweeh ACH push and pull
+                          type:
+                          - boolean
+                          - 'null'
+                        interaction_point:
+                          description: Where the transaction took place. Allow values are (`"Android"`, `"ATM"`, `"Card Swipe Terminal"`, `"iOS"`, `"Mobile"`, `"Online Form"`, `"Point of Sale"`, `"Teller"`, `"3rd Party App"`, `null`)
+                          type:
+                          - string
+                          - 'null'
+                          enum:
+                          - Android
+                          - ATM
+                          - Card Swipe Terminal
+                          - iOS
+                          - Mobile
+                          - Online Form
+                          - Point of Sale
+                          - Teller
+                          - 3rd Party App
+                        linked_transactions:
+                          type: array
+                          description: List of transactions linked to the given transaction.
+                          items:
+                            type: object
+                            description: Linked transaction details.
+                            oneOf:
+                            - required:
+                              - external_transaction_id
+                            - required:
+                              - transaction_token
+                            required:
+                            - reason
+                            properties:
+                              external_transaction_id:
+                                type: string
+                                description: External transaction ID of the linked transaction.
+                              transaction_token:
+                                type: string
+                                description: Transaction token of the linked transaction.
+                              reason:
+                                type: string
+                                description: Reason for linking the transaction.
+                                example: Chargeback
+                        return_code:
+                          description: This represents the Alphanumeric ACH return Code. (e.g. R01)
+                          type:
+                          - string
+                          - 'null'
+                        return_code_reason:
+                          description: Allowed values are (`"Unauthorized"`, `null`). Currently not used in decisioning.
+                          type:
+                          - string
+                          - 'null'
+                          enum:
+                          - Unauthorized
+                        status:
+                          description: Allowed values are (`"Acknowledged"`, `"Accepted"`, `"Rejected"`, `"Paused"`, `"Pending"`, `"Completed"`, `"Declined"`, `"Cancelled"`, `null`)
+                          type:
+                          - string
+                          - 'null'
+                          enum:
+                          - Acknowledged
+                          - Accepted
+                          - Rejected
+                          - Paused
+                          - Pending
+                          - Completed
+                          - Declined
+                          - Cancelled
+                        status_detail:
+                          description: Additional description on transaction status. Currently not used in decisioning.
+                          type:
+                          - string
+                          - 'null'
+                        response_code:
+                          description: Response codes returned on card transactions
+                          type:
+                          - number
+                          - 'null'
+                        iso_message:
+                          description: ISO standard value returned on card transactions
+                          type:
+                          - number
+                          - 'null'
+                        entry_mode:
+                          description: POS entry modes on card transactions
+                          type:
+                          - number
+                          - 'null'
+                        timestamp:
+                          description: 'The datetime the transaction was created in the customer''s system (Valid Format: YYYY-MM-DD''T''HH:MM:SS''Z'').'
+                          type: string
+                          format: date-time
+                      additionalProperties:
+                        description: Custom data can be added to the transaction request body
+                    required:
+                    - external_transaction_id
+                    - transaction_created_date
+                    - amount
+                    - counterparty
+                    - currency
+                    anyOf:
+                    - title: Specify External IDs
+                      required:
+                      - external_entity_id
+                      - external_account_id
+                    - title: Specify Alloy Tokens
+                      required:
+                      - entity_token
+                      - account_token
+                  - title: Entity Group Created data
+                    required:
+                    - timestamp
+                    - external_entity_group_ids
+                    - entities
+                    properties:
+                      name:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - business
+                        - joint_account
+                        - membership
+                        - merchant
+                      entities:
+                        type: array
+                        items:
+                          type: object
+                          anyOf:
+                          - title: Specify External Entity ID
+                            required:
+                            - external_entity_id
+                          - title: Specify Entity Token
+                            required:
+                            - entity_token
+                          properties:
+                            external_entity_id:
+                              type: string
+                            entity_token:
+                              type: string
+                            roles:
+                              type: array
+                              items:
+                                type: string
+                                enum:
+                                - primary
+                                - shareholder
+                                - secondary
+                                - beneficiary
+                                - beneficial_owner
+                                - control_prong
+                                - director
+                                - authorized_signer
+                                - principal_owner
+                                - coborrower
+                                - joint
+                                - guarantor
+                            title:
+                              type: string
+                            ownership_percentage:
+                              type: number
+                            bank_accounts:
+                              type: array
+                              items:
+                                type: object
+                                anyOf:
+                                - title: Specify External Account ID
+                                  required:
+                                  - external_account_id
+                                - title: Specify Account Token
+                                  required:
+                                  - account_token
+                                properties:
+                                  external_account_id:
+                                    type: string
+                                  account_token:
+                                    type: string
+                                  role:
+                                    type: string
+                                    enum:
+                                    - primary
+                                    - secondary
+                                    - power_of_attorney
+                                    - authorized_signer
+                                    - authorized_user
+                                    - beneficiary
+                                    - joint_owner
+                                    - custodian
+                                    - guardian
+                                    - trustee
+                      external_entity_group_ids:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            external_entity_id:
+                              type: string
+                            type:
+                              type: string
+                            designation:
+                              type: string
+                              enum:
+                              - primary
+                          required:
+                          - external_entity_id
+                  - title: Entity Group Updated data
+                    anyOf:
+                    - title: Specify External Entity Group ID
+                      required:
+                      - external_entity_group_ids
+                    - title: Specify Entity Group Token
+                      required:
+                      - entity_group_token
+                    required:
+                    - timestamp
+                    properties:
+                      entity_group_token:
+                        type: string
+                      name:
+                        type: string
+                        description: This can only be updated if the entity group doesn't already have a name
+                      type:
+                        type: string
+                        description: This can only be updated if the entity group doesn't already have a type
+                        enum:
+                        - business
+                        - joint_account
+                        - membership
+                        - merchant
+                      archive_entity_group:
+                        type: boolean
+                      entities:
+                        type: array
+                        items:
+                          type: object
+                          anyOf:
+                          - title: Specify External Entity ID
+                            required:
+                            - external_entity_id
+                          - title: Specify Entity Token
+                            required:
+                            - entity_token
+                          properties:
+                            external_entity_id:
+                              type: string
+                            entity_token:
+                              type: string
+                            roles:
+                              type: string
+                              enum:
+                              - primary
+                              - shareholder
+                              - secondary
+                              - beneficiary
+                              - beneficial_owner
+                              - control_prong
+                              - director
+                              - authorized_signer
+                              - principal_owner
+                              - coborrower
+                              - joint
+                              - guarantor
+                            title:
+                              type: string
+                            ownership_percentage:
+                              type: number
+                            remove_entity:
+                              type: boolean
+                              description: If true, this removes the entity from the entity group
+                            bank_accounts:
+                              type: array
+                              items:
+                                type: object
+                                anyOf:
+                                - title: Specify External Account ID
+                                  required:
+                                  - external_account_id
+                                - title: Specify Account Token
+                                  required:
+                                  - account_token
+                                properties:
+                                  external_account_id:
+                                    type: string
+                                  account_token:
+                                    type: string
+                                  role:
+                                    type: string
+                                    enum:
+                                    - primary
+                                    - secondary
+                                    - power_of_attorney
+                                    - authorized_signer
+                                    - authorized_user
+                                    - beneficiary
+                                    - joint_owner
+                                    - custodian
+                                    - guardian
+                                    - trustee
+                                  remove_bank_account:
+                                    type: boolean
+                                    description: If true, this removes the bank account from the entity
+                      external_entity_group_ids:
+                        type: array
+                        description: This can be used to identify the entity group to update (for existing external IDs) and to add additional external IDs
+                        items:
+                          type: object
+                          properties:
+                            external_entity_id:
+                              type: string
+                            type:
+                              type: string
+                            designation:
+                              type: string
+                              enum:
+                              - primary
+                          required:
+                          - external_entity_id
+                  - title: Card Created data
+                    $ref: '#/paths/~1events~1/post/requestBody/content/application~1json/schema/properties/data/oneOf/16/allOf/0'
+                  - title: Card Updated data
+                    allOf:
+                    - required:
+                      - external_card_id
+                      - external_entity_id
+                      - timestamp
+                      properties:
+                        external_card_id:
+                          type: string
+                        external_entity_id:
+                          type: string
+                        card_name:
+                          type: string
+                        product_name:
+                          type: string
+                        product_code:
+                          type: string
+                        card_type:
+                          type: string
+                          enum:
+                          - debit
+                          - credit
+                          - prepaid
+                          - charge
+                        form_factor:
+                          type: string
+                          enum:
+                          - physical
+                          - virtual
+                        issued_at:
+                          type: string
+                          format: date-time
+                        expiry_month:
+                          type: string
+                          description: Month from 1-12 (e.g. 1, 01, 12)
+                        expiry_year:
+                          type: string
+                          description: Four-digit year (e.g. 2027)
+                        pin_updated_at:
+                          type: string
+                          format: date-time
+                        pin_update_method:
+                          type: string
+                          enum:
+                          - app
+                          - ivr
+                          - agent
+                          - atm
+                          - other
+                        is_locked:
+                          type: boolean
+                        lock_expires_at:
+                          type: string
+                          format: date-time
+                        status:
+                          type: string
+                          enum:
+                          - active
+                          - inactive
+                          - deactivated
+                          - terminated
+                          - pending_activation
+                          - expired
+                        status_detail:
+                          type: string
+                        timestamp:
+                          type: string
+                          format: date-time
+                        entities:
+                          type: array
+                          items:
+                            type: object
+                            required:
+                            - card_holder_type
+                            - external_entity_id
+                            properties:
+                              card_holder_type:
+                                type: string
+                                enum:
+                                - primary
+                                - secondary
+                                - authorized_user
+                              external_entity_id:
+                                type: string
+                        accounts:
+                          type: array
+                          items:
+                            type: object
+                            required:
+                            - external_account_id
+                            - account_type
+                            properties:
+                              external_account_id:
+                                type: string
+                              account_type:
+                                type: string
+                                enum:
+                                - primary
+                                - secondary
+                        replaces_external_card_id:
+                          type: string
+                        replacement_reason:
+                          type: string
+                        external_entity_group_id:
+                          type: string
+                        entity_group_token:
+                          type: string
+      responses:
+        '201':
+          x-summary: OK
+          description: Event has been processed
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                - properties:
+                    status_code:
+                      type: string
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            _href:
+                              type: string
+                    event:
+                      type: object
+                      properties:
+                        event_type:
+                          type: string
+                        event_status:
+                          type: string
+                        data:
+                          type: object
+                          description: data saved from event
+                        evaluations:
+                          type: array
+                          description: list of source workflows ran
+                        journey_applications:
+                          type: array
+                          description: list of journey applications created
+                          items:
+                            type: object
+                            properties:
+                              error:
+                                type: string
+                              journey_application_token:
+                                type: string
+                              journey_application_status:
+                                type: string
+                              journey_token:
+                                type: string
+                              journey_version_id:
+                                type: number
+                              source_evaluation_tokens:
+                                type: array
+                                items:
+                                  type: string
+                              investigations:
+                                $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications~1%7Bjourney_application_token%7D/get/responses/200/content/application~1json/schema/properties/_embedded/properties/investigations'
+                              _links:
+                                type: object
+                                properties:
+                                  self:
+                                    type: object
+                                    properties:
+                                      href:
+                                        type: string
+                    error:
+                      type: object
+                      description: error details
+                example:
+                  status_code: 201
+                  event_request_token: EV-xi7Etep0gW7gZiuWsqXG
+                  _links:
+                    self:
+                      href: /v1/events/EV-xi7Etep0gW7gZiuWsqXG
+                  event:
+                    event_type: person_created
+                    event_status: PROCESSED
+                    data:
+                      entity_token: P-R21gUOQ8rwCvmx8tIscf
+                      external_entity_id: 087ac67e-17ab-4529-8d1a-a8b2214d305f
+                      created_at: 1701878665579
+                      person_details_updated_at: 1701878665619
+                      gender: null
+                      birth_date: null
+                      name_first: John
+                      name_middle: null
+                      name_last: Smith
+                      document_ssn: null
+                      document_license: null
+                      document_passport: null
+                      addresses: []
+                      emails: []
+                      phones: []
+                      type: person
+                      _embedded:
+                        document_ssns: []
+                        birth_dates: []
+                      _links:
+                        self:
+                          href: /v1/entities/persons/P-R21gUOQ8rwCvmx8tIscf
+                    evaluations:
+                    - error: null
+                      evaluation_token: L-Ro4OHzXIkRVf4J9z0aAA
+                      workflow_token: token
+                      workflow_version_id: 8
+                      prefiltered: false
+                      summary:
+                        result: success
+                        outcome: Approved
+                        tags: []
+                      _links:
+                        self:
+                          href: /v1/evaluations/L-Ro4OHzXIkRVf4J9z0aAA
+                    journey_applications:
+                    - error: null
+                      journey_application_token: JA-s2cgOok19WgykpSqcm29
+                      journey_token: J-JrtCVvSP1iUDhJy3xtCp
+                      journey_version_id: 5
+                      source_evaluation_tokens:
+                      - L-Ro4OHzXIkRVf4J9z0aAA
+                      investigations:
+                      - investigation_token: INV-gBg9JCX0AoSWjer5zU0o
+                        investigation_state: alert_review
+                      _links:
+                        self:
+                          href: /v1/journeys/J-JrtCVvSP1iUDhJy3xtCp/applications/JA-s2cgOok19WgykpSqcm29
+        '400':
+          x-summary: ERROR
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                - $ref: '#/paths/~1events~1/post/responses/201/content/application~1json/schema/allOf/0'
+                example:
+                  status_code: 400
+                  event_request_token: EV-xi7Etep0gW7gZiuWsqXG
+                  _links:
+                    self:
+                      href: /v1/events/EV-xi7Etep0gW7gZiuWsqXG
+                  event:
+                    event_type: person_created
+                    event_status: ERROR
+                    evaluations: []
+                    journey_applications: []
+                  error:
+                    issues:
+                    - code: invalid_type
+                      expected: string
+                      received: undefined
+                      path:
+                      - external_entity_id
+                      message: Required
+                    name: ValidationError
+                    statusCode: 400
+                    status: 400
+        '409':
+          x-summary: CONFLICT
+          description: Conflict on object
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                - $ref: '#/paths/~1events~1/post/responses/201/content/application~1json/schema/allOf/0'
+                example:
+                  status_code: 409
+                  event_request_token: EV-xi7Etep0gW7gZiuWsqXG
+                  _links:
+                    self:
+                      href: /v1/events/EV-xi7Etep0gW7gZiuWsqXG
+                  event:
+                    event_type: person_created
+                    event_status: ERROR
+                    evaluations: []
+                    journey_applications: []
+                  error:
+                    message: Entity 087ac67e-17ab-4529-8d1a-a8b2214d305f
+                    exists: null
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
   /events:
     post:
       tags:
@@ -53,34 +1524,14 @@ paths:
       responses:
         '201':
           description: Event accepted
-  /events/schema:
-    get:
-      tags:
-      - Events
-      summary: Get the Events Schema
-      operationId: getEventsSchema
-      responses:
-        '200':
-          description: Schema
-  /events/{event_request_token}:
-    parameters:
-    - name: event_request_token
-      in: path
-      required: true
-      schema:
-        type: string
-    get:
-      tags:
-      - Events
-      summary: Get an Event
-      operationId: getEvent
-      responses:
-        '200':
-          description: Event
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event'
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
 components:
   schemas:
     Event:
@@ -99,6 +1550,17 @@ components:
           type: string
           format: date-time
   securitySchemes:
+    basic:
+      type: http
+      description: HTTP basic authorization using a workflow token and secret
+      scheme: basic
+    oauth2:
+      type: oauth2
+      description: OAuth2 using a workflow token and secret to generate a bearer token
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/bearer
+          scopes: {}
     basicAuth:
       type: http
       scheme: basic
@@ -107,3 +1569,6 @@ components:
       type: http
       scheme: bearer
       description: OAuth 2.0 bearer token obtained via the OAuth endpoints.
+x-refined-from:
+- alloy-com-identity-api-openapi.yml
+- alloy-openapi.yml

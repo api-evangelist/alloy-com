@@ -1,102 +1,1357 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Alloy Bank Accounts Journeys API
-  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
-
-    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
-
-    credit, and ongoing-monitoring workflows used by banks, credit unions, and
-
-    fintechs.
-
-
-    The API is organized around evaluations, journey applications, entities
-
-    (persons and businesses), bank accounts, documents, events, cases,
-
-    investigations, custom lists, published attributes, and webhooks. Sandbox
-
-    and production environments are exposed as two distinct base URLs.
-
-    '
+  title: Alloy Com Journeys API
   version: '1.0'
-  contact:
-    name: Alloy Developer Support
-    url: https://help.alloy.com
-  license:
-    name: Proprietary
-    url: https://www.alloy.com/tos
+  description: 'Operations tagged Journeys across 2 of this provider''s published API definitions: alloy-com-identity-api-openapi.yml, alloy-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://sandbox.alloy.co/v1
   description: Sandbox environment
+- url: https://alloy.co/v1
+  description: Production environment
 - url: https://api.alloy.co/v1
   description: Production environment
-security:
-- basicAuth: []
-- bearerAuth: []
 tags:
 - name: Journeys
-  description: Multi-step decisioning journeys, applications, batches, and reviews.
+  description: A Journey is a decision configuration that allows you to run multiple workflows.
 paths:
-  /journeys/{journey_token}/applications:
+  /journeys/{journey_token}/applications/{journey_application_token}:
     parameters:
-    - name: journey_token
-      in: path
-      required: true
+    - in: path
+      name: journey_token
       schema:
         type: string
-    post:
+      required: true
+      description: Token associated with your Journey
+      example: J-VCQoADBJxeHtmdAvFqoS
+    - in: path
+      name: journey_application_token
+      schema:
+        type: string
+      required: true
+      description: Token associated with your Journey Application
+      example: JA-mhjlfS6nZe1G6HuvAKVq
+    - $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications/parameters/2'
+    get:
+      parameters:
+      - $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications/parameters/2'
+      - $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications/parameters/3'
       tags:
       - Journeys
-      summary: Create a Journey Application
-      operationId: postJourneyApplication
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
+      summary: Get Journey Application
+      description: 'Returns relevant data associated with a journey application.
+
+        '
       responses:
-        '201':
-          description: Journey application created
+        '200':
+          description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/JourneyApplication'
-  /journeys/{journey_token}/applications/{journey_application_token}:
-    parameters:
-    - name: journey_token
-      in: path
-      required: true
-      schema:
-        type: string
-    - name: journey_application_token
-      in: path
-      required: true
-      schema:
-        type: string
-    get:
-      tags:
-      - Journeys
-      summary: Get a Journey Application
-      operationId: getJourneyApplication
-      responses:
-        '200':
-          description: Journey application
+                type: object
+                properties:
+                  journey_application_token:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                    - completed
+                    - data_request
+                    - error
+                    - expired
+                    - pending_action
+                    - pending_additional_entities
+                    - pending_documents
+                    - pending_journey_application_review
+                    - pending_reconciliation
+                    - pending_step_up
+                    - pending_workflow_service
+                    - running
+                    - waiting_review
+                  sandbox:
+                    type: boolean
+                  created_at:
+                    type: integer
+                  updated_at:
+                    type: integer
+                  closed_at:
+                    type: integer
+                  complete_outcome:
+                    type: string
+                  recent_outcome:
+                    type: string
+                    description: Deprecated field
+                  is_shadow_app:
+                    description: indicates if the application was generated for a shadow test. This value is false for the parent applications that trigger the generation of the shadow applications.
+                    type: boolean
+                  is_part_of_shadow_test:
+                    description: indicates if the application is a part of a shadow test. This value is true for both the parent applications that trigger the generation of the shadow applications, as well as the shadow applications.
+                    type: boolean
+                  journey_application_status:
+                    description: derived from the `status` and `complete_outcome`, this value represents a simplified display status, as seen on the Journey Application Queue and Journey Application pages.
+                    type: string
+                  is_archived:
+                    type: boolean
+                  external_group_id:
+                    type: string
+                  external_application_id:
+                    description: allows to associate one or multiple Journey Applications with an external identifier
+                    type: string
+                  is_rerun:
+                    type: boolean
+                  archived_at:
+                    type: string
+                  terminal_reconciliation_output:
+                    allOf:
+                    - type: object
+                      properties:
+                        outcome_reasons:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              type:
+                                type: string
+                                enum:
+                                - adverse_action
+                                - null
+                        tags:
+                          type: array
+                          items:
+                            type: string
+                        output_attributes:
+                          type: object
+                          additionalProperties:
+                            oneOf:
+                            - type: string
+                            - type: number
+                            description: NOTE the dynamic property name refers to the name of the output attribute
+                        matrix_models:
+                          type: object
+                          additionalProperties:
+                            type: object
+                            description: NOTE the dynamic property name refers to the name of the matrix model
+                            properties:
+                              matrix_model_public_version:
+                                type: integer
+                              matrix_model_token:
+                                type: string
+                              name:
+                                type: string
+                              result:
+                                type:
+                                - number
+                                - 'null'
+                              status:
+                                type: string
+                                enum:
+                                - executed
+                                - not_executed
+                              x_bucket:
+                                type:
+                                - number
+                                - 'null'
+                                description: x-coordinate of the matrix
+                              x_value:
+                                type:
+                                - number
+                                - 'null'
+                              y_bucket:
+                                type:
+                                - number
+                                - 'null'
+                                description: y-coordinate of the matrix
+                              y_value:
+                                type:
+                                - number
+                                - 'null'
+                    type: object
+                    description: Data aggregated from the output of the terminal reconciliation evaluation
+                  application_meta:
+                    type: object
+                    description: Optional, allows to provide additional metadata applied to all entities in the Application.
+                  _embedded:
+                    type: object
+                    properties:
+                      rerun:
+                        description: The journey application that this is a rerun of
+                        type: object
+                        properties:
+                          initiated_by:
+                            type: string
+                            enum:
+                            - api
+                            - dashboard
+                          previous_journey_application_token:
+                            type: string
+                          root_external_group_id:
+                            type: string
+                          root_journey_application_token:
+                            type: string
+                      reruns:
+                        description: The journey applications that are rerun versions of this application
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            initiated_by:
+                              type: string
+                              enum:
+                              - dashboard
+                              - api
+                            next_journey_application_token:
+                              type: string
+                            created_at:
+                              type: integer
+                      events:
+                        description: List of journey application events, ordered chronologically. The fields displayed in the event will depend on the event type
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            journey_application_event_token:
+                              type: string
+                            journey_application_token:
+                              type: string
+                            journey_type:
+                              type: string
+                              enum:
+                              - alert
+                              - application
+                            type:
+                              type: string
+                              enum:
+                              - application_archived
+                              - application_expired
+                              - application_unarchived
+                              - completed_action
+                              - completed_application
+                              - completed_branch
+                              - completed_evaluation
+                              - completed_mid_journey_reconciliation
+                              - completed_reconciliation
+                              - completed_review
+                              - completed_review_journey_application
+                              - data_request_evaluation
+                              - error
+                              - executed_branch_change
+                              - has_finished_sending_additional_entities
+                              - journey_application_retriggered
+                              - maximum_retries_reached
+                              - pending_action
+                              - pending_action_expired
+                              - pending_documents
+                              - pending_evaluation
+                              - pending_review
+                              - pending_step_up
+                              - pending_step_up_expired
+                              - pending_workflow_service
+                              - queued_branch_change
+                              - reached_application_outcome
+                              - reached_auto_decision_node
+                              - reached_mid_journey_reconciliation_node
+                              - reached_retry_node
+                              - started_application
+                              - started_evaluation
+                              - started_mid_journey_reconciliation
+                              - started_reconciliation
+                              - started_rerun_application
+                              - started_review
+                              - visited_node
+                            external_partner_id:
+                              type: string
+                            external_product_id:
+                              type: string
+                            external_group_id:
+                              type: string
+                            reason:
+                              type: string
+                            reasons:
+                              type: array
+                              items:
+                                type: string
+                            timestamp:
+                              type: integer
+                            outcome:
+                              type: string
+                              description: 'Populated for the following event types: `completed_action`, `completed_application`, `completed_branch`, `completed_evaluation`, `completed_review`, `pending_action_expired`'
+                            evaluation_token:
+                              type: string
+                              description: Identifying evaluation token (only in evaluation type events)
+                            entity_token:
+                              type: string
+                            entity_application_token:
+                              type: string
+                            error_data:
+                              type: object
+                              description: Additional error data populated when available for `error` event types
+                              properties:
+                                error:
+                                  type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                    details:
+                                      type: object
+                                    message:
+                                      type: string
+                                    minor_code:
+                                      type: integer
+                                    error_token:
+                                      type: string
+                                timestamp:
+                                  type: integer
+                                status_code:
+                                  type: integer
+                                entity_token:
+                                  type: string
+                                evaluation_token:
+                                  type: string
+                                application_token:
+                                  type: string
+                                application_version_id:
+                                  type: integer
+                            _embedded:
+                              type: object
+                              properties:
+                                node:
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+                                      enum:
+                                      - start
+                                      - workflow
+                                      - review
+                                      - outcome
+                                      - action
+                                      - docv
+                                    config:
+                                      description: Config related to the specific node, depending on the type
+                                      type: object
+                                    workflow_name:
+                                      type: string
+                                    sdk_config:
+                                      type: object
+                                      description: Settings to be read by SDK to handle processing. Only present on workflow node events.
+                                      properties:
+                                        documents:
+                                          type: array
+                                          items:
+                                            type: string
+                                        selfie:
+                                          type: boolean
+                            _links:
+                              type: object
+                              properties:
+                                evaluation:
+                                  type: object
+                                  properties:
+                                    href:
+                                      type: string
+                                case:
+                                  type: object
+                                  properties:
+                                    href:
+                                      type: string
+                      journey:
+                        type: object
+                        properties:
+                          journey_name:
+                            type: string
+                          journey_type:
+                            type: string
+                            enum:
+                            - application
+                            - alert
+                          journey_token:
+                            type: string
+                          journey_version_num:
+                            type: string
+                          _links:
+                            type: object
+                            properties:
+                              self:
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                    description: GET route for the Journey
+                              callback_by_entity_application_token:
+                                type: object
+                                description: When applicable, the route to send a PUT request to for each entity application to resolve its current pending state
+                      child_entities:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            external_entity_identifier:
+                              type: string
+                            name:
+                              type: string
+                            token:
+                              type: string
+                            type:
+                              type: string
+                            entity_application_token:
+                              type: string
+                            entity_application_status:
+                              type: string
+                            entity_application_outcome:
+                              type: string
+                            entity_application_branch_name:
+                              type: string
+                            created:
+                              type: string
+                            sandbox_persona_name:
+                              type: string
+                              description: When applicable, name of sandbox persona used for this child entity
+                      entity_applications:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            entity_token:
+                              type: string
+                            entity_application_token:
+                              type: string
+                            entity_application_outcome:
+                              type: string
+                            entity_application_status:
+                              type: string
+                            sdk_link:
+                              type: string
+                            dimensions:
+                              type: array
+                              description: The dimension(s) that triggered this entity application. This is only applicable when the application was created by a portfolio evaluation.
+                              items:
+                                type: object
+                                properties:
+                                  dimension:
+                                    type: string
+                                  dimension_type:
+                                    type: string
+                            entity_application_status_details:
+                              type: object
+                              description: "Additional details for applications that have status `data_request` or `pending_workflow_service`. \n* If the status is `data_request`, the `required`, `or`, and `optional` fields will be populated based on the journey configuration.\n* If the status is `pending_workflow_service`, the fields will be dependent on the services configured for the journey. Please speak to your representative for more information.\n"
+                              properties:
+                                required:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      key:
+                                        type: string
+                                      type:
+                                        type: string
+                                      regex:
+                                        type: string
+                                      message:
+                                        type: string
+                                      description:
+                                        type: string
+                                or:
+                                  type: string
+                                optional:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      key:
+                                        type: string
+                                      type:
+                                        type: string
+                                      regex:
+                                        type: string
+                                      description:
+                                        type: string
+                            output:
+                              allOf:
+                              - $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications~1%7Bjourney_application_token%7D/get/responses/200/content/application~1json/schema/properties/terminal_reconciliation_output/allOf/0'
+                              type: object
+                              description: Data aggregated from the outputs of every evaluation run for the entity application
+                      entity:
+                        description: The journey application entity
+                        type: object
+                        properties:
+                          external_entity_identifier:
+                            type: string
+                          name:
+                            type: string
+                          token:
+                            type: string
+                          type:
+                            type: string
+                      entity_group:
+                        description: The entity group associated with the application
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          token:
+                            type: string
+                          type:
+                            type: string
+                            enum:
+                            - business
+                            - joint_account
+                            - membership
+                            - merchant
+                      multi_environment_config:
+                        allOf:
+                        - type: object
+                          properties:
+                            multi_environment_config_token:
+                              type: string
+                            multi_environment_config_notes:
+                              type: string
+                            created_at:
+                              type: string
+                            journey_token:
+                              type: string
+                            journey_name:
+                              type: string
+                            journey_public_version:
+                              type: number
+                            actions:
+                              description: List of journey actions that have been configured as part of this Multi-Environment Configuration.
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  journey_action_id:
+                                    type: number
+                                  action_version:
+                                    type: number
+                                  action_name:
+                                    type: string
+                                  outcome:
+                                    description: The outcome that all action nodes for this journey action will be decisioned to.
+                                    type: string
+                            workflows:
+                              description: 'List of workflows that have been configured as part of this Multi-Environment Configuration.
+
+                                Workflows will either have an outcome or a list of configured services.
+
+                                '
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  workflow_name:
+                                    type: string
+                                  workflow_node_type:
+                                    description: The type of node this workflow is used as, for example Step Up
+                                    type: string
+                                  workflow_token:
+                                    type: string
+                                  workflow_public_version:
+                                    type: number
+                                  outcome:
+                                    description: The outcome that all workflow nodes using this workflow will be decisioned to.
+                                    type: string
+                                  configured_services:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        service_name:
+                                          type: string
+                                        has_credentials:
+                                          description: True if this service has been configured with test credentials, false otherwise.
+                                          type: boolean
+                                        sandbox:
+                                          description: True if this service has been configured to run in Alloy's sandbox environment, false otherwise.
+                                          type: boolean
+                                        credentials_description:
+                                          type: string
+                        description: If the application has been created with a Multi-Environment Configuration, the details will be included here.
+                      is_pending_additional_entities:
+                        allOf:
+                        - $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications/post/requestBody/content/application~1json/schema/properties/do_await_additional_entities'
+                      investigations:
+                        type: array
+                        description: When applicable, the list of Investigations created by this Alert.
+                        items:
+                          type: object
+                          properties:
+                            investigation_token:
+                              type: string
+                            investigation_state:
+                              type: string
+                              enum:
+                              - alert_review
+                              - alert_review_closed
+                              - case_review
+                              - case_review_closed
+                              - open
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            description: GET route for the Application
+                            type: string
+                example:
+                  journey_application_token: JA-ddjP31DhduTI334Cs3uT
+                  credit_limit: '42'
+                  annual_interest_rate: '70'
+                  status: completed
+                  sandbox: false
+                  created_at: 1634059958368
+                  updated_at: 1634059961458
+                  closed_at: 1634059961464
+                  recent_outcome: null
+                  complete_outcome: Approved
+                  journey_application_status: Approved
+                  is_rerun: true
+                  external_partner_id: null,
+                  external_group_id: null,
+                  external_application_id: null,
+                  is_archived: false,
+                  is_escalated: false,
+                  is_shadow_application: false,
+                  is_part_of_shadow_test: false,
+                  archived_at: null,
+                  application_meta: null,
+                  terminal_reconciliation_output:
+                    outcome_reasons:
+                    - name: Fraud Risk
+                      type: null
+                    tags:
+                    - fraud_tag
+                    - Fraud Risk
+                    output_attributes:
+                      income_calculation: 98000
+                    matrix_models:
+                      my_matrix:
+                        matrix_model_public_version: 5
+                        matrix_model_token: MM-Z37VkZwHMbnzhLJM7ZlX
+                        name: my_matrix
+                        result: 15
+                        status: executed
+                        x_bucket: 1
+                        x_value: 1000
+                        y_bucket: 0
+                        y_value: 300
+                  _embedded:
+                    rerun:
+                      initiated_by: dashboard
+                      previous_journey_application_token: JA-zvtpApEGBnmKepPwygBx
+                      root_external_group_id: null
+                      root_journey_application_token: JA-zvtpApEGBnmKepPwygBx
+                    reruns: []
+                    events:
+                    - type: started_application
+                      timestamp: 1634059958414
+                      entity_token: null
+                      _embedded:
+                        node:
+                          name: null
+                          id: '1632850505316'
+                          type: workflow
+                          config:
+                            workflow_token: vUr2Fs1y8Qiz1a79kNJk1dk7EfYUAJRK
+                            workflow_version_id: 1
+                      _links: {}
+                    - type: started_evaluation
+                      timestamp: 1634059958531
+                      evaluation_token: L-Vn9uOp0ZyYvjDL1t3Sd7
+                      entity_token: null
+                      _embedded:
+                        node:
+                          name: null
+                          id: '1632850505316'
+                          type: workflow
+                          config:
+                            workflow_token: vUr2Fs1y8Qiz1a79kNJk1dk7EfYUAJRK
+                            workflow_version_id: 1
+                      _links:
+                        evaluation:
+                          href: /v1/evaluations/L-Vn9uOp0ZyYvjDL1t3Sd7
+                      sdk_config:
+                        documents:
+                        - passport
+                        selfie: true
+                    - type: completed_evaluation
+                      timestamp: 1634059960557
+                      outcome: Approved
+                      evaluation_token: L-Vn9uOp0ZyYvjDL1t3Sd7
+                      entity_token: P-tZOLIOQGVxfixICuvkS0
+                      _embedded:
+                        node:
+                          name: null
+                          id: '1632850505316'
+                          type: workflow
+                          config:
+                            workflow_token: vUr2Fs1y8Qiz1a79kNJk1dk7EfYUAJRK
+                            workflow_version_id: 1
+                      _links:
+                        evaluation:
+                          href: /v1/evaluations/L-Vn9uOp0ZyYvjDL1t3Sd7
+                    - type: completed_application
+                      timestamp: 1634059961453
+                      outcome: Approved
+                      entity_token: P-tZOLIOQGVxfixICuvkS0
+                      _embedded:
+                        node:
+                          name: null
+                          id: '1633639581306'
+                          type: outcome
+                          config:
+                            outcome: Approved
+                      _links: {}
+                    journey:
+                      journey_name: ''
+                      journey_type: application
+                      journey_token: J-qDydegaMK8otdsRYquOR
+                      _links:
+                        self:
+                          href: /v1/journeys/J-qDydegaMK8otdsRYquOR
+                        callback_by_entity_application_token:
+                          href: /v1/journeys/J-rTE9lsgkluEMB6pWp6Y5/applications/JA-iLh1wxtrpfGuncHQVcwK/nodes/97b927fe-637b-42be-aa70-1e998ad57bb3
+                    child_entities:
+                    - external_entity_identifier: external_entity_id123
+                      name: John Doe
+                      token: P-tZOLIOQGVxfixICuvkS0
+                      type: person
+                      entity_application_token: EA-GessHRonFRTSXCmErk7J
+                      entity_application_status: completed
+                      entity_application_outcome: approved
+                      created: '2021-10-12T20:38:26.493Z'
+                    entity_applications:
+                    - entity_token: P-tZOLIOQGVxfixICuvkS0
+                      entity_application_token: EA-GessHRonFRTSXCmErk7J
+                      entity_application_outcome: approved
+                      entity_application_status: completed
+                      entity_application_status_details: null
+                      sdk_link: null
+                      dimensions: null
+                      output:
+                        outcome_reasons:
+                        - name: Fraud Risk
+                          type: null
+                        tags:
+                        - fraud_tag
+                        - Fraud Risk
+                        output_attributes:
+                          income_calculation: 98000
+                        matrix_models:
+                          my_matrix:
+                            matrix_model_public_version: 5
+                            matrix_model_token: MM-Z37VkZwHMbnzhLJM7ZlX
+                            name: my_matrix
+                            result: 15
+                            status: executed
+                            x_bucket: 1
+                            x_value: 1000
+                            y_bucket: 0
+                            y_value: 300
+                    is_pending_additional_entities: false
+                    entity:
+                      external_entity_identifier: null
+                      name: null
+                      token: G-wBdsvC7hA84j7p4PTVcD
+                      type: group
+                    entity_group:
+                      name: Jane's Biscuit Co.
+                      token: EG-CNh8eYbhfN8vJVE1Ljpk
+                      type: business
+                  _links:
+                    self:
+                      href: /v1/journeys/J-qDydegaMK8otdsRYquOR/applications/JA-ddjP31DhduTI334Cs3uT
+        '401':
+          description: Authentication Failure
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications~1%7Bjourney_application_token%7D~1review~1%7Bmanual_review_token%7D/get/responses/401/content/application~1json/schema'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    status_code:
+                      type: string
+                      example: 404
+                    error:
+                      type: object
+                      properties:
+                        minor_code:
+                          type: number
+                          example: 4041
+                        type:
+                          type: string
+                          example: Not Found
+                        message:
+                          type: string
+                          example: Unable to find the requested resource
+                        details:
+                          type: object
+                          properties:
+                            journey_token:
+                              type: string
+                              example: J-dT8zCu7TQo5tfXzSgrBX
+                            journey_application_token:
+                              type: string
+                              example: JA-mmVXL2SMEfVQ2pZhszlGX
+                        error_token:
+                          type: string
+                          example: 1731f999-7390-4e28-be34-9bbbee5251a2
+                    timestamp:
+                      type: number
+                      example: 1725386185011
+                    evaluation_token:
+                      type: string
+                      example: null
+                    entity_token:
+                      type: string
+                      example: null
+                    application_token:
+                      type: string
+                      example: nsDnk3oWWaKg2doAv9RWGrRnPOPsy1fX
+                    application_version_id:
+                      type: string
+                      example: null
+        '429':
+          description: Rate Limit Exceeded
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    status_code:
+                      type: string
+                      example: 429
+                    error:
+                      type: object
+                      properties:
+                        minor_code:
+                          type: integer
+                          example: 4033
+                        type:
+                          type: string
+                          example: Rate Limit Exceeded
+                        message:
+                          type: string
+                          example: You have reached the maximum rate.
+                        details:
+                          type: object
+                          additionalProperties: true
+                        error_token:
+                          type: string
+                    timestamp:
+                      type: integer
+                      example: 1737562731251
+                    evaluation_token:
+                      type:
+                      - string
+                      - 'null'
+                      example: null
+                    entity_token:
+                      type:
+                      - string
+                      - 'null'
+                      example: null
+                    application_token:
+                      type: string
+                    application_version_id:
+                      type:
+                      - string
+                      - 'null'
+                      example: null
+        '500':
+          description: Unhandled Service Error
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    status_code:
+                      type: string
+                      example: 500
+                    error:
+                      type: object
+                      properties:
+                        minor_code:
+                          type: number
+                          example: 5000
+                        type:
+                          type: string
+                        message:
+                          type: string
+                        error_token:
+                          type: string
+                          example: 31e6e353-e62b-4fe2-be16-ea37ea9a992c
+                    timestamp:
+                      type: number
+                      example: 1725386185011
+                    evaluation_token:
+                      type: string
+                      example: null
+                    entity_token:
+                      type: string
+                      example: null
+                    application_token:
+                      type: string
+                    application_version_id:
+                      type: string
+                      example: null
+        '503':
+          description: Temporarily Offline for Maintenance
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/paths/~1investigations~1%7Binvestigation_token%7D~1review/put/responses/404/content/application~1json/schema/allOf/0'
+      security:
+      - basic: []
+      - oauth2: []
     put:
+      parameters:
+      - $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications/parameters/1'
       tags:
       - Journeys
-      summary: Update a Journey Application
-      operationId: putJourneyApplication
+      summary: Update Journey Application
+      description: "This endpoint has 3 different use cases:\n\n  * Send the additional or updated data required to advance the application.\n    * Only available if one or more entity applications have the statuses `pending_documents`, `pending_step_up`, or `data_request`.\n  * Send new, additional entities to be processed.\n    * Only available if the parameter `do_await_additional_entities` was set to `true` in the POST request to create the journey application.\n  * Inform the system that the user has finished sending all additional entities by passing the parameter `has_finished_sending_additional_entities` with value `true`.\n    * Only available if the parameter `do_await_additional_entities` was set to `true` in the POST request to create the journey application.\n\nAny of the headers used with the original application (ex: `alloy-sandbox`) will also be used here.\n"
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/paths/~1journeys~1applications~1ext~1%7Bexternal_application_id%7D~1latest/put/requestBody/content/application~1json/schema'
       responses:
         '200':
-          description: Journey application updated
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications/post/responses/201'
+        '400':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1batches/post/responses/400'
+        '401':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/get/responses/401'
+        '404':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/get/responses/404'
+        '409':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1batches/post/responses/409'
+        '429':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/get/responses/429'
+        '500':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/get/responses/500'
+        '503':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/get/responses/503'
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /journeys/{journey_token}/applications:
+    parameters:
+    - in: path
+      name: journey_token
+      schema:
+        type: string
+      required: true
+      description: Token associated with your Journey
+      example: J-VCQoADBJxeHtmdAvFqoS
+    - in: header
+      name: alloy-journey-override-sync
+      schema:
+        type: boolean
+        description: 'This endpoint returns a synchronous response by default. If you would like to override this behavior and get an asynchronous response back immediately, send the header `alloy-journey-override-sync` as `true`.
+
+          '
+        example: false
+    - in: query
+      name: fullData
+      description: If this value is `true`, each event of type `completed_evaluation` in the array at `response._embedded._events` includes the full evaluation response.
+      schema:
+        type: string
+        enum:
+        - 'true'
+        - 'false'
+    - in: query
+      name: hideFields
+      description: 'A comma separated list of fields to obfuscate in the full evaluation response (only relevant within the `completed_evaluation` type events, and provided the query parameter `fullData` is also set to `true`).
+
+        For example, if `hideFields=document_ssn`, then `"document_ssn": "123456789"` would be returned as `"document_ssn": "*********"`.
+
+        This obfuscation will apply to the `supplied`, `formatted`, and `meta` objects in the full evaluation response, including inside nested objects within those objects.
+
+        '
+      schema:
+        type: string
+      example: name_first,name_last,document_ssn
+    - $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/parameters/1'
+    - in: header
+      name: alloy-sandbox
+      schema:
+        type: boolean
+      description: 'To run the application using Alloy''s sandbox environment, set this header to `true`.
+
+        '
+      example: true
+    - in: header
+      name: alloy-sandbox-services
+      schema:
+        type: string
+      description: 'A comma separated list of services that should be run using Alloy''s sandbox environment.
+
+        '
+      example: Socure3,EnhancedPersonSearch
+    - in: header
+      name: alloy-refresh-cache
+      schema:
+        type: boolean
+        description: 'To refresh any cached responses from external services, set this header to `true`.
+
+          '
+        example: true
+    - in: header
+      name: alloy-multi-environment-config-token
+      schema:
+        type: string
+        description: 'Specifies the Multi-Environment Configuration to be used with this application.
+
+          '
+        example: MEC-1t94UrgAwOGmaVUy94rK
+    post:
+      tags:
+      - Journeys
+      summary: Create Journey Application
+      description: 'Create a journey application for one or more entities.
+
+        '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - entities
+              properties:
+                entities:
+                  type: array
+                  description: 'List of entities to be processed in this Application.
+
+                    '
+                  items:
+                    anyOf:
+                    - title: Person Entity
+                      $ref: '#/paths/~1journeys~1applications~1ext~1%7Bexternal_application_id%7D~1latest~1rerun/post/requestBody/content/application~1json/schema/properties/entities/items'
+                    - title: Business Entity
+                      allOf:
+                      - type: object
+                        required:
+                        - data
+                        properties:
+                          external_entity_id:
+                            example: my_system_entity_id_345
+                            type: string
+                            description: 'The value used on client''s own system to identify the entity.
+
+                              If an entity associated with the value passed in already exists, then the entity application processes for that entity. Otherwise, a new entity is created and associated with the value passed in.
+
+                              This parameter is optional, but strongly encouraged.
+
+                              '
+                          data:
+                            type: object
+                            description: 'Contains the fields for each input attribute of each workflow in the journey that is expected to be processed for the entity.
+
+                              '
+                            properties:
+                              business_name:
+                                type: string
+                                example: Acme Corporation
+                              business_federal_ein:
+                                type: string
+                                description: Business federal employer ID number for US business entities.
+                                example: 122334455
+                              business_registry_id:
+                                type: string
+                                description: Business registry ID number for non-US business entities.
+                                example: 122334455
+                              business_phone_number:
+                                type: string
+                                description: Business phone number.
+                                example: 111222333
+                              business_url:
+                                type: string
+                                description: Business website.
+                                example: https://www.acmeco.com/
+                              addresses:
+                                type: array
+                                description: 'List of addresses for the given entity.
+
+                                  '
+                                items:
+                                  type: object
+                                  description: Full address for a business entity
+                                  properties:
+                                    type:
+                                      type: string
+                                      description: Allowed values are `"business_primary"`, `"business_secondary"`, `"business_previous"`
+                                      example: business_primary
+                                    line_1:
+                                      type: string
+                                      example: 41 E. 11th
+                                    line_2:
+                                      type: string
+                                      example: 2nd floor
+                                    city:
+                                      type: string
+                                      example: New York
+                                    state:
+                                      type: string
+                                      example: NY
+                                    postal_code:
+                                      type: string
+                                      example: 10003
+                                    country_code:
+                                      type: string
+                                      example: US
+                              representatives:
+                                type: array
+                                description: List of ultimate beneficial owners associated to the business.
+                                items:
+                                  type: object
+                                  description: Ultimate beneficial owners associated to the business.
+                                  properties:
+                                    name_first:
+                                      type: string
+                                      example: John
+                                    name_middle:
+                                      type: string
+                                      example: Franklin
+                                    name_last:
+                                      type: string
+                                      example: Doe
+                                    type:
+                                      type: string
+                                      example: principal_owner
+                                      description: Allowed values are `"principal_owner"`, `"authorized_signer"`, `"coborrower"`, `"joint"`, `"guarantor"`, or `"director"`.
+                                    birth_date:
+                                      type: string
+                                      example: '1990-01-25'
+                                    document_ssn:
+                                      type: string
+                                      description: Social Security number
+                                      example: 111223333
+                                    email_address:
+                                      type: string
+                                      example: john@alloy.com
+                                    phone_number:
+                                      type: string
+                                      example: 8443825569
+                                    ownership_percentage:
+                                      type: string
+                                      example: 66.6
+                                    addresses:
+                                      type: array
+                                      description: 'List of addresses for the given entity.
+
+                                        '
+                                      items:
+                                        $ref: '#/paths/~1journeys~1applications~1ext~1%7Bexternal_application_id%7D~1latest~1rerun/post/requestBody/content/application~1json/schema/properties/entities/items/allOf/0/properties/data/properties/addresses/items'
+                              meta:
+                                type: object
+                                description: Any additional metadata to be accessed for decisioning or review purposes that are not sent to a data service can be referenced here.
+                                example:
+                                  sic_code: 1531
+                      - type: object
+                        properties:
+                          entity_type:
+                            example: business
+                            default: business
+                            type: string
+                            description: If left blank, defaults to `"business"`.
+                          branch_name:
+                            example: my_business_branch_name
+                            default: businesses
+                            type: string
+                            description: 'This value is required for journeys with multiple branches. It must match a journey branch configured from the start node. It is used to determine
+
+                              which steps the entity will be required to complete.
+
+                              '
+                          entity_token:
+                            example: B-4vaKI3CAgBvpdLpMifon
+                            type: string
+                            description: 'The token associated with an existing entity.
+
+                              By passing a value for this field, the entity application processes for the existing entity associated with the token.
+
+                              '
+                  example:
+                  - external_entity_id: my_system_entity_id_123
+                    data:
+                      name_first: John
+                      name_middle: Franklin
+                      name_last: Doe
+                      birth_date: '1990-01-25'
+                      document_ssn: 111223333
+                      email_address: john@alloy.com
+                      phone_number: 8443825569
+                      ip_address_v4: 42.206.213.70
+                      addresses:
+                      - type: primary
+                        line_1: 41 E. 11th
+                        line_2: 2nd floor
+                        city: New York
+                        state: NY
+                        postal_code: 10003
+                        country_code: US
+                      meta:
+                        user_type: vip
+                    entity_type: person
+                    branch_name: persons
+                  - external_entity_id: my_system_entity_id_345
+                    data:
+                      business_name: Acme Corporation
+                      business_federal_ein: 122334455
+                      business_phone_number: 111222333
+                      business_url: https://www.acmeco.com/
+                      addresses:
+                      - type: business_primary
+                        line_1: 41 E. 11th
+                        line_2: 2nd floor
+                        city: New York
+                        state: NY
+                        postal_code: 10003
+                        country_code: US
+                      representatives:
+                      - name_first: John
+                        name_middle: Franklin
+                        name_last: Doe
+                        type: principal_owner
+                        birth_date: '1990-01-25'
+                        document_ssn: 111223333
+                        email_address: john@alloy.com
+                        phone_number: 8443825569
+                        ownership_percentage: 40
+                        addresses:
+                        - type: primary
+                          line_1: 41 E. 11th
+                          line_2: 2nd floor
+                          city: New York
+                          state: NY
+                          postal_code: 10003
+                          country_code: US
+                      meta:
+                        sic_code: 1531
+                    entity_type: business
+                    branch_name: businesses
+                external_group_id:
+                  type: string
+                  description: 'Optional, but if you have an identifier in your system that is unique and that you would like to tie to an
+
+                    Application in a 1:1 relationship, you can include it here. This field will not update the Entity Group object.
+
+                    '
+                  example: my_system_group_id_456
+                external_application_id:
+                  type: string
+                  description: 'Optional, but if you have an identifier in your system that refers to an application or an entire account,
+
+                    and you would like to associate it with one or more Journey Applications, you can include it here. We also have
+
+                    a number of endpoints that allow you to reference a Journey Application by external application id instead of by
+
+                    Journey Application token when retrieving, rerunning or updating the Application. Supported characters are: `a-zA-Z0-9_-`
+
+                    '
+                do_await_additional_entities:
+                  type: boolean
+                  default: false
+                  example: false
+                  description: 'If this value is true, additional entities can be sent by using the PUT endpoint that updates a Journey Application.
+
+
+                    The Journey Application will not complete until the parameter `has_finished_sending_additional_entities` is sent with the value `true` to the PUT endpoint.
+
+                    '
+                application_meta:
+                  type: object
+                  description: 'Optional, allows to provide additional metadata applied to all entities in the Application.
+
+                    '
+                external_entity_group_id:
+                  type: string
+                  description: 'Optional, but if you wish to associate the entities within this application with an existing entity group
+
+                    or create a new entity group with this identifier, you can include it here.
+
+
+                    For more information on entity groups, visit our guide: https://developer.alloy.com/public/docs/onboarding-with-entity-groups
+
+                    '
+                entity_group_token:
+                  type: string
+                  description: 'Optional, but if you wish to associate the entities within this application with an existing entity group, you can include it here.
+
+                    '
+                entity_group_name:
+                  type: string
+                  description: 'Optional, but if you wish to create a new entity group with this name, you can include it here.
+
+                    '
+                entity_group_type:
+                  type: string
+                  enum:
+                  - business
+                  - joint_account
+                  - membership
+                  - merchant
+                  description: 'Optional, but if you wish to create a new entity group with this type, you can include it here.
+
+                    '
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - allOf:
+                  - $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications~1%7Bjourney_application_token%7D/get/responses/200/content/application~1json/schema'
+                  - title: When header `alloy-journey-override-sync` is set to `false` or not passed in
+                - allOf:
+                  - $ref: '#/paths/~1journeys~1applications~1ext~1%7Bexternal_application_id%7D~1latest/put/responses/200/content/application~1json/schema/oneOf/0/allOf/1'
+                  - title: When header `alloy-journey-override-sync` is set to `true`
+        '400':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1batches/post/responses/400'
+        '401':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/get/responses/401'
+        '404':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/get/responses/404'
+        '409':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1batches/post/responses/409'
+        '429':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/get/responses/429'
+        '500':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/get/responses/500'
+        '503':
+          $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1schema/get/responses/503'
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
   /journeys/{journey_token}/applications/{journey_application_token}/notes:
     parameters:
     - name: journey_token
@@ -117,6 +1372,9 @@ paths:
       responses:
         '200':
           description: Notes
+      security:
+      - basicAuth: []
+      - bearerAuth: []
     post:
       tags:
       - Journeys
@@ -131,6 +1389,14 @@ paths:
       responses:
         '201':
           description: Note created
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/{journey_token}/applications/{journey_application_token}/rerun:
     parameters:
     - name: journey_token
@@ -151,6 +1417,14 @@ paths:
       responses:
         '201':
           description: Journey application rerun
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/{journey_token}/applications/{journey_application_token}/review:
     parameters:
     - name: journey_token
@@ -177,6 +1451,14 @@ paths:
       responses:
         '201':
           description: Review recorded
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/{journey_token}/applications/{journey_application_token}/auditaccess:
     parameters:
     - name: journey_token
@@ -197,6 +1479,14 @@ paths:
       responses:
         '200':
           description: Audit access logged
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/{journey_token}/applications/{journey_application_token}/nodes/{node_id}:
     parameters:
     - name: journey_token
@@ -228,6 +1518,14 @@ paths:
       responses:
         '200':
           description: Node updated
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/{journey_token}/applications/{journey_application_token}/review/{manual_review_token}:
     parameters:
     - name: journey_token
@@ -253,6 +1551,14 @@ paths:
       responses:
         '200':
           description: Manual review
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/{journey_token}/applications/{journey_application_token}/cases/{case_token}/review:
     parameters:
     - name: journey_token
@@ -284,6 +1590,14 @@ paths:
       responses:
         '201':
           description: Case review recorded
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/applications/ext/{external_application_id}/latest:
     parameters:
     - name: external_application_id
@@ -299,6 +1613,9 @@ paths:
       responses:
         '200':
           description: Journey application
+      security:
+      - basicAuth: []
+      - bearerAuth: []
     put:
       tags:
       - Journeys
@@ -313,6 +1630,14 @@ paths:
       responses:
         '200':
           description: Journey application updated
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/applications/ext/{external_application_id}/latest/rerun:
     parameters:
     - name: external_application_id
@@ -328,6 +1653,14 @@ paths:
       responses:
         '201':
           description: Application rerun
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/entities/{external_entity_id}/applications:
     parameters:
     - name: external_entity_id
@@ -343,6 +1676,14 @@ paths:
       responses:
         '200':
           description: Applications
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/{journey_token}/parameters:
     parameters:
     - name: journey_token
@@ -358,6 +1699,14 @@ paths:
       responses:
         '200':
           description: Parameters
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /journeys/{journey_token}/schema:
     parameters:
     - name: journey_token
@@ -373,6 +1722,14 @@ paths:
       responses:
         '200':
           description: Schema
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
 components:
   schemas:
     Note:
@@ -404,6 +1761,17 @@ components:
           type: string
           format: date-time
   securitySchemes:
+    basic:
+      type: http
+      description: HTTP basic authorization using a workflow token and secret
+      scheme: basic
+    oauth2:
+      type: oauth2
+      description: OAuth2 using a workflow token and secret to generate a bearer token
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/bearer
+          scopes: {}
     basicAuth:
       type: http
       scheme: basic
@@ -412,3 +1780,6 @@ components:
       type: http
       scheme: bearer
       description: OAuth 2.0 bearer token obtained via the OAuth endpoints.
+x-refined-from:
+- alloy-com-identity-api-openapi.yml
+- alloy-openapi.yml

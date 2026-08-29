@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Alloy Bank Accounts Batches API
+  title: Alloy Batches API
   description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
 
     platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,

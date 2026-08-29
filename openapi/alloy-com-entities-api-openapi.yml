@@ -1,162 +1,942 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Alloy Bank Accounts Entities API
-  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
-
-    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
-
-    credit, and ongoing-monitoring workflows used by banks, credit unions, and
-
-    fintechs.
-
-
-    The API is organized around evaluations, journey applications, entities
-
-    (persons and businesses), bank accounts, documents, events, cases,
-
-    investigations, custom lists, published attributes, and webhooks. Sandbox
-
-    and production environments are exposed as two distinct base URLs.
-
-    '
+  title: Alloy Com Entities API
   version: '1.0'
-  contact:
-    name: Alloy Developer Support
-    url: https://help.alloy.com
-  license:
-    name: Proprietary
-    url: https://www.alloy.com/tos
+  description: 'Operations tagged Entities across 2 of this provider''s published API definitions: alloy-com-identity-api-openapi.yml, alloy-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://sandbox.alloy.co/v1
   description: Sandbox environment
+- url: https://alloy.co/v1
+  description: Production environment
 - url: https://api.alloy.co/v1
   description: Production environment
-security:
-- basicAuth: []
-- bearerAuth: []
 tags:
 - name: Entities
-  description: Person and business entities, notes, merging, feedback, and groups.
+  description: Entities are the center of the Alloy world. All evaluations, manual reviews, and documents are related to an entity whether or not you explicitly link them together in your API requests. This endpoint provides the ability to query on an entity and get top-level details about that entity as well as an overview of all items associated with the entity. The tokens from linked evaluations, reviews, or documents can be passed to their own API endpoints for more information about those specific items.
 paths:
-  /entities/persons:
-    post:
-      tags:
-      - Entities
-      summary: Create a Person Entity
-      operationId: postEntityPerson
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EvaluationRequest'
-      responses:
-        '201':
-          description: Person entity created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Entity'
-  /entities/persons/{entity_token}:
+  /entities/businesses/{entity_token}:
     parameters:
-    - name: entity_token
-      in: path
-      required: true
+    - in: path
+      name: entity_token
       schema:
         type: string
+      required: true
+      description: Business token associated with entity.
     get:
       tags:
       - Entities
-      summary: Get a Person Entity
-      operationId: getEntityPerson
+      summary: Get a business entity
+      description: Retrieves information associated with specified business entity token
       responses:
         '200':
-          description: Person entity
+          x-summary: OK
+          description: Entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Entity'
+                type: object
+                $ref: '#/paths/~1entities~1businesses/post/responses/201/content/application~1json/schema'
+        '400':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: string
+                  error:
+                    type: object
+                  timestamp:
+                    type: string
+                  evaluation_token:
+                    type: string
+                  entity_token:
+                    type: string
+                  application_token:
+                    type: string
+                  application_version_id:
+                    type: string
+                example:
+                  status_code: 400
+                  error:
+                    minor_code: 4013
+                    type: Authorization Error
+                    message: You are not authorized to operate on the specified object or it does not exist.
+                    details:
+                      entity_token_or_external_id: provided-token
+                    error_token: u82hfowjwl
+                  timestamp: 1652205025227
+                  evaluation_token: null
+                  entity_token: null
+                  application_token: 2ohfhwqoq2nm
+                  application_version_id: null
+      security:
+      - basic: []
+      - oauth2: []
     patch:
       tags:
       - Entities
-      summary: Update a Person Entity
-      operationId: patchEntityPerson
+      summary: Update a business entity
+      description: Using a business entity token, update entity with provided information
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              type: object
+              allOf:
+              - $ref: '#/paths/~1entities~1businesses/post/requestBody/content/application~1json/schema'
+              - $ref: '#/paths/~1entities~1persons~1%7Bentity_token%7D/patch/requestBody/content/application~1json/schema/allOf/1'
       responses:
         '200':
-          description: Person entity updated
+          x-summary: OK
+          description: Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/paths/~1entities~1businesses/post/responses/201/content/application~1json/schema'
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /entities/{entity_token}:
+    parameters:
+    - in: path
+      name: entity_token
+      schema:
+        type: string
+      required: true
+      description: Token associated with entity.
+    get:
+      tags:
+      - Entities
+      summary: Get Information Related to an Entity
+      responses:
+        '200':
+          x-summary: OK
+          description: Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  type:
+                    type: string
+                  entity_token:
+                    type: string
+                  archived:
+                    type: boolean
+                  created:
+                    type: number
+                  evaluations:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1groups~1%7Bentity_token%7D/get/responses/200/content/application~1json/schema/properties/evaluations/items'
+                  documents:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1groups~1%7Bentity_token%7D/get/responses/200/content/application~1json/schema/properties/documents/items'
+                  reviews:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1groups~1%7Bentity_token%7D/get/responses/200/content/application~1json/schema/properties/reviews/items'
+                  notes:
+                    type: array
+                    items:
+                      properties:
+                        text:
+                          type: string
+                          description: The contents of the note
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: When the note was created
+                        updated_at:
+                          type: string
+                          format: date-time
+                          description: When the note was updated
+                        email:
+                          type: string
+                          description: The email address of the author of the note
+                        name:
+                          type: string
+                          description: The name of the author of the note
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /entities/persons/{entity_token}:
+    parameters:
+    - in: path
+      name: entity_token
+      schema:
+        type: string
+      required: true
+      description: Person token associated with entity.
+    get:
+      tags:
+      - Entities
+      summary: Get a person entity
+      description: "Retrieves information associated with specified person entity token \n\nThis endpoint supports the Alloy Entity token or your `external_entity_id`.\n"
+      responses:
+        '200':
+          x-summary: OK
+          description: Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/paths/~1entities~1persons/post/responses/201/content/application~1json/schema'
+        '400':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: string
+                  error:
+                    type: object
+                  timestamp:
+                    type: string
+                  evaluation_token:
+                    type: string
+                  entity_token:
+                    type: string
+                  application_token:
+                    type: string
+                  application_version_id:
+                    type: string
+                example:
+                  status_code: 400
+                  error:
+                    minor_code: 4013
+                    type: Authorization Error
+                    message: You are not authorized to operate on the specified object or it does not exist.
+                    details:
+                      entity_token_or_external_id: provided-token
+                    error_token: u82hfowjwl
+                  timestamp: 1652205025227
+                  evaluation_token: null
+                  entity_token: null
+                  application_token: 2ohfhwqoq2nm
+                  application_version_id: null
+      security:
+      - basic: []
+      - oauth2: []
+    patch:
+      tags:
+      - Entities
+      summary: Update a person entity
+      description: Using a person entity token, update entity with provided information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/paths/~1entities~1persons/post/requestBody/content/application~1json/schema'
+              - properties:
+                  external_entity_ids:
+                    type: array
+                    description: List of external entity ids to add to the entity. If the entity does not currently have an external entity id, the first item of the array becomes the primary external entity id. Otherwise, the current primary external entity id remains primary unless an item in the array is explicitly designated as primary by using the item's `designation` property. Only one item may be designated as `primary`, and duplicate `external_entity_id` values are not allowed.
+                    items:
+                      type: object
+                      required:
+                      - external_entity_id
+                      properties:
+                        external_entity_id:
+                          type: string
+                          maxLength: 65535
+                        external_entity_id_type:
+                          type: string
+                          example: cif
+                          description: Optional. A label for categorizing external entity ids. The universal type `cif` is available to all customers. Additional custom types may be configured per-customer.
+                        designation:
+                          type: string
+                          enum:
+                          - primary
+                          description: Optional. Set this as `primary` in order to designate the external entity id as primary.
+      responses:
+        '200':
+          x-summary: OK
+          description: Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/paths/~1entities~1persons/post/responses/201/content/application~1json/schema'
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
   /entities/businesses:
     post:
       tags:
       - Entities
-      summary: Create a Business Entity
-      operationId: postEntityBusiness
+      summary: Create a business entity
+      description: Creates a business entity
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              type: object
+              properties:
+                external_entity_id:
+                  type: string
+                business_name:
+                  type: string
+                business_alternate_name:
+                  type: string
+                business_registry_id:
+                  type: string
+                business_federal_ein:
+                  type: string
+                addresses:
+                  type: array
+                  items:
+                    type: object
+                emails:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      email_address:
+                        type: string
+                phones:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      phone_number:
+                        type: string
+                pii_status:
+                  type: string
+                  enum:
+                  - successful
+                  - failed
+                  - pending
+              example:
+                external_entity_id: 087ac67e-17ab-4529-8d1a-a8b2214d305f
+                business_name: Alloy
+                business_alternate_name: DBA First Mile Group
+                business_registry_id: '123456789'
+                business_federal_ein: '987654321'
+                addresses:
+                - address_line_1: 41 E. 11th
+                  address_city: New York
+                  address_state: NY
+                  address_postal_code: '10003'
+                  address_country_code: US
+                  type: business_primary
+                emails:
+                - email_address: safeandseamless@alloy.com
+                phones:
+                - phone_number: 555-000-1234
+                pii_status: successful
       responses:
         '201':
-          description: Business entity created
+          x-summary: OK
+          description: Entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Entity'
-  /entities/businesses/{entity_token}:
+                type: object
+                properties:
+                  status_code:
+                    type: string
+                  entity_token:
+                    type: string
+                  external_entity_id:
+                    type: string
+                  created_at:
+                    type: number
+                  business_name:
+                    type: string
+                  business_alternate_name:
+                    type: string
+                  business_registry_id:
+                    type: string
+                  business_federal_ein:
+                    type: string
+                  addresses:
+                    type: array
+                    items:
+                      type: object
+                  emails:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        email_address:
+                          type: string
+                  phones:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        phone_number:
+                          type: string
+                  entity_groups:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1entities~1persons/post/responses/201/content/application~1json/schema/properties/entity_groups/items'
+                  type:
+                    type: string
+                    example: business
+                  _embedded:
+                    type: object
+                    properties:
+                      notes:
+                        type: array
+                        items:
+                          $ref: '#/paths/~1entities~1%7Bentity_token%7D/get/responses/200/content/application~1json/schema/properties/notes/items'
+                      external_entity_ids:
+                        type: array
+                        items:
+                          $ref: '#/paths/~1entities~1persons/post/responses/201/content/application~1json/schema/properties/_embedded/properties/external_entity_ids/items'
+                  _links:
+                    $ref: '#/paths/~1entities~1persons/post/responses/201/content/application~1json/schema/properties/_links'
+                example:
+                  entity_token: B-aCF4FAkGKiTIZJFhproR
+                  external_entity_id: 087ac67e-17ab-4529-8d1a-a8b2214d305f
+                  created_at: 1652195922608
+                  business_name: Alloy
+                  business_alternate_name: DBA First Mile Group
+                  business_registry_id: '123456789'
+                  business_federal_ein: '987654321'
+                  addresses:
+                  - address_line_1: 41 E. 11th
+                    address_city: New York
+                    address_state: NY
+                    address_postal_code: '10003'
+                    address_country_code: US
+                    type: business_primary
+                  emails:
+                  - email_address: safeandseamless@alloy.com
+                  phones:
+                  - phone_number: '5550001234'
+                  entity_groups:
+                  - external_entity_group_ids:
+                    - 81999dc0-20de-4953-b0b2-2b2f5809c87d
+                    entity_group_token: EG-nqnHfUO9NtkazKzVWVqR
+                    entity_group_name: Jane's Biscuit Company
+                    entity_group_type: business
+                    roles:
+                    - primary
+                    ownership_percentage: null
+                    title: null
+                    entity_group_relationship_status: successful
+                    relationship_created_at: '2025-12-16T14:53:10.538Z'
+                    entity_group_created_at: '2025-12-16T14:53:10.538Z'
+                  _embedded: {}
+                  _links:
+                    self:
+                      href: /v1/entities/businesses/B-aCF4FAkGKiTIZJFhproR
+        '400':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: string
+                  error:
+                    type: object
+                  timestamp:
+                    type: string
+                  evaluation_token:
+                    type: string
+                  entity_token:
+                    type: string
+                  application_token:
+                    type: string
+                  application_version_id:
+                    type: string
+                example:
+                  status_code: 400
+                  error:
+                    minor_code: 4002
+                    type: Request Body Validation Failure
+                    message: Your request body contained invalid field(s)
+                    details:
+                      message: '"business_name" is required'
+                      path: business_name
+                      type: any.required
+                      context:
+                        key: business_name
+                    error_token: u82hfowjwl
+                  timestamp: 1652205025227
+                  evaluation_token: null
+                  entity_token: null
+                  application_token: 2ohfhwqoq2nm
+                  application_version_id: null
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /entities/{entity_token}/notes:
     parameters:
-    - name: entity_token
-      in: path
-      required: true
+    - in: path
+      name: entity_token
       schema:
         type: string
-    get:
+      required: true
+      description: Token associated with entity.
+    post:
       tags:
       - Entities
-      summary: Get a Business Entity
-      operationId: getEntityBusiness
-      responses:
-        '200':
-          description: Business entity
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Entity'
-    patch:
-      tags:
-      - Entities
-      summary: Update a Business Entity
-      operationId: patchEntityBusiness
+      summary: Add a Note for an Entity
+      description: Adds a note to an existing entity.
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              type: object
+              required:
+              - note
+              - note_author_agent_email
+              properties:
+                note:
+                  type: string
+                note_author_agent_email:
+                  type: string
       responses:
         '200':
-          description: Business entity updated
-  /entities/{entity_token}:
-    parameters:
-    - name: entity_token
-      in: path
-      required: true
-      schema:
-        type: string
-    get:
+          x-summary: OK
+          description: Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entity_token:
+                    type: string
+                  external_entity_id:
+                    type: string
+                  note:
+                    type: string
+                  note_author_agent_email:
+                    type: string
+                  created_at:
+                    type: number
+                  updated_at:
+                    type: number
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /entities/merge:
+    post:
       tags:
       - Entities
-      summary: Get an Entity
-      operationId: getEntity
+      summary: Merge two entities
+      description: Merge the properties of the secondary entity into the primary entity. Required - one of (primary_entity_token / primary_external_entity_id) and one of (secondary_entity_token and secondary_external_entity_id).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                primary_entity_token:
+                  type: string
+                  description: Required if `primary_external_entity_id` is not supplied
+                primary_external_entity_id:
+                  type: string
+                  description: Required if `primary_entity_token` is not supplied
+                secondary_entity_token:
+                  type: string
+                  description: Required if `secondary_external_entity_id` is not supplied
+                secondary_external_entity_id:
+                  type: string
+                  description: Required if `secondary_entity_token` is not supplied
       responses:
-        '200':
+        '201':
+          x-summary: OK
+          description: OK
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /entities/persons:
+    post:
+      tags:
+      - Entities
+      summary: Create a person entity
+      description: Creates a person entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                external_entity_id:
+                  type: string
+                gender:
+                  type: string
+                birth_date:
+                  type: string
+                name_first:
+                  type: string
+                name_middle:
+                  type: string
+                name_last:
+                  type: string
+                document_ssn:
+                  type: string
+                document_id_card:
+                  type: string
+                document_license:
+                  type: string
+                document_passport:
+                  type: string
+                addresses:
+                  type: array
+                  items:
+                    type: object
+                emails:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      email_address:
+                        type: string
+                phones:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      phone_number:
+                        type: string
+                pii_status:
+                  type: string
+                  enum:
+                  - successful
+                  - failed
+                  - pending
+              example:
+                external_entity_id: person-entity
+                gender: male
+                birth_date: '1998-02-03'
+                name_first: John
+                name_last: Doe
+                document_ssn: '123456789'
+                document_id_card: null
+                document_license: null
+                document_passport: null
+                addresses:
+                - address_line_1: 41 E. 11th
+                  address_city: New York
+                  address_state: NY
+                  address_postal_code: '10003'
+                  address_country_code: US
+                  type: primary
+                emails:
+                - email_address: john@alloy.com
+                phones:
+                - phone_number: 555-000-1234
+                pii_status: successful
+      responses:
+        '201':
+          x-summary: OK
           description: Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: string
+                  entity_token:
+                    type: string
+                  external_entity_id:
+                    type: string
+                  created_at:
+                    type: number
+                  person_details_updated_at:
+                    type: number
+                    description: When the entity was most recently updated
+                  gender:
+                    type: string
+                  birth_date:
+                    type: string
+                  name_first:
+                    type: string
+                  name_middle:
+                    type: string
+                  name_last:
+                    type: string
+                  document_ssn:
+                    type: string
+                  document_id_card:
+                    type: string
+                  document_license:
+                    type: string
+                  document_passport:
+                    type: string
+                  addresses:
+                    type: array
+                    items:
+                      type: object
+                  emails:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        email_address:
+                          type: string
+                  phones:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        phone_number:
+                          type: string
+                        type:
+                          type: string
+                          example: home
+                  entity_groups:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        external_entity_group_ids:
+                          type: array
+                          items:
+                            type: string
+                        entity_group_token:
+                          type: string
+                        entity_group_name:
+                          type: string
+                        entity_group_type:
+                          type: string
+                          enum:
+                          - business
+                          - joint_account
+                          - membership
+                          - merchant
+                        roles:
+                          type: array
+                          items:
+                            type: string
+                            enum:
+                            - primary
+                            - shareholder
+                            - secondary
+                            - beneficiary
+                            - beneficial_owner
+                            - control_prong
+                            - director
+                            - authorized_signer
+                            - principal_owner
+                            - coborrower
+                            - joint
+                            - guarantor
+                        ownership_percentage:
+                          type: string
+                        title:
+                          type: string
+                          example: CEO
+                        entity_group_relationship_status:
+                          type: string
+                          example: successful
+                        relationship_created_at:
+                          type: string
+                          example: '2025-12-08T14:01:00.000Z'
+                        entity_group_created_at:
+                          type: string
+                          example: '2025-12-10T16:19:56.000Z'
+                  type:
+                    type: string
+                    example: person
+                  _embedded:
+                    type: object
+                    properties:
+                      notes:
+                        type: array
+                        items:
+                          $ref: '#/paths/~1entities~1%7Bentity_token%7D/get/responses/200/content/application~1json/schema/properties/notes/items'
+                      document_ssns:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            document_ssn:
+                              type: string
+                              description: The plaintext value of the entity's SSN.
+                            evaluation_token:
+                              type: string
+                              description: The evaluation in which the SSN was added to the entity
+                            created_at:
+                              type: number
+                              description: When the SSN was added to the entity
+                      external_entity_ids:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            external_entity_id:
+                              type: string
+                            external_entity_id_type:
+                              type: string
+                      birth_dates:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            birth_date:
+                              type: string
+                              description: The plaintext value of the entity's date of birth
+                              format: date
+                            evaluation_token:
+                              type: string
+                              description: The evaluation in which the date of birth was added to the entity
+                            created_at:
+                              type: number
+                              description: When the date of birth was added to the entity
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: A link back to this entity
+                example:
+                  entity_token: P-urpS2U0hekJZW9UHMwAK
+                  external_entity_id: 1234abcd
+                  created_at: 1652195922608
+                  gender: male
+                  birth_date: '1999-12-31'
+                  name_first: John
+                  name_last: Doe
+                  document_ssn: '123456789'
+                  document_id_card: null
+                  document_license: null
+                  document_passport: null
+                  addresses:
+                  - address_line_1: 41 E. 11th
+                    address_city: New York
+                    address_state: NY
+                    address_postal_code: '10003'
+                    address_country_code: US
+                    type: primary
+                  emails:
+                  - email_address: john@alloy.com
+                  phones:
+                  - phone_number: 555-000-1234
+                  entity_groups:
+                  - external_entity_group_ids:
+                    - 81999dc0-20de-4953-b0b2-2b2f5809c87d
+                    entity_group_token: EG-nqnHfUO9NtkazKzVWVqR
+                    entity_group_name: Jane's Biscuit Company
+                    entity_group_type: business
+                    roles:
+                    - director
+                    - beneficial_owner
+                    ownership_percentage: '20'
+                    title: Director of Sales
+                    entity_group_relationship_status: successful
+                    relationship_created_at: '2025-12-18T14:01:00.000Z'
+                    entity_group_created_at: '2025-12-16T14:53:10.538Z'
+                  _embedded:
+                    document_ssns:
+                    - document_ssn: '123456789'
+                      evaluation_token: L-x8Odl62GlJF93KDEml1d
+                      created_at: 1652367121580
+                    birth_dates:
+                    - birth_date: '1999-12-31'
+                      evaluation_token: L-CjsOLGbHtGhNEMd97XN1
+                      created_at: 1698681900932
+                    external_entity_ids:
+                    - external_entity_id: 1234abcd
+                      external_entity_id_type: null
+                    notes:
+                    - text: This is a note
+                      created_at: 1698681900932
+                      updated_at: 1698681900932
+                      email: janedoe@alloy.com
+                      name: Jane Doe
+                  _links:
+                    self:
+                      href: /v1/entities/persons/P-urpS2U0hekJZW9UHMwAK
+        '400':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: string
+                  error:
+                    type: object
+                  timestamp:
+                    type: string
+                  evaluation_token:
+                    type: string
+                  entity_token:
+                    type: string
+                  application_token:
+                    type: string
+                  application_version_id:
+                    type: string
+                example:
+                  status_code: 400
+                  error:
+                    minor_code: 4002
+                    type: Request Body Validation Failure
+                    message: Your request body contained invalid field(s)
+                    details:
+                      message: '"value" must contain at least one of [name_first, name_last]'
+                      path: value
+                      type: object.missing
+                      context:
+                        peers:
+                        - name_first
+                        - name_last
+                        peersWithLabels:
+                        - name_first
+                        - name_last
+                        key: value
+                    error_token: u82hfowjwl
+                  timestamp: 1652205025227
+                  evaluation_token: null
+                  entity_token: null
+                  application_token: 2ohfhwqoq2nm
+                  application_version_id: null
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
   /entities/{entity_token}/evaluations/{evaluation_token}:
     parameters:
     - name: entity_token
@@ -177,42 +957,14 @@ paths:
       responses:
         '200':
           description: Entity evaluation
-  /entities/merge:
-    post:
-      tags:
-      - Entities
-      summary: Merge Entities
-      operationId: postEntityMerge
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Entities merged
-  /entities/{entity_token}/notes:
-    parameters:
-    - name: entity_token
-      in: path
-      required: true
-      schema:
-        type: string
-    post:
-      tags:
-      - Entities
-      summary: Add a Note to an Entity
-      operationId: postEntityNote
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Note'
-      responses:
-        '201':
-          description: Note created
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /entity-feedback:
     get:
       tags:
@@ -222,6 +974,9 @@ paths:
       responses:
         '200':
           description: Entity feedback list
+      security:
+      - basicAuth: []
+      - bearerAuth: []
     post:
       tags:
       - Entities
@@ -236,6 +991,14 @@ paths:
       responses:
         '201':
           description: Feedback recorded
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /entity-groups/{entity_token_or_external_id}:
     parameters:
     - name: entity_token_or_external_id
@@ -251,6 +1014,14 @@ paths:
       responses:
         '200':
           description: Entity group
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
 components:
   schemas:
     Note:
@@ -259,27 +1030,6 @@ components:
         note_token:
           type: string
         body:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-    Entity:
-      type: object
-      properties:
-        entity_token:
-          type: string
-        external_entity_id:
-          type: string
-        entity_type:
-          type: string
-          enum:
-          - person
-          - business
-        name_first:
-          type: string
-        name_last:
-          type: string
-        business_name:
           type: string
         created_at:
           type: string
@@ -315,7 +1065,39 @@ components:
           type: string
         external_entity_id:
           type: string
+    Entity:
+      type: object
+      properties:
+        entity_token:
+          type: string
+        external_entity_id:
+          type: string
+        entity_type:
+          type: string
+          enum:
+          - person
+          - business
+        name_first:
+          type: string
+        name_last:
+          type: string
+        business_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
   securitySchemes:
+    basic:
+      type: http
+      description: HTTP basic authorization using a workflow token and secret
+      scheme: basic
+    oauth2:
+      type: oauth2
+      description: OAuth2 using a workflow token and secret to generate a bearer token
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/bearer
+          scopes: {}
     basicAuth:
       type: http
       scheme: basic
@@ -324,3 +1106,6 @@ components:
       type: http
       scheme: bearer
       description: OAuth 2.0 bearer token obtained via the OAuth endpoints.
+x-refined-from:
+- alloy-com-identity-api-openapi.yml
+- alloy-openapi.yml

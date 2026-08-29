@@ -1,85 +1,810 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Alloy Bank Accounts Investigations API
-  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
-
-    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
-
-    credit, and ongoing-monitoring workflows used by banks, credit unions, and
-
-    fintechs.
-
-
-    The API is organized around evaluations, journey applications, entities
-
-    (persons and businesses), bank accounts, documents, events, cases,
-
-    investigations, custom lists, published attributes, and webhooks. Sandbox
-
-    and production environments are exposed as two distinct base URLs.
-
-    '
+  title: Alloy Com Investigations API
   version: '1.0'
-  contact:
-    name: Alloy Developer Support
-    url: https://help.alloy.com
-  license:
-    name: Proprietary
-    url: https://www.alloy.com/tos
+  description: 'Operations tagged Investigations across 2 of this provider''s published API definitions: alloy-com-identity-api-openapi.yml, alloy-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://sandbox.alloy.co/v1
   description: Sandbox environment
+- url: https://alloy.co/v1
+  description: Production environment
 - url: https://api.alloy.co/v1
   description: Production environment
-security:
-- basicAuth: []
-- bearerAuth: []
 tags:
 - name: Investigations
-  description: Investigation lifecycle, assignment, review, archival, and types.
+  description: Investigations are reviewable items that contain Alerts for suspicious activities for Alloy's Ongoing Monitoring solution.
 paths:
-  /investigations:
-    get:
-      tags:
-      - Investigations
-      summary: List Investigations
-      operationId: getInvestigations
-      responses:
-        '200':
-          description: Investigations
-    post:
-      tags:
-      - Investigations
-      summary: Create an Investigation
-      operationId: postInvestigation
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '201':
-          description: Investigation created
   /investigations/{investigation_token}:
     parameters:
-    - name: investigation_token
-      in: path
-      required: true
+    - in: path
+      name: investigation_token
       schema:
         type: string
+      required: true
+      description: Token associated with the Investigation
+      example: INV-EAx2xoAsqF1ibKTQzkXV
     get:
       tags:
       - Investigations
       summary: Get an Investigation
-      operationId: getInvestigation
+      description: Returns the details of an individual Investigation.
       responses:
         '200':
+          description: Successfully retrieved Investigation Details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  investigation_token:
+                    type: string
+                    example: INV-EAx2xoAsqF1ibKTQzkXV
+                  closed_at:
+                    type: string
+                    format: date-time
+                    example: '2024-12-05T20:05:43.643Z'
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: '2024-11-26T16:00:14.677Z'
+                  name:
+                    type:
+                    - string
+                    - 'null'
+                  type:
+                    type: string
+                    example: Fraud
+                  state:
+                    type: string
+                    example: case_review
+                  source:
+                    type: string
+                    example: alert
+                  outcome:
+                    type: string
+                    example: Dismissed
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: '2024-12-05T20:05:43.643Z'
+                  archived_at:
+                    type: string
+                    format: date-time
+                    example: '2024-12-05T20:05:43.643Z'
+                  _embedded:
+                    type: object
+                    properties:
+                      assigned_agent:
+                        type: object
+                        properties:
+                          first_name:
+                            type: string
+                            example: Mike
+                          last_name:
+                            type: string
+                            example: Alloy
+                          email:
+                            type: string
+                            example: safeandseamless@alloy.com
+                          token:
+                            type: string
+                            example: AG-L83m6iTwcXdNg3CHndS4
+                      entities:
+                        type: object
+                        properties:
+                          P-KaKZxdSGnbxXfKXnXdyp:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                example: person
+                              entity_token:
+                                type: string
+                                example: P-KaKZxdSGnbxXfKXnXdyp
+                              entity_name:
+                                type: string
+                                example: Trycia Turner
+                              meta:
+                                type:
+                                - string
+                                - 'null'
+                              external_ingestion_identifier:
+                                type:
+                                - string
+                                - 'null'
+                              recent_action:
+                                type:
+                                - string
+                                - 'null'
+                              external_entity_identifier:
+                                type: string
+                                example: mjj09291-111824-3
+                              risk_score:
+                                type:
+                                - number
+                                - 'null'
+                      events:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            event:
+                              type: string
+                              example: closed
+                            agent:
+                              type: object
+                              properties:
+                                first_name:
+                                  type: string
+                                  example: Mike
+                                last_name:
+                                  type: string
+                                  example: Alloy
+                                email:
+                                  type: string
+                                  example: safeandseamless@alloy.com
+                                token:
+                                  type: string
+                                  example: AG-L83m6iTwcXdNg3CHndS4
+                            assigned_agent:
+                              type: object
+                              properties:
+                                first_name:
+                                  type:
+                                  - string
+                                  - 'null'
+                                last_name:
+                                  type:
+                                  - string
+                                  - 'null'
+                                email:
+                                  type:
+                                  - string
+                                  - 'null'
+                                token:
+                                  type:
+                                  - string
+                                  - 'null'
+                            note:
+                              type:
+                              - string
+                              - 'null'
+                            meta:
+                              type:
+                              - object
+                              - 'null'
+                      evidences:
+                        type: object
+                        properties:
+                          journey_alerts:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                journey_application_token:
+                                  type: string
+                                  example: JA-PA0M5o6nyYCGhVyhXYWH
+                                journey_token:
+                                  type: string
+                                  example: J-O9aI8AWpkv895oavftOH
+                          tags:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                tag_color:
+                                  type: string
+                                  example: FB923C
+                                tag_name:
+                                  type: string
+                                  example: Phone Reputation Fail
+                                is_outcome_reason:
+                                  type: boolean
+                                  example: true
+                                added_by:
+                                  type: object
+                                  properties:
+                                    email:
+                                      type: string
+                                      example: agent@email.com
+                                    first_name:
+                                      type: string
+                                      example: Mike
+                                    last_name:
+                                      type: string
+                                      example: Alloy
+                                    token:
+                                      type: string
+                                      example: AG-L83m6iTwcXdNg3CHndS4
+                      documents:
+                        type: array
+                        items:
+                          $ref: '#/paths/~1documents~1%7Bdocument_token%7D/put/responses/200/content/application~1json/schema/items'
+                      notes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            created_at:
+                              type: string
+                              example: '2025-01-01T13:00:59.000Z'
+                            created_by:
+                              type: object
+                              properties:
+                                first_name:
+                                  type: string
+                                  example: Mike
+                                last_name:
+                                  type: string
+                                  example: Alloy
+                                email:
+                                  type: string
+                                  example: agent@email.com
+                                token:
+                                  type: string
+                                  example: AG-f5NJW4vCmoxwxkn4BpOV
+                            entity_name:
+                              type: string
+                              example: Nick Armstrong
+                            entity_token:
+                              type: string
+                              example: P-KaKZxdSGnbxXfKXnXdyp
+                            text:
+                              type: string
+                              example: My note
+                            is_investigation_level_note:
+                              type: boolean
+                              example: true
+                      reviews:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            new_investigation_state:
+                              type: string
+                              example: alert_review_closed
+                            note:
+                              type:
+                              - string
+                              - 'null'
+                            outcome:
+                              type: string
+                              example: Dismissed
+                            previous_investigation_state:
+                              type: string
+                              example: alert_review
+                            reason:
+                              type: string
+                              example: Verified by human
+                            reviewed_at:
+                              type: string
+                              format: date-time
+                              example: '2024-12-05T20:05:43.643Z'
+                            reviewed_by:
+                              type: object
+                              properties:
+                                first_name:
+                                  type: string
+                                  example: Mike
+                                last_name:
+                                  type: string
+                                  example: Alloy
+                                email:
+                                  type: string
+                                  example: safeandseamless@alloy.com
+                                token:
+                                  type: string
+                                  example: AG-L83m6iTwcXdNg3CHndS4
+        '401':
+          description: Authentication Failure
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/paths/~1investigations~1types/get/responses/401/content/application~1json/schema'
+        '404':
+          description: Investigation Not Found
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/paths/~1investigations~1%7Binvestigation_token%7D~1alerts~1%7Bjourney_application_token%7D~1review/put/responses/404/content/application~1json/schema'
+        '409':
+          description: Resource Conflict
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    status_code:
+                      type: string
+                      example: 409
+                    error:
+                      type: object
+                      properties:
+                        minor_code:
+                          type: number
+                          example: 4091
+                        type:
+                          type: string
+                        message:
+                          type: string
+                        details:
+                          type: object
+                          properties:
+                            document_token:
+                              type: string
+                            entity_token:
+                              type: string
+                        error_token:
+                          type: string
+                    timestamp:
+                      type: number
+                      example: 1725386185011
+                    evaluation_token:
+                      type: string
+                      example: null
+                    entity_token:
+                      type: string
+                      example: null
+                    application_token:
+                      type: string
+                    application_version_id:
+                      type: string
+                      example: null
+        '500':
+          description: Unhandled Service Error
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    status_code:
+                      type: string
+                      example: 500
+                    error:
+                      type: object
+                      properties:
+                        minor_code:
+                          type: number
+                          example: 5000
+                        type:
+                          type: string
+                        message:
+                          type: string
+                        error_token:
+                          type: string
+                          example: 31e6e353-e62b-4fe2-be16-ea37ea9a992c
+                    timestamp:
+                      type: number
+                      example: 1725386185011
+                    evaluation_token:
+                      type: string
+                      example: null
+                    entity_token:
+                      type: string
+                      example: null
+                    application_token:
+                      type: string
+                    application_version_id:
+                      type: string
+                      example: null
+        '503':
+          description: Temporarily Offline for Maintenance
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  properties:
+                    status_code:
+                      type: string
+                      example: 503
+                    error:
+                      type: object
+                      properties:
+                        minor_code:
+                          type: number
+                          example: 5031
+                        type:
+                          type: string
+                        message:
+                          type: string
+                          example: Oops our database server is unreachable. The engineers have been notified.
+                        details:
+                          type: object
+                          properties:
+                            journey_token:
+                              type: string
+                        error_token:
+                          type: string
+                    timestamp:
+                      type: number
+                      example: 1725386185011
+                    evaluation_token:
+                      type: string
+                      example: null
+                    entity_token:
+                      type: string
+                      example: null
+                    application_token:
+                      type: string
+                    application_version_id:
+                      type: string
+                      example: null
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /investigations:
+    get:
+      tags:
+      - Investigations
+      summary: Get list of Investigations
+      description: Retrieves a filterable paginated list of investigations
+      parameters:
+      - in: query
+        name: q
+        schema:
+          type: object
+          description: Object to hold the investigations filters
+          properties:
+            statuses:
+              type: string
+              description: Listed by [Get Investigation filters](https://developer.alloy.com/public/reference/get_investigations-filters). E.g. `["alert_review"]`.
+            types:
+              type: string
+              description: Listed by [Get Investigation filters](https://developer.alloy.com/public/reference/get_investigations-filters). E.g. `["Fraud"]`.
+            assignedAgents:
+              type: string
+              description: Listed by [Get Investigation filters](https://developer.alloy.com/public/reference/get_investigations-filters). E.g. `["AG-L83m6iTwcXdNg3CHndS4"]`
+            entityTokens:
+              type: string
+              description: E.g. `["P-KaKZxdSGnbxXfKXnXdyp"]`
+            investigationTokens:
+              type: string
+              description: E.g. `["INV-EAx2xoAsqF1ibKTQzkXV"]`
+            externalEntityIds:
+              type: string
+              description: E.g. `["external_entity_id"]`
+            deviceIds:
+              type: string
+              description: E.g. `["device_vendor_identifier"]`
+            programNames:
+              type: string
+              description: E.g. `["program_name"]`
+            includeClosed:
+              type: boolean
+            archived:
+              type: boolean
+              description: E.g. `false`
+            createdAtFrom:
+              type: number
+              description: E.g. `1737742979`
+            createdAtTo:
+              type: number
+              description: E.g. `1737742979`
+            updatedAtFrom:
+              type: number
+              description: E.g. `1737742979`
+            updatedAtTo:
+              type: number
+              description: E.g. `1737742979`
+      - in: query
+        name: pageNum
+        schema:
+          type: number
+          description: Which page number to return. Default is 1
+          default: 1
+      - in: query
+        name: numRowsPerPage
+        schema:
+          type: number
+          description: Limits results per page. Up to 100.
+          default: 20
+      - in: query
+        name: sortColumn
+        schema:
+          type: string
+          enum:
+          - updated_at
+          - created_at
+          - total_alerts
+          - risk_score
+          default: created_at
+      - in: query
+        name: sortOrder
+        schema:
+          type: string
+          enum:
+          - DESC
+          - ASC
+          default: DESC
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      pagination:
+                        type: object
+                        properties:
+                          total_investigations:
+                            type: number
+                            example: 95
+                          total_pages:
+                            type: number
+                            example: 4
+                          page:
+                            type: number
+                            example: 1
+                          per_page:
+                            type: number
+                            example: 20
+                      sorting:
+                        type: object
+                        properties:
+                          column:
+                            type: string
+                            example: update_at
+                          order:
+                            type: string
+                            example: DESC
+                  error:
+                    type: object
+                    example: null
+                  investigations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        investigation_token:
+                          type: string
+                          example: INV-EAx2xoAsqF1ibKTQzkXV
+                        name:
+                          type: string
+                          example: Nick Armstrong's investigation
+                        total_alerts:
+                          type: number
+                          example: 2
+                        type:
+                          type: string
+                          example: Fraud
+                        state:
+                          type: string
+                          example: alert_review
+                        source:
+                          type: string
+                          example: alert
+                        outcome:
+                          type: string
+                          example: Dismissed
+                        created_at:
+                          type: string
+                          format: date-time
+                          example: '2024-11-26T16:00:14.677Z'
+                        updated_at:
+                          type: string
+                          format: date-time
+                          example: '2024-11-26T16:00:14.677Z'
+                        closed_at:
+                          type: string
+                          format: date-time
+                          example: null
+                        archived_at:
+                          type: string
+                          format: date-time
+                          example: null
+                        _embedded:
+                          type: object
+                          properties:
+                            entities:
+                              type: object
+                              properties:
+                                P-KaKZxdSGnbxXfKXnXdyp:
+                                  type: object
+                                  properties:
+                                    entity_name:
+                                      type: string
+                                      example: Nick Armstrong
+                                    entity_type:
+                                      type: string
+                                      example: person
+                                    entity_token:
+                                      type: string
+                                      example: P-KaKZxdSGnbxXfKXnXdyp
+                                    risk_score:
+                                      type: number
+                                      example: 0.7
+                            assigned_agent:
+                              type: object
+                              properties:
+                                first_name:
+                                  type: string
+                                  example: Mike
+                                last_name:
+                                  type: string
+                                  example: Alloy
+                                email:
+                                  type: string
+                                  example: agent@email.com
+                                token:
+                                  type: string
+                                  example: AG-L83m6iTwcXdNg3CHndS4
+                        device_ids:
+                          type: array
+                          items:
+                            type: string
+                            example: device_vendor_identifier
+                        program_names:
+                          type: array
+                          items:
+                            type: string
+                            example: Program name
+                        alert_assignees:
+                          type: array
+                          items:
+                            type: string
+                            example: Agent name
+        '401':
+          description: Authentication Failure
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/paths/~1investigations~1types/get/responses/401/content/application~1json/schema'
+      security:
+      - basic: []
+      - oauth2: []
+    post:
+      tags:
+      - Investigations
+      summary: Create an Investigation
+      description: Manually creates a new Investigation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                investigation_state:
+                  type: string
+                  example: alert_review
+                  description: Listed by [Get Investigation filters](https://developer.alloy.com/public/reference/get_investigations-filters).
+                investigation_type:
+                  type: string
+                  example: Fraud
+                  description: Listed by [Get Investigation types](https://developer.alloy.com/public/reference/get_investigations-types).
+                entity_tokens:
+                  type: array
+                  items:
+                    type: string
+                    example: P-1GoQALm40nPQSp7UVTJS
+                journey_alerts:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      agent_token:
+                        type: string
+                        example: AG-L83m6iTwcXdNg3CHndS4
+                      journey_alert_token:
+                        type: string
+                        example: JA-mhjlfS6nZe1G6HuvAKVq
+                      outcome:
+                        type: string
+                        example: Dismissed
+                      reason:
+                        type: string
+                        example: Passed manual checks
+                      note:
+                        type: string
+                        example: My note
+                  required:
+                  - agent_token
+                  - journey_alert_token
+                investigation_assignee_token:
+                  type: string
+                  example: AG-L83m6iTwcXdNg3CHndS4
+                  description: Listed by [Get list of assignable agents](https://developer.alloy.com/public/reference/get_investigations-assignable-agents). Assigns the new Investigation to an agent.
+                should_aggregate_alerts:
+                  description: Setup if the automatic Alerts can be attached to the new Investigation later.
+                  type: boolean
+                  default: true
+                investigation_name:
+                  type: string
+                  example: Investigation Nick Armstrong
+                note:
+                  type: string
+                  example: My note
+                tags:
+                  type: array
+                  minItems: 0
+                  items:
+                    type: object
+                    properties:
+                      tag_name:
+                        type: string
+                        example: Suspicious Activity
+                      is_outcome_reason:
+                        type: boolean
+                        example: false
+                        description: If the tag has outcomes attached
+                    required:
+                    - tag_name
+                    - is_outcome_reason
+              required:
+              - investigation_type
+              - investigation_state
+              - journey_alerts
+              - entity_tokens
+      responses:
+        '201':
+          x-summary: OK
           description: Investigation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Investigation'
+                type: object
+                $ref: '#/paths/~1investigations~1%7Binvestigation_token%7D/get/responses/200/content/application~1json/schema'
+        '400':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: string
+                  error:
+                    type: object
+                  timestamp:
+                    type: string
+                  evaluation_token:
+                    type: string
+                  entity_token:
+                    type: string
+                  application_token:
+                    type: string
+                  application_version_id:
+                    type: string
+                example:
+                  status_code: 400
+                  error:
+                    minor_code: 4002
+                    type: Request Body Validation Failure
+                    message: Your request body contained invalid field(s)
+                    details:
+                      message: '"required_field" is required'
+                      path: required_field
+                      type: any.required
+                      context:
+                        key: required_field
+                    error_token: u82hfowjwl
+                  timestamp: 1652205025227
+                  evaluation_token: null
+                  entity_token: null
+                  application_token: null
+                  application_version_id: null
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
   /investigations/{investigation_token}/notes:
     parameters:
     - name: investigation_token
@@ -101,6 +826,14 @@ paths:
       responses:
         '201':
           description: Note added
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/{investigation_token}/evidences:
     parameters:
     - name: investigation_token
@@ -122,6 +855,14 @@ paths:
       responses:
         '200':
           description: Evidences updated
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/{investigation_token}/promote:
     parameters:
     - name: investigation_token
@@ -137,6 +878,14 @@ paths:
       responses:
         '200':
           description: Investigation promoted
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/{investigation_token}/review:
     parameters:
     - name: investigation_token
@@ -158,6 +907,14 @@ paths:
       responses:
         '200':
           description: Investigation reviewed
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/archive:
     put:
       tags:
@@ -167,6 +924,14 @@ paths:
       responses:
         '200':
           description: Archived
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/unarchive:
     put:
       tags:
@@ -176,6 +941,14 @@ paths:
       responses:
         '200':
           description: Unarchived
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/assign:
     put:
       tags:
@@ -191,6 +964,14 @@ paths:
       responses:
         '200':
           description: Assigned
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/unassign:
     put:
       tags:
@@ -200,6 +981,14 @@ paths:
       responses:
         '200':
           description: Unassigned
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/{investigation_token}/alerts/{journey_application_token}:
     parameters:
     - name: investigation_token
@@ -220,6 +1009,14 @@ paths:
       responses:
         '200':
           description: Alert
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/{investigation_token}/alerts/{journey_application_token}/assign:
     parameters:
     - name: investigation_token
@@ -240,6 +1037,14 @@ paths:
       responses:
         '200':
           description: Alert assigned
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/{investigation_token}/alerts/{journey_application_token}/unassign:
     parameters:
     - name: investigation_token
@@ -260,6 +1065,14 @@ paths:
       responses:
         '200':
           description: Alert unassigned
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/{investigation_token}/alerts/{journey_application_token}/review:
     parameters:
     - name: investigation_token
@@ -286,6 +1099,14 @@ paths:
       responses:
         '200':
           description: Alert reviewed
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/{investigation_token}/alerts/{journey_application_token}/review/{manual_review_token}/review:
     parameters:
     - name: investigation_token
@@ -317,6 +1138,14 @@ paths:
       responses:
         '201':
           description: Manual review submitted
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/types:
     post:
       tags:
@@ -332,6 +1161,14 @@ paths:
       responses:
         '201':
           description: Type created
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/types/archive:
     patch:
       tags:
@@ -341,6 +1178,14 @@ paths:
       responses:
         '200':
           description: Archived
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/types/unarchive:
     patch:
       tags:
@@ -350,6 +1195,14 @@ paths:
       responses:
         '200':
           description: Unarchived
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/types/delete:
     patch:
       tags:
@@ -359,6 +1212,14 @@ paths:
       responses:
         '200':
           description: Deleted
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/types/list:
     get:
       tags:
@@ -368,6 +1229,14 @@ paths:
       responses:
         '200':
           description: Types
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/use-cases:
     get:
       tags:
@@ -377,6 +1246,14 @@ paths:
       responses:
         '200':
           description: Use cases
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/filters:
     get:
       tags:
@@ -386,6 +1263,14 @@ paths:
       responses:
         '200':
           description: Filters
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /investigations/assignable-agents:
     get:
       tags:
@@ -395,6 +1280,14 @@ paths:
       responses:
         '200':
           description: Agents
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
 components:
   schemas:
     Note:
@@ -422,6 +1315,17 @@ components:
           type: string
           format: date-time
   securitySchemes:
+    basic:
+      type: http
+      description: HTTP basic authorization using a workflow token and secret
+      scheme: basic
+    oauth2:
+      type: oauth2
+      description: OAuth2 using a workflow token and secret to generate a bearer token
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/bearer
+          scopes: {}
     basicAuth:
       type: http
       scheme: basic
@@ -430,3 +1334,6 @@ components:
       type: http
       scheme: bearer
       description: OAuth 2.0 bearer token obtained via the OAuth endpoints.
+x-refined-from:
+- alloy-com-identity-api-openapi.yml
+- alloy-openapi.yml

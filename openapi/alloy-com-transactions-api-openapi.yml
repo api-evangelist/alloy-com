@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Alloy Identity Bank Accounts Transactions API
+  title: Alloy Identity Transactions API
   version: 1.0.0
   description: The Alloy Identity API provides endpoints for creating and managing person and business entities, running evaluations through configurable risk workflows, managing journey applications, submitting events for ongoing monitoring, handling document verification, and managing investigations and case alerts. Authentication is via Basic HTTP credentials or OAuth 2.0 Client Credentials.
   contact:
@@ -138,8 +138,9 @@ paths:
                         type: string
                   account_snapshot:
                     description: Snapshot of the source account of the transaction. Note that this is not a separate call, it is part of either an /accounts call or an /evaluations call
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     required:
                     - timestamp
                     properties:
@@ -228,8 +229,9 @@ paths:
                             type: integer
                   process_method:
                     description: Platform or process method of the transaction. Allowed values are (`"Card"`. `"Internal"`, `"Check"`, `"P2P"`, `"ACH"`, `"Cash"`, `"Wire"`, `null`)
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     enum:
                     - Card. Internal
                     - Check
@@ -240,8 +242,9 @@ paths:
                     - RTP
                   category:
                     description: Splits process_method into more granular values. Allowed values are (`"Adjustment"`, `"ATM Rebate"`, `"Bill Pay"`, `"Chargeback"`, `"Deposit"`, `"Direct Deposit Bonus"`, `"Interest"`, `"Overdraft Fee"`, `"Payment"`, `"Promo"`, `"Purchase"`, `"Purchase Return"`, `"Return"`, `"Service Charge"`, `"Withdrawal"`, `null`)
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     enum:
                     - Adjustment
                     - ATM Rebate
@@ -260,8 +263,9 @@ paths:
                     - Withdrawal
                   interaction_point:
                     description: Where the transaction took place. Allow values are (`"Android"`, `"ATM"`, `"Card Swipe Terminal"`, `"iOS"`, `"Mobile"`, `"Online Form"`, `"Point of Sale"`, `"Teller"`, `"3rd Party App"`, `null`)
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     enum:
                     - Android
                     - ATM
@@ -274,50 +278,61 @@ paths:
                     - 3rd Party App
                   type_code:
                     description: The raw type code of the transaction.  There should be a 1:1 mapping from type_code to type_description provided to Alloy.
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                   type_description:
                     description: Description of the type code. There should be a 1:1 mapping from type_code to type_description provided to Alloy. Currently not used in decisioning.
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                   is_approved:
                     description: If the transaction was approved by the customer
-                    type: boolean
-                    nullable: true
+                    type:
+                    - boolean
+                    - 'null'
                   is_reversal:
                     description: If the transaction is a refund
-                    type: boolean
-                    nullable: true
+                    type:
+                    - boolean
+                    - 'null'
                   is_triggered_by_user:
                     description: Whether the transaction is initiated by the source entity. Mainly used to distinguish betweeh ACH push and pull
-                    type: boolean
-                    nullable: true
+                    type:
+                    - boolean
+                    - 'null'
                   is_international_override:
                     description: True if the transaction is international
-                    type: boolean
-                    nullable: true
+                    type:
+                    - boolean
+                    - 'null'
                   return_code:
                     description: This represents the Alphanumeric ACH return Code. (e.g. R01)
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                   return_code_reason:
                     description: Allowed values are (`"Unauthorized"`, `null`). Currently not used in decisioning.
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     enum:
                     - Unauthorized
                   entry_mode:
                     description: POS entry modes on card transactions
-                    type: number
-                    nullable: true
+                    type:
+                    - number
+                    - 'null'
                   response_code:
                     description: Response codes returned on card transactions
-                    type: number
-                    nullable: true
+                    type:
+                    - number
+                    - 'null'
                   status:
                     description: Allowed values are (`"Acknowledged"`, `"Accepted"`, `"Rejected"`, `"Paused"`, `"Pending"`, `"Completed"`, `"Declined"`, `"Cancelled"`, `null`)
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     enum:
                     - Acknowledged
                     - Accepted
@@ -329,32 +344,39 @@ paths:
                     - Cancelled
                   status_detail:
                     description: Additional description on transaction status. Currently not used in decisioning.
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                   iso_message:
                     description: ISO standard value returned on card transactions
-                    type: number
-                    nullable: true
+                    type:
+                    - number
+                    - 'null'
                   settled_at:
                     description: ISO 8601 date. Currently not used in decisioning.
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                   latest_transaction_date:
                     description: ISO 8601 date. Currently not used in decisioning.
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                   description:
                     description: A description of the transaction. Currently not used in decisioning.
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                   approval_code:
                     description: The raw approval code provided by the customer. Currently not used in decisioning.
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                   transaction_meta:
                     description: Object containing extra raw data not stored in other columns. Currently not used in decisioning.
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
               example:
                 transaction_date: '2021-10-24 18:02:00+00'
                 latest_transaction_date: '2021-10-24 18:02:00+00'

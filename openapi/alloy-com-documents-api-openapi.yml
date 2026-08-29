@@ -1,43 +1,143 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Alloy Bank Accounts Documents API
-  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
-
-    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
-
-    credit, and ongoing-monitoring workflows used by banks, credit unions, and
-
-    fintechs.
-
-
-    The API is organized around evaluations, journey applications, entities
-
-    (persons and businesses), bank accounts, documents, events, cases,
-
-    investigations, custom lists, published attributes, and webhooks. Sandbox
-
-    and production environments are exposed as two distinct base URLs.
-
-    '
+  title: Alloy Com Documents API
   version: '1.0'
-  contact:
-    name: Alloy Developer Support
-    url: https://help.alloy.com
-  license:
-    name: Proprietary
-    url: https://www.alloy.com/tos
+  description: 'Operations tagged Documents across 2 of this provider''s published API definitions: alloy-com-identity-api-openapi.yml, alloy-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://sandbox.alloy.co/v1
   description: Sandbox environment
+- url: https://alloy.co/v1
+  description: Production environment
 - url: https://api.alloy.co/v1
   description: Production environment
-security:
-- basicAuth: []
-- bearerAuth: []
 tags:
 - name: Documents
-  description: Uploaded identity, address, and supporting documents for entities.
+  description: The document upload API is a two-step process. First, the metadata for the document is specified, and the API returns a file identifier so the file can be streamed directly to the next endpoint. You’ll need to look for the document_token returned in the response because that is necessary to pass to the next endpoint for streaming the file.
 paths:
+  /entities/{entity_token}/documents:
+    parameters:
+    - in: path
+      name: entity_token
+      schema:
+        type: string
+      required: true
+      description: Token of entity for associated documents.
+    get:
+      tags:
+      - Documents
+      summary: Get a List of All Documents for an Entity
+      description: All documents for an entity can be queried using this endpoint. All metadata for the documents is available, but the documents themselves must be downloaded individually.
+      responses:
+        '200':
+          x-summary: OK
+          description: Document
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1documents~1%7Bdocument_token%7D/put/responses/200/content/application~1json/schema/items'
+      security:
+      - basic: []
+      - oauth2: []
+    post:
+      tags:
+      - Documents
+      summary: Describe a Document Before Uploading
+      description: The document upload API is a two-step process. First, the metadata for the document is specified, and the API returns a file identifier so the file can be streamed directly to the next endpoint. You’ll need to look for the document_token returned in the response because that is necessary to pass to the next endpoint for streaming the file.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1documents/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          x-summary: OK
+          description: Document
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/paths/~1documents~1%7Bdocument_token%7D/put/responses/200/content/application~1json/schema/items'
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /entities/{entity_token}/documents/{document_token}:
+    parameters:
+    - in: path
+      name: document_token
+      schema:
+        type: string
+      required: true
+      description: Token associated with document.
+    - in: path
+      name: entity_token
+      schema:
+        type: string
+      required: true
+      description: Token of entity for associated documents.
+    put:
+      tags:
+      - Documents
+      summary: Submit a Document File for an Entity
+      description: Now that that metadata for the file has been specified, you just need to stream the file to the location we’ve allocated for it. The response should be the same as for the preceding `POST` request endpoint except `uploaded` will be true.
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          x-summary: OK
+          description: Document
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1documents~1%7Bdocument_token%7D/put/responses/200/content/application~1json/schema/items'
+      security:
+      - basic: []
+      - oauth2: []
+    get:
+      tags:
+      - Documents
+      summary: Get an Entity Document
+      operationId: getEntityDocument
+      responses:
+        '200':
+          description: Document
+      security:
+      - basic: []
+      - oauth2: []
+    patch:
+      tags:
+      - Documents
+      summary: Update an Entity Document
+      operationId: patchEntityDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Document updated
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
   /documents:
     post:
       tags:
@@ -61,6 +161,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Document'
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /documents/{document_token}:
     parameters:
     - name: document_token
@@ -82,83 +190,14 @@ paths:
       responses:
         '200':
           description: Document replaced
-  /entities/{entity_token}/documents:
-    parameters:
-    - name: entity_token
-      in: path
-      required: true
-      schema:
-        type: string
-    get:
-      tags:
-      - Documents
-      summary: List Documents for an Entity
-      operationId: getEntityDocuments
-      responses:
-        '200':
-          description: Documents
-    post:
-      tags:
-      - Documents
-      summary: Upload a Document for an Entity
-      operationId: postEntityDocument
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-      responses:
-        '201':
-          description: Document uploaded
-  /entities/{entity_token}/documents/{document_token}:
-    parameters:
-    - name: entity_token
-      in: path
-      required: true
-      schema:
-        type: string
-    - name: document_token
-      in: path
-      required: true
-      schema:
-        type: string
-    get:
-      tags:
-      - Documents
-      summary: Get an Entity Document
-      operationId: getEntityDocument
-      responses:
-        '200':
-          description: Document
-    patch:
-      tags:
-      - Documents
-      summary: Update an Entity Document
-      operationId: patchEntityDocument
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Document updated
-    put:
-      tags:
-      - Documents
-      summary: Replace an Entity Document
-      operationId: putEntityDocument
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Document replaced
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
   /entities/{entity_token}/documents/{document_token}/notes:
     parameters:
     - name: entity_token
@@ -185,6 +224,14 @@ paths:
       responses:
         '201':
           description: Note created
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
 components:
   schemas:
     Note:
@@ -212,6 +259,17 @@ components:
           type: string
           format: date-time
   securitySchemes:
+    basic:
+      type: http
+      description: HTTP basic authorization using a workflow token and secret
+      scheme: basic
+    oauth2:
+      type: oauth2
+      description: OAuth2 using a workflow token and secret to generate a bearer token
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/bearer
+          scopes: {}
     basicAuth:
       type: http
       scheme: basic
@@ -220,3 +278,6 @@ components:
       type: http
       scheme: bearer
       description: OAuth 2.0 bearer token obtained via the OAuth endpoints.
+x-refined-from:
+- alloy-com-identity-api-openapi.yml
+- alloy-openapi.yml

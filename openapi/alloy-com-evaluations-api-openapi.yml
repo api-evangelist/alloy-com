@@ -1,91 +1,49 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Alloy Bank Accounts Evaluations API
-  description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
-
-    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
-
-    credit, and ongoing-monitoring workflows used by banks, credit unions, and
-
-    fintechs.
-
-
-    The API is organized around evaluations, journey applications, entities
-
-    (persons and businesses), bank accounts, documents, events, cases,
-
-    investigations, custom lists, published attributes, and webhooks. Sandbox
-
-    and production environments are exposed as two distinct base URLs.
-
-    '
+  title: Alloy Com Evaluations API
   version: '1.0'
-  contact:
-    name: Alloy Developer Support
-    url: https://help.alloy.com
-  license:
-    name: Proprietary
-    url: https://www.alloy.com/tos
+  description: 'Operations tagged Evaluations across 2 of this provider''s published API definitions: alloy-com-identity-api-openapi.yml, alloy-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://sandbox.alloy.co/v1
   description: Sandbox environment
+- url: https://alloy.co/v1
+  description: Production environment
 - url: https://api.alloy.co/v1
   description: Production environment
-security:
-- basicAuth: []
-- bearerAuth: []
 tags:
 - name: Evaluations
-  description: Run, retrieve, and audit identity, KYC, KYB, AML, fraud, and credit evaluations.
+  description: Evaluations are a core part of the Alloy world. In order to onboard a customer you can run an evaluation under a specific workflow, and that will create both the evaluation and, in most cases, the entity for that customer.
 paths:
-  /evaluations:
-    post:
-      tags:
-      - Evaluations
-      summary: Run an Evaluation
-      description: Run an evaluation with a provided payload through Alloy's identity decisioning workflow.
-      operationId: postEvaluation
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EvaluationRequest'
-      responses:
-        '201':
-          description: Evaluation created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Evaluation'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
   /evaluations/{evaluation_token}:
     parameters:
-    - name: evaluation_token
-      in: path
-      required: true
+    - in: path
+      name: evaluation_token
       schema:
         type: string
+      required: true
+      description: Token associated with evaluation.
+      example: L-5zKNd6TaKRoUILGAFTD6
     get:
       tags:
       - Evaluations
-      summary: Get an Evaluation
-      operationId: getEvaluation
+      summary: View Evaluation
       responses:
-        '200':
-          description: Evaluation retrieved
+        '201':
+          x-summary: OK
+          description: Evaluation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Evaluation'
+                type: object
+                $ref: '#/paths/~1evaluations/post/responses/201/content/application~1json/schema'
+      security:
+      - basic: []
+      - oauth2: []
     patch:
+      summary: Updates an evaluation
+      description: "Updates an existing unresolved evaluation (waiting on required inputs), data supplied in the request body will be merged with data supplied from the initial `POST` request. \nNote that `null` values supplied for fields in the request body are treated as \"do no change\" and no updates will happen with those fields.\n"
       tags:
       - Evaluations
-      summary: Update an Evaluation
-      operationId: patchEvaluation
       requestBody:
         required: true
         content:
@@ -94,7 +52,441 @@ paths:
               type: object
       responses:
         '200':
+          description: Evaluation missing required inputs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: string
+                  error:
+                    type: object
+                  timestamp:
+                    type: number
+                  evaluation_token:
+                    type: string
+                  entity_token:
+                    type: string
+                  application_token:
+                    type: string
+                  application_version_id:
+                    type: number
+                  required:
+                    type: array
+                    description: The required fields for this workflow
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          example: name_first
+                        type:
+                          type: string
+                          example: string
+                        description:
+                          type: string
+                          example: First name
+                        regex:
+                          type: string
+                          example: ^[^d]*$
+                        properties:
+                          type: object
+                  optional:
+                    type: array
+                    description: The optional fields for this workflow
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          example: email_address
+                        type:
+                          type: string
+                          example: string
+                        description:
+                          type: string
+                          example: Email address
+                        regex:
+                          type: string
+                          example: ''
+                        properties:
+                          type: object
+        '201':
           description: Evaluation updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1evaluations/post/responses/201/content/application~1json/schema'
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /parameters:
+    get:
+      summary: Returns a list of required and optional inputs
+      description: 'Given a workflow specified by the header, the API returns a list of required and optional inputs for running an evaluation through the designated workflow. Alloy''s API is dynamic, and thus the input parameters vary depending on which services are run and how the workflow is configured. Hitting the `GET /parameters` endpoint will show exactly what your initial `POST /evaluations` request to the Alloy API should look like. All attributes will either be always required, conditionally required, or optional. For instance, in the example here, you either have to pass `document_ssn` OR both `document_license` and `document_license_state`. Note that this response body is just an example, and the exact parameters of your workflow version will vary.
+
+        '
+      tags:
+      - Evaluations
+      parameters:
+      - in: header
+        name: Authorization
+        schema:
+          type: string
+          description: 'Basic authorization header per the OAuth Client Authorization Header standard.
+
+
+            The format is `Basic <auth_string>`, where `<auth_string>` is the base64 encoding of the string `token:secret` (check [Authentication Guide](https://developer.alloy.com/public/docs/authentication-guide) for details).
+
+            '
+      - in: header
+        name: alloy-workflow-token
+        schema:
+          type: string
+          description: "If you have migrated to the new API Key Settings page and are using account-level API keys for authentication, this header is required to specify which workflow to use for the evaluation. \n\nIf you have not migrated yet, this header is optional, as the workflow will be determined by the Authorization header using workflow_token.\n"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  required:
+                    type: array
+                    description: The required fields for this workflow
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          example: name_first
+                        type:
+                          type: string
+                          example: string
+                        description:
+                          type: string
+                          example: First name
+                        regex:
+                          type: string
+                          example: ^[^d]*$
+                        properties:
+                          type: object
+                  optional:
+                    type: array
+                    description: The optional fields for this workflow
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          example: email_address
+                        type:
+                          type: string
+                          example: string
+                        description:
+                          type: string
+                          example: Email address
+                        regex:
+                          type: string
+                          example: ''
+                        properties:
+                          type: object
+                  or:
+                    type: array
+                    description: Fields that may be required for this workflow
+                    items:
+                      type: object
+                      properties:
+                        required:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              key:
+                                type: string
+                                example: document_license
+                              type:
+                                type: string
+                                example: string
+                              description:
+                                type: string
+                                example: US issued drivers license number
+                              regex:
+                                type: string
+                                example: ''
+                              properties:
+                                type: object
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
+  /evaluations:
+    post:
+      summary: Runs an evaluation
+      description: 'Given a workflow specified by the header, the API will run an evaluation with the provided payload. Alloy''s API is dynamic, and thus the input parameters vary depending on which services are run and how the workflow is configured.
+
+        '
+      tags:
+      - Evaluations
+      parameters:
+      - in: header
+        name: Authorization
+        schema:
+          type: string
+          description: 'Basic authorization header per the OAuth Client Authorization Header standard.
+
+
+            The format is `Basic <auth_string>`, where `<auth_string>` is the base64 encoding of the string `token:secret` (check [Authentication Guide](https://developer.alloy.com/public/docs/authentication-guide) for details).
+
+            '
+      - in: header
+        name: alloy-workflow-token
+        schema:
+          type: string
+          description: "If you have migrated to the new API Key Settings page and are using account-level API keys for authentication, this header is required to specify which workflow to use for the evaluation. \n\nIf you have not migrated yet, this header is optional, as the workflow will be determined by the Authorization header using workflow_token.\n"
+      - in: header
+        name: alloy-entity-token
+        schema:
+          type: string
+          description: 'If running an additional evaluation for an existing entity - the existing entity token can be provided to connect the new evaluation to the entity.
+
+            '
+      - in: header
+        name: alloy-external-entity-id
+        schema:
+          type: string
+          description: 'A string to identify the entity created by the evaluation in your system.
+
+            '
+      - in: header
+        name: alloy-parent-entity-token
+        schema:
+          type: string
+          description: 'A token of an entity to be used as a parent entity.
+
+            '
+      - in: header
+        name: alloy-entity-type
+        schema:
+          description: 'For transactions workflows, specifies whether the entity associated with
+
+            the evaluation is a `business` or `person` entity. Defaults to `person`.
+
+            '
+          type: string
+          enum:
+          - business
+          - person
+      - in: header
+        name: alloy-hydrate-counterparty-data
+        schema:
+          type: boolean
+          description: 'Optional boolean value, required to be true for using counterparty sanction screening in a transaction workflow.
+
+            '
+      - in: header
+        name: alloy-hydrate-entity-data
+        schema:
+          type: boolean
+          description: 'Optional boolean value, required to be true for using source entity sanction screening in a transaction workflow.
+
+            '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - title: Evaluation Body
+                $ref: '#/paths/~1evaluations~1%7Bevaluation_token%7D/patch/requestBody/content/application~1json/schema'
+              - title: Transaction Evaluation Body
+                allOf:
+                - type: object
+                  allOf:
+                  - $ref: '#/paths/~1transactions~1%7Btransaction_id%7D/patch/requestBody/content/application~1json/schema/allOf/0'
+                  required:
+                  - transaction_id
+                  - transaction_date
+                  - amount
+                  - source
+                  - destination
+                  - currency
+      x-samples-languages:
+      - shell
+      responses:
+        '200':
+          description: Evaluation missing required inputs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status_code:
+                    type: string
+                  error:
+                    type: object
+                  timestamp:
+                    type: number
+                  evaluation_token:
+                    type: string
+                  entity_token:
+                    type: string
+                  application_token:
+                    type: string
+                  application_version_id:
+                    type: number
+                  required:
+                    type: array
+                    description: The required fields for this workflow
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          example: name_first
+                        type:
+                          type: string
+                          example: string
+                        description:
+                          type: string
+                          example: First name
+                        regex:
+                          type: string
+                          example: ^[^d]*$
+                        properties:
+                          type: object
+                  optional:
+                    type: array
+                    description: The optional fields for this workflow
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          example: email_address
+                        type:
+                          type: string
+                          example: string
+                        description:
+                          type: string
+                          example: Email address
+                        regex:
+                          type: string
+                          example: ''
+                        properties:
+                          type: object
+        '201':
+          description: Evaluation created
+          content:
+            application/json:
+              schema:
+                properties:
+                  status_code:
+                    type: string
+                  error:
+                    type: object
+                  timestamp:
+                    type: number
+                  evaluation_token:
+                    type: string
+                  entity_token:
+                    type: string
+                  application_token:
+                    type: string
+                  application_version_id:
+                    type: number
+                  summary:
+                    type: object
+                    properties:
+                      result:
+                        type: string
+                      score:
+                        type: number
+                      tags:
+                        type: array
+                      outcome_reasons:
+                        type: array
+                      outcome:
+                        type: string
+                      services:
+                        type: object
+                        description: A map of service names to their execution statuses. Keys are dynamic and represent services in the Workflow.
+                        additionalProperties:
+                          type: string
+                          enum:
+                          - executed
+                          - not_executed
+                          - cached
+                          - failed
+                      custom_fields:
+                        type: object
+                        description: A map of custom field names to their values. Keys are dynamic and represent input attributes defined in the Workflow.
+                      models:
+                        type: object
+                        description: A map of output attribute names to their values. Keys are dynamic and represent output attributes defined in the Workflow.
+                  supplied:
+                    type: object
+                  formatted:
+                    type: object
+                  matching:
+                    type: object
+                  diligence:
+                    type: object
+                  related_data:
+                    type: object
+                  raw_responses:
+                    type: object
+                  formatted_responses:
+                    type: object
+                  audit_archive:
+                    type: object
+                  warnings:
+                    type: object
+                    description: Warnings about the evaluation, such as missing data that resulted in a partial response.
+                    properties:
+                      blocked_actions:
+                        type: array
+                        description: A list of actions (tags, services) that were blocked during the evaluation due to missing data or other issues.
+                        items:
+                          type: object
+                          properties:
+                            blocked:
+                              type: object
+                              properties:
+                                action_name:
+                                  type: string
+                                  description: The name of the action that was blocked.
+                                action_type:
+                                  type: string
+                                  description: The type of the action that was blocked.
+                            blocking:
+                              type: object
+                              properties:
+                                action_name:
+                                  type: string
+                                  description: The name of the service that caused the block.
+                                attribute_name:
+                                  type: string
+                                  description: The specific attribute that caused the block.
+      security:
+      - basic: []
+      - oauth2: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://alloy.co/v1
+      description: Production environment
   /evaluations/{evaluation_token}/auditaccess:
     parameters:
     - name: evaluation_token
@@ -110,20 +502,15 @@ paths:
       responses:
         '200':
           description: Audit access logged
+      security:
+      - basicAuth: []
+      - bearerAuth: []
+    servers:
+    - url: https://sandbox.alloy.co/v1
+      description: Sandbox environment
+    - url: https://api.alloy.co/v1
+      description: Production environment
 components:
-  responses:
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     Evaluation:
       type: object
@@ -185,7 +572,31 @@ components:
           type: string
         details:
           type: object
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
+    basic:
+      type: http
+      description: HTTP basic authorization using a workflow token and secret
+      scheme: basic
+    oauth2:
+      type: oauth2
+      description: OAuth2 using a workflow token and secret to generate a bearer token
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/bearer
+          scopes: {}
     basicAuth:
       type: http
       scheme: basic
@@ -194,3 +605,6 @@ components:
       type: http
       scheme: bearer
       description: OAuth 2.0 bearer token obtained via the OAuth endpoints.
+x-refined-from:
+- alloy-com-identity-api-openapi.yml
+- alloy-openapi.yml
