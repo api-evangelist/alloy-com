@@ -553,6 +553,8 @@ apis:
   humanURL: https://developer.alloy.com/public/reference
   baseURL: https://api.alloy.co/v1
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
