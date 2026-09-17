@@ -391,36 +391,6 @@ apis:
     url: https://developer.alloy.com/public/docs/ios-webview
   - type: SDKs
     url: https://developer.alloy.com/public/docs/android-webview
-- aid: alloy-com:alloy-com-oauth-api
-  name: Alloy OAuth API
-  description: OAuth 2.0 bearer token issuance and validation.
-  humanURL: https://developer.alloy.com/public/reference
-  baseURL: https://api.alloy.co/v1
-  tags:
-  - Authentication
-  tags_raw:
-  - OAuth
-  properties:
-  - type: OpenAPI
-    url: openapi/alloy-com-oauth-api-openapi.yml
-  - type: Documentation
-    url: https://developer.alloy.com/public/docs
-  - type: APIReference
-    url: https://developer.alloy.com/public/reference
-  - type: GettingStarted
-    url: https://developer.alloy.com/public/docs/introduction
-  - type: Authentication
-    url: https://developer.alloy.com/public/docs/authentication-guide
-  - type: Webhooks
-    url: https://developer.alloy.com/public/docs/webhooks
-  - type: Webhooks
-    url: https://developer.alloy.com/public/docs/webhook-events
-  - type: SDKs
-    url: https://developer.alloy.com/public/docs/sdk-installation
-  - type: SDKs
-    url: https://developer.alloy.com/public/docs/ios-webview
-  - type: SDKs
-    url: https://developer.alloy.com/public/docs/android-webview
 - aid: alloy-com:alloy-com-parameters-api
   name: Alloy Parameters API
   description: Tenant-level parameters for evaluations and journeys.
@@ -559,6 +529,36 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/alloy-com-transactions-api-openapi.yml
+- aid: alloy-com:alloy-com-oauth-api
+  name: Alloy O Auth API
+  description: >-
+    These endpoints allow the API to be used by OAuth clients. They convert (application token) + (application
+    secret) credentials into OAuth bearer tokens that can be used with any other API endpoint.
+  humanURL: https://developer.alloy.com/public/reference
+  baseURL: https://api.alloy.co/v1
+  tags:
+  - OAuth
+  properties:
+  - type: OpenAPI
+    url: openapi/alloy-com-oauth-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alloy.com/public/docs
+  - type: APIReference
+    url: https://developer.alloy.com/public/reference
+  - type: GettingStarted
+    url: https://developer.alloy.com/public/docs/introduction
+  - type: Authentication
+    url: https://developer.alloy.com/public/docs/authentication-guide
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhooks
+  - type: Webhooks
+    url: https://developer.alloy.com/public/docs/webhook-events
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/sdk-installation
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/ios-webview
+  - type: SDKs
+    url: https://developer.alloy.com/public/docs/android-webview
 common:
 - type: CapabilityMap
   url: capabilities/alloy-com-capability-edges.yml
