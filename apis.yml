@@ -32,6 +32,9 @@ accessModel:
   generated: '2026-07-22'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/alloy-com.png
+x-docs-platform: readme
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-09-17
 tags:
 - Identity Decisioning
 - Identity Verification
@@ -223,6 +226,8 @@ apis:
   humanURL: https://developer.alloy.com/public/reference
   baseURL: https://api.alloy.co/v1
   tags:
+  - Evaluation
+  tags_raw:
   - Evaluations
   properties:
   - type: OpenAPI
@@ -537,6 +542,8 @@ apis:
   humanURL: https://developer.alloy.com/public/reference
   baseURL: https://api.alloy.co/v1
   tags:
+  - Authentication
+  tags_raw:
   - OAuth
   properties:
   - type: OpenAPI
