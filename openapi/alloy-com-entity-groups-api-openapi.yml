@@ -155,6 +155,8 @@ paths:
                     - bank_account_token: A-3BHSHBnt6E1QpPfkk7xR
                       external_account_id: 9348234-127391823-283489
                       account_holder_type: authorized_user
+      operationId: getEntityGroupsByEntityTokenOrExternalId
+      x-operation-id-source: derived
 components:
   securitySchemes:
     basic:

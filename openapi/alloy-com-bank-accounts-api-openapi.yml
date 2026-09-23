@@ -18,7 +18,7 @@ paths:
     get:
       tags:
       - Bank Accounts
-      summary: Get a single bank account, with historical and entity data, by unique token or identifier.
+      summary: Get a single bank account, with historical and entity data, by unique token or…
       description: Retrieves a single bank account uniquely defined by a bank account token or external account identifier. Bank account tokens are alphanumeric characters that start with a prefix "A-". External account identifers are strings provided by services or clients.
       parameters:
       - in: path
@@ -297,6 +297,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getBankAccountsByAccountIdentifierOrToken
+      x-operation-id-source: derived
     parameters:
     - name: account_identifier_or_token
       in: path

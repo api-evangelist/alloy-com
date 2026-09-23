@@ -39,9 +39,13 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getEvaluationsByEvaluationToken
+      x-operation-id-source: derived
     patch:
       summary: Updates an evaluation
-      description: "Updates an existing unresolved evaluation (waiting on required inputs), data supplied in the request body will be merged with data supplied from the initial `POST` request. \nNote that `null` values supplied for fields in the request body are treated as \"do no change\" and no updates will happen with those fields.\n"
+      description: 'Updates an existing unresolved evaluation (waiting on required inputs), data supplied in the request body will be merged with data supplied from the initial `POST` request.
+
+        Note that `null` values supplied for fields in the request body are treated as "do no change" and no updates will happen with those fields.'
       tags:
       - Evaluations
       requestBody:
@@ -121,6 +125,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: patchEvaluationsByEvaluationToken
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -129,9 +135,7 @@ paths:
   /parameters:
     get:
       summary: Returns a list of required and optional inputs
-      description: 'Given a workflow specified by the header, the API returns a list of required and optional inputs for running an evaluation through the designated workflow. Alloy''s API is dynamic, and thus the input parameters vary depending on which services are run and how the workflow is configured. Hitting the `GET /parameters` endpoint will show exactly what your initial `POST /evaluations` request to the Alloy API should look like. All attributes will either be always required, conditionally required, or optional. For instance, in the example here, you either have to pass `document_ssn` OR both `document_license` and `document_license_state`. Note that this response body is just an example, and the exact parameters of your workflow version will vary.
-
-        '
+      description: Given a workflow specified by the header, the API returns a list of required and optional inputs for running an evaluation through the designated workflow. Alloy's API is dynamic, and thus the input parameters vary depending on which services are run and how the workflow is configured. Hitting the `GET /parameters` endpoint will show exactly what your initial `POST /evaluations` request to the Alloy API should look like. All attributes will either be always required, conditionally required, or optional. For instance, in the example here, you either have to pass `document_ssn` OR both `document_license` and `document_license_state`. Note that this response body is just an example, and the exact parameters of your workflow version will vary.
       tags:
       - Evaluations
       parameters:
@@ -226,6 +230,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getParameters
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -234,9 +240,7 @@ paths:
   /evaluations:
     post:
       summary: Runs an evaluation
-      description: 'Given a workflow specified by the header, the API will run an evaluation with the provided payload. Alloy''s API is dynamic, and thus the input parameters vary depending on which services are run and how the workflow is configured.
-
-        '
+      description: Given a workflow specified by the header, the API will run an evaluation with the provided payload. Alloy's API is dynamic, and thus the input parameters vary depending on which services are run and how the workflow is configured.
       tags:
       - Evaluations
       parameters:
@@ -482,6 +486,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: postEvaluations
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -511,25 +517,20 @@ paths:
     - url: https://api.alloy.co/v1
       description: Production environment
 components:
+  responses:
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Evaluation:
-      type: object
-      properties:
-        evaluation_token:
-          type: string
-        entity_token:
-          type: string
-        outcome:
-          type: string
-          enum:
-          - Approved
-          - Denied
-          - Manual Review
-        summary:
-          type: object
-        timestamp:
-          type: string
-          format: date-time
     EvaluationRequest:
       type: object
       description: Payload submitted to evaluate an entity against an Alloy workflow.
@@ -561,6 +562,24 @@ components:
           type: string
         external_entity_id:
           type: string
+    Evaluation:
+      type: object
+      properties:
+        evaluation_token:
+          type: string
+        entity_token:
+          type: string
+        outcome:
+          type: string
+          enum:
+          - Approved
+          - Denied
+          - Manual Review
+        summary:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
     Error:
       type: object
       properties:
@@ -572,19 +591,6 @@ components:
           type: string
         details:
           type: object
-  responses:
-    BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     basic:
       type: http

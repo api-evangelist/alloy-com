@@ -32,13 +32,11 @@ paths:
       deprecated: true
       tags:
       - Transactions
-      summary: Get a transaction.
+      summary: Get a transaction
       description: 'Retrieves a Transaction by external transaction ID.
 
 
-        *Note*: If you are using the Alloy Events API, you do not need to use any of the Transactions endpoints. All data should be sent through the Events API with a relevant `event_type`.
-
-        '
+        *Note*: If you are using the Alloy Events API, you do not need to use any of the Transactions endpoints. All data should be sent through the Events API with a relevant `event_type`.'
       responses:
         '200':
           x-summary: OK
@@ -51,17 +49,17 @@ paths:
         '404':
           x-summary: Resource not found.
           description: Unable to find the transaction_id.
+      operationId: getTransactionsByTransactionId
+      x-operation-id-source: derived
     patch:
       deprecated: true
       tags:
       - Transactions
-      summary: Update a transaction.
+      summary: Update a transaction
       description: 'Updates a Transaction by external transaction ID.
 
 
-        *Note*: If you are using the Alloy Events API, you do not need to use any of the Transactions endpoints. All data should be sent through the Events API with a relevant `event_type`.
-
-        '
+        *Note*: If you are using the Alloy Events API, you do not need to use any of the Transactions endpoints. All data should be sent through the Events API with a relevant `event_type`.'
       requestBody:
         content:
           application/json:
@@ -439,6 +437,8 @@ paths:
                   process_method: ACH
                   return_code: null
                   return_code_reason: null
+      operationId: patchTransactionsByTransactionId
+      x-operation-id-source: derived
 components:
   securitySchemes:
     basic:

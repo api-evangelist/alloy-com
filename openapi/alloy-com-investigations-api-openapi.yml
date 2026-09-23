@@ -437,6 +437,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getInvestigationsByInvestigationToken
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -667,6 +669,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getInvestigations
+      x-operation-id-source: derived
     post:
       tags:
       - Investigations
@@ -800,6 +804,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: postInvestigations
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -1290,16 +1296,6 @@ paths:
       description: Production environment
 components:
   schemas:
-    Note:
-      type: object
-      properties:
-        note_token:
-          type: string
-        body:
-          type: string
-        created_at:
-          type: string
-          format: date-time
     Investigation:
       type: object
       properties:
@@ -1310,6 +1306,16 @@ components:
         investigation_type:
           type: string
         assigned_agent:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Note:
+      type: object
+      properties:
+        note_token:
+          type: string
+        body:
           type: string
         created_at:
           type: string

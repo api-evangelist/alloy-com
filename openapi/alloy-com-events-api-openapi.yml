@@ -123,6 +123,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getEventsByEventRequestToken
+      x-operation-id-source: derived
     parameters:
     - name: event_request_token
       in: path
@@ -198,6 +200,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getEventsSchema
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -1504,6 +1508,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: postEvents
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment

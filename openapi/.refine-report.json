@@ -25,7 +25,9 @@
     "alloy-com-published-attributes-api-openapi.yml",
     "alloy-com-reviews-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [
     "alloy-com-identity-api-openapi.yml: dangling $ref: #/paths/~1accounts/post/requestBody/content/application~1json/schema/allOf/0/allOf/0",
     "alloy-com-identity-api-openapi.yml: dangling $ref: #/paths/~1bank-accounts~1%7Baccount_identifier_or_token%7D/get/responses/200/content/application~1json/schema/allOf/0",
@@ -81,7 +83,9 @@
     "tag 'Events' spans 2 source specs (alloy-com-identity-api-openapi.yml, alloy-openapi.yml): per-path servers applied",
     "tag 'Investigations' spans 2 source specs (alloy-com-identity-api-openapi.yml, alloy-openapi.yml): per-path servers applied",
     "tag 'Journeys' spans 2 source specs (alloy-com-identity-api-openapi.yml, alloy-openapi.yml): per-path servers applied",
-    "tag 'OAuth' spans 2 source specs (alloy-com-identity-api-openapi.yml, alloy-openapi.yml): per-path servers applied"
+    "tag 'OAuth' spans 2 source specs (alloy-com-identity-api-openapi.yml, alloy-openapi.yml): per-path servers applied",
+    "superseded outputs removed: alloy-com-o-auth-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 19 total)"
   ],
   "skipped": [
     "alloy-com-bank-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -97,7 +101,7 @@
     "alloy-com-investigations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "alloy-com-journeys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "alloy-com-lists-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "alloy-com-oauth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alloy-com-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "alloy-com-parameters-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "alloy-com-portfolio-evaluations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "alloy-com-published-attributes-api-openapi.yml: previously refined output, superseded by openapi/_original/",

@@ -18,16 +18,14 @@ paths:
     post:
       tags:
       - OAuth
-      summary: Generate a new OAuth bearer token from the given client credentials.
+      summary: Generate a new OAuth bearer token from the given client credentials
       description: 'Application token and application secret MUST be provided, either as properties in the JSON body, or in the Authorization header.
 
 
-        The returned bearer token will allow the client all the same access permissions as the given application token and secret. Bearer tokens are sent in the `Authorization` header in the form `Bearer <bearer_token>`.
+        The returned bearer token will allow the client all the same access permissions as the given application token and secret. Bearer tokens are sent in the `Authorization` header in the form `Bearer `.
 
 
-        All bearer tokens expire one hour from generation.
-
-        '
+        All bearer tokens expire one hour from generation.'
       parameters:
       - in: header
         name: Authorization
@@ -170,6 +168,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: postOauthBearer
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment

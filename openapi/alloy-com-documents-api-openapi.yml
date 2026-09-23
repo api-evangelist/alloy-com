@@ -40,6 +40,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getEntitiesByEntityTokenDocuments
+      x-operation-id-source: derived
     post:
       tags:
       - Documents
@@ -62,6 +64,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: postEntitiesByEntityTokenDocuments
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -105,6 +109,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: putEntitiesByEntityTokenDocumentsByDocumentToken
+      x-operation-id-source: derived
     get:
       tags:
       - Documents

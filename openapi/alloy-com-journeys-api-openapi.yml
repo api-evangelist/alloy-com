@@ -38,9 +38,7 @@ paths:
       tags:
       - Journeys
       summary: Get Journey Application
-      description: 'Returns relevant data associated with a journey application.
-
-        '
+      description: Returns relevant data associated with a journey application.
       responses:
         '200':
           description: Success
@@ -920,13 +918,31 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getJourneysByJourneyTokenApplicationsByJourneyApplicationToken
+      x-operation-id-source: derived
     put:
       parameters:
       - $ref: '#/paths/~1journeys~1%7Bjourney_token%7D~1applications/parameters/1'
       tags:
       - Journeys
       summary: Update Journey Application
-      description: "This endpoint has 3 different use cases:\n\n  * Send the additional or updated data required to advance the application.\n    * Only available if one or more entity applications have the statuses `pending_documents`, `pending_step_up`, or `data_request`.\n  * Send new, additional entities to be processed.\n    * Only available if the parameter `do_await_additional_entities` was set to `true` in the POST request to create the journey application.\n  * Inform the system that the user has finished sending all additional entities by passing the parameter `has_finished_sending_additional_entities` with value `true`.\n    * Only available if the parameter `do_await_additional_entities` was set to `true` in the POST request to create the journey application.\n\nAny of the headers used with the original application (ex: `alloy-sandbox`) will also be used here.\n"
+      description: 'This endpoint has 3 different use cases:
+
+
+        * Send the additional or updated data required to advance the application.
+
+        * Only available if one or more entity applications have the statuses `pending_documents`, `pending_step_up`, or `data_request`.
+
+        * Send new, additional entities to be processed.
+
+        * Only available if the parameter `do_await_additional_entities` was set to `true` in the POST request to create the journey application.
+
+        * Inform the system that the user has finished sending all additional entities by passing the parameter `has_finished_sending_additional_entities` with value `true`.
+
+        * Only available if the parameter `do_await_additional_entities` was set to `true` in the POST request to create the journey application.
+
+
+        Any of the headers used with the original application (ex: `alloy-sandbox`) will also be used here.'
       requestBody:
         content:
           application/json:
@@ -952,6 +968,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: putJourneysByJourneyTokenApplicationsByJourneyApplicationToken
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -1031,9 +1049,7 @@ paths:
       tags:
       - Journeys
       summary: Create Journey Application
-      description: 'Create a journey application for one or more entities.
-
-        '
+      description: Create a journey application for one or more entities.
       requestBody:
         content:
           application/json:
@@ -1347,6 +1363,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: postJourneysByJourneyTokenApplications
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -1732,16 +1750,6 @@ paths:
       description: Production environment
 components:
   schemas:
-    Note:
-      type: object
-      properties:
-        note_token:
-          type: string
-        body:
-          type: string
-        created_at:
-          type: string
-          format: date-time
     JourneyApplication:
       type: object
       properties:
@@ -1756,6 +1764,16 @@ components:
         outcome:
           type: string
         current_step:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Note:
+      type: object
+      properties:
+        note_token:
+          type: string
+        body:
           type: string
         created_at:
           type: string

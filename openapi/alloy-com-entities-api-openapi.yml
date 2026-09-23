@@ -74,6 +74,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getEntitiesBusinessesByEntityToken
+      x-operation-id-source: derived
     patch:
       tags:
       - Entities
@@ -98,6 +100,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: patchEntitiesBusinessesByEntityToken
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -170,6 +174,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getEntitiesByEntityToken
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -187,7 +193,10 @@ paths:
       tags:
       - Entities
       summary: Get a person entity
-      description: "Retrieves information associated with specified person entity token \n\nThis endpoint supports the Alloy Entity token or your `external_entity_id`.\n"
+      description: 'Retrieves information associated with specified person entity token
+
+
+        This endpoint supports the Alloy Entity token or your `external_entity_id`.'
       responses:
         '200':
           x-summary: OK
@@ -235,6 +244,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: getEntitiesPersonsByEntityToken
+      x-operation-id-source: derived
     patch:
       tags:
       - Entities
@@ -279,6 +290,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: patchEntitiesPersonsByEntityToken
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -488,6 +501,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: postEntitiesBusinesses
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -542,6 +557,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: postEntitiesByEntityTokenNotes
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -577,6 +594,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: postEntitiesMerge
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment
@@ -932,6 +951,8 @@ paths:
       security:
       - basic: []
       - oauth2: []
+      operationId: postEntitiesPersons
+      x-operation-id-source: derived
     servers:
     - url: https://sandbox.alloy.co/v1
       description: Sandbox environment

@@ -3,22 +3,7 @@ info:
   title: Alloy Reviews API
   description: 'The Alloy API is the programmatic surface for Alloy''s identity decisioning
 
-    platform. It exposes the resources behind Alloy''s KYC, KYB, AML, fraud,
-
-    credit, and ongoing-monitoring workflows used by banks, credit unions, and
-
-    fintechs.
-
-
-    The API is organized around evaluations, journey applications, entities
-
-    (persons and businesses), bank accounts, documents, events, cases,
-
-    investigations, custom lists, published attributes, and webhooks. Sandbox
-
-    and production environments are exposed as two distinct base URLs.
-
-    '
+    platform.'
   version: '1.0'
   contact:
     name: Alloy Developer Support
