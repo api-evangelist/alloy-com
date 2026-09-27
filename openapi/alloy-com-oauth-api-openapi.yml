@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Alloy Com O Auth API
+  title: Alloy Com OAuth API
   version: '1.0'
   description: 'Operations tagged OAuth across 2 of this provider''s published API definitions: alloy-com-identity-api-openapi.yml, alloy-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:

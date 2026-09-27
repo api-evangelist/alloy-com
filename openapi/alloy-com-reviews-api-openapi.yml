@@ -104,6 +104,15 @@ paths:
           description: Note added
 components:
   schemas:
+    Review:
+      type: object
+      properties:
+        review_token:
+          type: string
+        decision:
+          type: string
+        notes:
+          type: string
     Note:
       type: object
       properties:
@@ -114,15 +123,6 @@ components:
         created_at:
           type: string
           format: date-time
-    Review:
-      type: object
-      properties:
-        review_token:
-          type: string
-        decision:
-          type: string
-        notes:
-          type: string
   securitySchemes:
     basicAuth:
       type: http

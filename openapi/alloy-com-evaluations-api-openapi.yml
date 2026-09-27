@@ -517,20 +517,36 @@ paths:
     - url: https://api.alloy.co/v1
       description: Production environment
 components:
-  responses:
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Evaluation:
+      type: object
+      properties:
+        evaluation_token:
+          type: string
+        entity_token:
+          type: string
+        outcome:
+          type: string
+          enum:
+          - Approved
+          - Denied
+          - Manual Review
+        summary:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
     EvaluationRequest:
       type: object
       description: Payload submitted to evaluate an entity against an Alloy workflow.
@@ -562,35 +578,19 @@ components:
           type: string
         external_entity_id:
           type: string
-    Evaluation:
-      type: object
-      properties:
-        evaluation_token:
-          type: string
-        entity_token:
-          type: string
-        outcome:
-          type: string
-          enum:
-          - Approved
-          - Denied
-          - Manual Review
-        summary:
-          type: object
-        timestamp:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-        error:
-          type: string
-        message:
-          type: string
-        details:
-          type: object
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     basic:
       type: http

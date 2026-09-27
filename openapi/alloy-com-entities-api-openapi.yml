@@ -1045,12 +1045,23 @@ paths:
       description: Production environment
 components:
   schemas:
-    Note:
+    Entity:
       type: object
       properties:
-        note_token:
+        entity_token:
           type: string
-        body:
+        external_entity_id:
+          type: string
+        entity_type:
+          type: string
+          enum:
+          - person
+          - business
+        name_first:
+          type: string
+        name_last:
+          type: string
+        business_name:
           type: string
         created_at:
           type: string
@@ -1086,23 +1097,12 @@ components:
           type: string
         external_entity_id:
           type: string
-    Entity:
+    Note:
       type: object
       properties:
-        entity_token:
+        note_token:
           type: string
-        external_entity_id:
-          type: string
-        entity_type:
-          type: string
-          enum:
-          - person
-          - business
-        name_first:
-          type: string
-        name_last:
-          type: string
-        business_name:
+        body:
           type: string
         created_at:
           type: string
