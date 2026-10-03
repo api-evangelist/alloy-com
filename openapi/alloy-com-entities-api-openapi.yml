@@ -1066,6 +1066,16 @@ components:
         created_at:
           type: string
           format: date-time
+    Note:
+      type: object
+      properties:
+        note_token:
+          type: string
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     EvaluationRequest:
       type: object
       description: Payload submitted to evaluate an entity against an Alloy workflow.
@@ -1097,16 +1107,6 @@ components:
           type: string
         external_entity_id:
           type: string
-    Note:
-      type: object
-      properties:
-        note_token:
-          type: string
-        body:
-          type: string
-        created_at:
-          type: string
-          format: date-time
   securitySchemes:
     basic:
       type: http

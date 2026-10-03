@@ -1750,6 +1750,16 @@ paths:
       description: Production environment
 components:
   schemas:
+    Note:
+      type: object
+      properties:
+        note_token:
+          type: string
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     JourneyApplication:
       type: object
       properties:
@@ -1764,16 +1774,6 @@ components:
         outcome:
           type: string
         current_step:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-    Note:
-      type: object
-      properties:
-        note_token:
-          type: string
-        body:
           type: string
         created_at:
           type: string
