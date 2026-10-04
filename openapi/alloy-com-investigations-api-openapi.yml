@@ -1296,16 +1296,6 @@ paths:
       description: Production environment
 components:
   schemas:
-    Note:
-      type: object
-      properties:
-        note_token:
-          type: string
-        body:
-          type: string
-        created_at:
-          type: string
-          format: date-time
     Investigation:
       type: object
       properties:
@@ -1316,6 +1306,16 @@ components:
         investigation_type:
           type: string
         assigned_agent:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Note:
+      type: object
+      properties:
+        note_token:
+          type: string
+        body:
           type: string
         created_at:
           type: string
