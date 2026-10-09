@@ -1,3 +1,8 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (dated 2026-06-13 by the file itself), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
+generated: '2026-06-13'
 name: Alloy Plans and Pricing
 description: >-
   Alloy offers enterprise pricing tailored to each financial institution's
@@ -42,3 +47,37 @@ notes: >-
   negotiated directly with their sales team. Prospective customers should
   contact Alloy via https://www.alloy.com/contact or request a demo to obtain
   a quote.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  units:
+  - message
+  - request
+  plans:
+  - name: Enterprise
+    access: enterprise
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Sandbox
+    access: free
+    model: free
+    model_how: derived
+    units:
+    - request
+    periods:
+    - month
+  - name: Alloy Platform
+    access: negotiated
+    model: negotiated
+    model_how: stated
+    units:
+    - message
+    - other
+    - request
+    periods:
+    - month
