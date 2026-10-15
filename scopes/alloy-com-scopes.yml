@@ -1,15 +1,70 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/alloy-identity-api-openapi.yml
-docs: https://developer.alloy.com/public/docs/authentication-guide
-note: Alloy's API uses OAuth 2.0 client_credentials (API token/secret exchanged for a
-  one-hour bearer token) or Basic HTTP auth, and does not use or document OAuth scopes
-  (https://developer.alloy.com/public/docs/authentication-guide).
+generated: '2026-10-14'
+method: none
+source: openapi/alloy-com-bank-accounts-api-openapi.yml, openapi/alloy-com-documents-api-openapi.yml,
+  openapi/alloy-com-entities-api-openapi.yml, openapi/alloy-com-entity-groups-api-openapi.yml,
+  openapi/alloy-com-evaluations-api-openapi.yml, openapi/alloy-com-events-api-openapi.yml, openapi/alloy-com-investigations-api-openapi.yml,
+  openapi/alloy-com-journeys-api-openapi.yml, openapi/alloy-com-oauth-api-openapi.yml, openapi/alloy-com-transactions-api-openapi.yml
 schemes:
 - name: oauth2
-  source: openapi/alloy-identity-api-openapi.yml
+  source: openapi/alloy-com-bank-accounts-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/bearer
+  description: OAuth2 using a workflow token and secret to generate a bearer token
+- name: oauth2
+  source: openapi/alloy-com-documents-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/bearer
+  description: OAuth2 using a workflow token and secret to generate a bearer token
+- name: oauth2
+  source: openapi/alloy-com-entities-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/bearer
+  description: OAuth2 using a workflow token and secret to generate a bearer token
+- name: oauth2
+  source: openapi/alloy-com-entity-groups-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/bearer
+  description: OAuth2 using a workflow token and secret to generate a bearer token
+- name: oauth2
+  source: openapi/alloy-com-evaluations-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/bearer
+  description: OAuth2 using a workflow token and secret to generate a bearer token
+- name: oauth2
+  source: openapi/alloy-com-events-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/bearer
+  description: OAuth2 using a workflow token and secret to generate a bearer token
+- name: oauth2
+  source: openapi/alloy-com-investigations-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/bearer
+  description: OAuth2 using a workflow token and secret to generate a bearer token
+- name: oauth2
+  source: openapi/alloy-com-journeys-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/bearer
+  description: OAuth2 using a workflow token and secret to generate a bearer token
+- name: oauth2
+  source: openapi/alloy-com-oauth-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/bearer
+  description: OAuth2 using a workflow token and secret to generate a bearer token
+- name: oauth2
+  source: openapi/alloy-com-transactions-api-openapi.yml
   flows:
   - flow: clientCredentials
     tokenUrl: /oauth/bearer
   description: OAuth2 using a workflow token and secret to generate a bearer token
 scopes: []
+note: The OAuth2 security scheme(s) in the OpenAPI declare no scopes, and no security requirement
+  references one.
