@@ -518,6 +518,35 @@ paths:
       description: Production environment
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+    Evaluation:
+      type: object
+      properties:
+        evaluation_token:
+          type: string
+        entity_token:
+          type: string
+        outcome:
+          type: string
+          enum:
+          - Approved
+          - Denied
+          - Manual Review
+        summary:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
     EvaluationRequest:
       type: object
       description: Payload submitted to evaluate an entity against an Alloy workflow.
@@ -549,35 +578,6 @@ components:
           type: string
         external_entity_id:
           type: string
-    Evaluation:
-      type: object
-      properties:
-        evaluation_token:
-          type: string
-        entity_token:
-          type: string
-        outcome:
-          type: string
-          enum:
-          - Approved
-          - Denied
-          - Manual Review
-        summary:
-          type: object
-        timestamp:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-        error:
-          type: string
-        message:
-          type: string
-        details:
-          type: object
   responses:
     Unauthorized:
       description: Unauthorized
