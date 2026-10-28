@@ -1,4 +1,4 @@
-# Alloy (alloy)
+# Alloy
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,98 +66,205 @@
 
 Alloy is a New York-based identity decisioning platform that helps banks, credit unions, and fintechs onboard, monitor, and protect customers across KYC, KYB, AML, fraud, credit, and ongoing-monitoring use cases. The Alloy API exposes the platform's evaluations, journey applications, entities, events, documents, cases, investigations, lists, and webhooks for programmatic identity decisioning and ongoing risk monitoring.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/alloy-com/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/alloy-com/refs/heads/main/apis.yml)
+**Areas:** Identity Decisioning · Identity Verification · KYC · KYB · AML · Fraud Prevention · Credit Underwriting · Ongoing Monitoring · Case Management · Fintech · Banking
 
-## Scope
+## Alloy on APIs.io
 
-- **Type:** Index
+Everything profiled for Alloy is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/alloy-com/](https://apis.io/providers/alloy-com/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (19)
 
-- Identity Decisioning
-- Identity Verification
-- KYC
-- KYB
-- AML
-- Fraud Prevention
-- Credit Underwriting
-- Ongoing Monitoring
-- Case Management
-- Fintech
-- Banking
+- [Alloy Bank Accounts API](https://apis.io/apis/alloy-com/alloy-com-bank-accounts-api/) — Bank account records and related entity history.
+- [Alloy Batches API](https://apis.io/apis/alloy-com/alloy-com-batches-api/) — Batch processing of journey applications and evaluations.
+- [Alloy Cases API](https://apis.io/apis/alloy-com/alloy-com-cases-api/) — Case management, evidences, and review work items.
+- [Alloy Custom Lists API](https://apis.io/apis/alloy-com/alloy-com-custom-lists-api/) — Tenant-defined reference lists with versioning and activation.
+- [Alloy Documents API](https://apis.io/apis/alloy-com/alloy-com-documents-api/) — Uploaded identity, address, and supporting documents for entities.
+- [Alloy Entities API](https://apis.io/apis/alloy-com/alloy-com-entities-api/) — Person and business entities, notes, merging, feedback, and groups.
+- [Alloy Evaluations API](https://apis.io/apis/alloy-com/alloy-com-evaluations-api/) — Run, retrieve, and audit identity, KYC, KYB, AML, fraud, and credit evaluations.
+- [Alloy Events API](https://apis.io/apis/alloy-com/alloy-com-events-api/) — Real-time monitoring events for entities, accounts, transactions, and logins.
+- [Alloy Groups API](https://apis.io/apis/alloy-com/alloy-com-groups-api/) — Entity groups and group-level evaluations.
+- [Alloy Investigations API](https://apis.io/apis/alloy-com/alloy-com-investigations-api/) — Investigation lifecycle, assignment, review, archival, and types.
+- [Alloy Journeys API](https://apis.io/apis/alloy-com/alloy-com-journeys-api/) — Multi-step decisioning journeys, applications, batches, and reviews.
+- [Alloy Lists API](https://apis.io/apis/alloy-com/alloy-com-lists-api/) — Built-in watchlist-style lists and list metadata.
+- [Alloy Parameters API](https://apis.io/apis/alloy-com/alloy-com-parameters-api/) — Tenant-level parameters for evaluations and journeys.
+- [Alloy Portfolio Evaluations API](https://apis.io/apis/alloy-com/alloy-com-portfolio-evaluations-api/) — Bulk re-evaluations across a portfolio of entities.
+- [Alloy Published Attributes API](https://apis.io/apis/alloy-com/alloy-com-published-attributes-api/) — Custom attributes published from external systems and used in policy.
+- [Alloy Reviews API](https://apis.io/apis/alloy-com/alloy-com-reviews-api/) — Manual review notes and decisions on entities.
+- [Alloy Entity Groups API](https://apis.io/apis/alloy-com/alloy-com-entity-groups-api/) — Entity groups can be used to associate multiple Person and Business Entities together at the point of onboarding and update throughout the entity lifecycle.
+- [Alloy Transactions API](https://apis.io/apis/alloy-com/alloy-com-transactions-api/) — Manage transactions. These transactions are aggregated and decisioned through Transaction Monitoring workflows and evaluations.
+- [Alloy O Auth API](https://apis.io/apis/alloy-com/alloy-com-oauth-api/) — These endpoints allow the API to be used by OAuth clients. They convert (application token) + (application secret) credentials into OAuth bearer tokens that…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-25
-- **Modified:** 2026-05-25
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### Alloy API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-Identity decisioning API for KYC, KYB, AML, fraud, credit underwriting, and ongoing monitoring. Organized around evaluations, journeys and journey applications, person and business entities, bank accounts, documents, events, cases, investigations, custom lists, and webhooks.
+- [Alloy Com Agentic Access](https://apis.io/agentic-access/alloy-com/alloy-com-agentic-access/)
 
-- **Human URL:** [https://developer.alloy.com/public/reference](https://developer.alloy.com/public/reference)
-- **Base URL:** `https://api.alloy.co/v1`
+#### JSON Schema (3)
 
-#### Tags
+The data models the API reads and writes.
 
-- Identity Decisioning
-- KYC
-- KYB
-- AML
-- Fraud Prevention
-- Credit Underwriting
-- Ongoing Monitoring
-- Case Management
-- Investigations
-- Webhooks
+- [Alloy Business Entity](https://apis.io/schemas/alloy-com/alloy-com-business-entity/)
+- [Alloy Entity](https://apis.io/schemas/alloy-com/alloy-com-entity/)
+- [Alloy Evaluation](https://apis.io/schemas/alloy-com/alloy-com-evaluation/)
 
-#### Properties
+#### JSON-LD (1)
 
-- [Documentation](https://developer.alloy.com/public/docs)
-- [API Reference](https://developer.alloy.com/public/reference)
-- [Getting Started](https://developer.alloy.com/public/docs/introduction)
-- [Authentication](https://developer.alloy.com/public/docs/authentication-guide)
-- [OpenAPI](openapi/alloy-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/alloy.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/alloy.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Webhooks](https://developer.alloy.com/public/docs/webhooks)
-- [Webhooks](https://developer.alloy.com/public/docs/webhook-events)
-- [SDK](https://developer.alloy.com/public/docs/sdk-installation)
-- [SDK](https://developer.alloy.com/public/docs/ios-webview)
-- [SDK](https://developer.alloy.com/public/docs/android-webview)
+Linked-data contexts for the provider's vocabulary.
 
-## Common Properties
+- [Alloy Com Context](https://apis.io/jsonld/alloy-com/alloy-com-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Alloy Com Vocabulary](https://apis.io/vocabularies/alloy-com/alloy-com-vocabulary/)
+
+#### Examples (4)
+
+Example requests and responses.
+
+- [Alloy Com Evaluation Response](https://apis.io/examples/alloy-com/alloy-com-evaluation-response/)
+- [Alloy Com Event Request](https://apis.io/examples/alloy-com/alloy-com-event-request/)
+- [Alloy Com Journey Application Request](https://apis.io/examples/alloy-com/alloy-com-journey-application-request/)
+- [Alloy Com Person Evaluation Request](https://apis.io/examples/alloy-com/alloy-com-person-evaluation-request/)
+
+#### Collections (19)
+
+Postman and Open Collection request collections.
+
+- [Alloy API](https://apis.io/collections/alloy-com/open-alloy/)
+- [Alloy Bank Accounts API](https://apis.io/collections/alloy-com/open-alloy-com-bank-accounts-api/)
+- [Alloy Bank Accounts Batches API](https://apis.io/collections/alloy-com/open-alloy-com-batches-api/)
+- [Alloy Bank Accounts Cases API](https://apis.io/collections/alloy-com/open-alloy-com-cases-api/)
+- [Alloy Bank Accounts Custom Lists API](https://apis.io/collections/alloy-com/open-alloy-com-custom-lists-api/)
+- [Alloy Bank Accounts Documents API](https://apis.io/collections/alloy-com/open-alloy-com-documents-api/)
+- [Alloy Bank Accounts Entities API](https://apis.io/collections/alloy-com/open-alloy-com-entities-api/)
+- [Alloy Identity Bank Accounts Entity Groups API](https://apis.io/collections/alloy-com/open-alloy-com-entity-groups-api/)
+- [Alloy Bank Accounts Evaluations API](https://apis.io/collections/alloy-com/open-alloy-com-evaluations-api/)
+- [Alloy Bank Accounts Events API](https://apis.io/collections/alloy-com/open-alloy-com-events-api/)
+- [Alloy Bank Accounts Groups API](https://apis.io/collections/alloy-com/open-alloy-com-groups-api/)
+- [Alloy Bank Accounts Investigations API](https://apis.io/collections/alloy-com/open-alloy-com-investigations-api/)
+- [Alloy Bank Accounts Journeys API](https://apis.io/collections/alloy-com/open-alloy-com-journeys-api/)
+- [Alloy Bank Accounts Lists API](https://apis.io/collections/alloy-com/open-alloy-com-lists-api/)
+- [Alloy Bank Accounts OAuth API](https://apis.io/collections/alloy-com/open-alloy-com-oauth-api/)
+- [Alloy Bank Accounts Parameters API](https://apis.io/collections/alloy-com/open-alloy-com-parameters-api/)
+- [Alloy Bank Accounts Portfolio Evaluations API](https://apis.io/collections/alloy-com/open-alloy-com-portfolio-evaluations-api/)
+- [Alloy Bank Accounts Published Attributes API](https://apis.io/collections/alloy-com/open-alloy-com-published-attributes-api/)
+- [Alloy Identity Bank Accounts Transactions API](https://apis.io/collections/alloy-com/open-alloy-com-transactions-api/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Alloy — jsonschema rules](https://apis.io/rules/alloy-com/alloy-com-jsonschema-spectral-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Alloy Com Authentication](https://apis.io/security/alloy-com/alloy-com-authentication/)
+- [Alloy Com Domain Security](https://apis.io/security/alloy-com/alloy-com-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Alloy Com Scopes](https://apis.io/scopes/alloy-com/alloy-com-scopes/)
+
+#### Plans and pricing (2)
+
+Published plans, tiers and prices.
+
+- [Alloy Com Plans Pricing](https://apis.io/plans/alloy-com/alloy-com-plans-pricing/)
+- [Alloy Plans Pricing](https://apis.io/plans/alloy-com/alloy-plans-pricing/)
+
+#### Rate limits (2)
+
+Published request limits.
+
+- [Alloy Com Rate Limits](https://apis.io/rate-limits/alloy-com/alloy-com-rate-limits/)
+- [Alloy Rate Limits](https://apis.io/rate-limits/alloy-com/alloy-rate-limits/)
+
+#### FinOps (2)
+
+What the API costs to run, by operation.
+
+- [Alloy Com Finops](https://apis.io/finops/alloy-com/alloy-com-finops/)
+- [Alloy Finops](https://apis.io/finops/alloy-com/alloy-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.alloy.com/)
-- [Portal](https://www.alloy.com/developer)
 - [Documentation](https://developer.alloy.com/public/docs)
-- [API Reference](https://developer.alloy.com/public/reference)
-- [L L Ms Txt](https://developer.alloy.com/llms.txt)
-- [Login](https://app.alloy.co/login/)
-- [Sign Up](https://www.alloy.com/contact)
+- [Getting started](https://developer.alloy.com/public/docs/getting-started)
+- [API reference](https://developer.alloy.com/public/reference)
 - [Pricing](https://www.alloy.com/contact)
-- [Terms of Service](https://www.alloy.com/tos)
-- [Privacy Policy](https://www.alloy.com/privacy-policy)
-- [Security](https://www.alloy.com/security)
-- [Status Page](https://status.alloy.com/)
 - [Support](https://help.alloy.com)
 - [Blog](https://www.alloy.com/blog)
-- [Content Library](https://www.alloy.com/content-library)
-- [Training](https://alloy.docebosaas.com/learn/signin)
-- [GitHub Organization](https://github.com/UseAlloy)
-- [LinkedIn](https://www.linkedin.com/company/alloy/)
-- [Plans](plans/alloy-plans-pricing.yml)
-- [Rate Limits](rate-limits/alloy-rate-limits.yml)
-- [Fin Ops](finops/alloy-finops.yml)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-- [Solutions](undefined)
-- [Certifications](undefined)
+- [Security](https://www.alloy.com/security)
+- [Terms of service](https://www.alloy.com/tos)
+- [Privacy policy](https://www.alloy.com/privacy-policy)
+- [GitHub](https://github.com/UseAlloy)
+- [Status](https://status.alloy.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 50.4** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 49.9 |
+| Contract governance | 9.8 |
+| Operational transparency | 36.8 |
+| Developer ergonomics | 73.8 |
+| Access clarity | 43.4 |
+
+**Agent readiness 27.7** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | unknown |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 33.1** — Banking & Open Finance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/alloy-com/](https://apis.io/providers/alloy-com/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Alloy: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/alloy-com/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
